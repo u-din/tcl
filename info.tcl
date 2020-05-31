@@ -12,23 +12,23 @@ bind pub o|o `listtimer xlisttimer
 bind pub o|o `killtimer xkilltimer
 bind pub o|o `procrun xprocrun
 
-set _chans "#chating"
-set _time 45
+set chans "#chating"
+set time 45
 set isplaying 1
 
 proc help {nick uhost hand chan text} {
   putserv "PRIVMSG $chan :`start, `stop, `chan \"#channel1 #channel2\", `timer <menit>"
 }
 proc start {nick uhost hand chan text} {
-  global isplaying _time
+  global isplaying time
   if {$isplaying} {
     putserv "PRIVMSG $chan :already running"
   } else {
     set isplaying 1
     putserv "PRIVMSG $chan :is started"
   }
-  if {$_time < 1} {set _time 15}
-  timer $_time _speaks
+  if {$time < 1} {set time 15}
+  timer $time speaks
 }
 proc stop {nick uhost hand chan text} {
   global isplaying
@@ -39,28 +39,28 @@ proc stop {nick uhost hand chan text} {
     putserv "PRIVMSG $chan :already stoped"
   }
     foreach t [timers] {
-       if [string match *_speaks* [lindex $t 1]] {
+       if [string match *speaks* [lindex $t 1]] {
          killtimer [lindex $t end]
        }
     }    
 }
 proc chan {nick uhost hand chan text} {
-  global _chans
+  global chans
   if {$text == ""} {
     putserv "PRIVMSG $chan :usage : `chans \"#channel1 #channel2\" , current channel is $_chans"
   } else {
-    set _chans $text
-    putserv "PRIVMSG $chan :chan set to : $_chans"
+    set chans $text
+    putserv "PRIVMSG $chan :chan set to : $chans"
   }
 }
 proc timer {nick uhost hand chan text} {
-  global _time
+  global time
   if {$text == ""} {
     putserv "PRIVMSG $chan :usage : `timer <menit> , current timer is $_time"
   } else {
     if {$text < 1} {set text 5}
-    set _time $text
-    putserv "PRIVMSG $chan :timer set to : $_time"
+    set time $text
+    putserv "PRIVMSG $chan :timer set to : $time"
   }
 }
 proc xkilltimer {nick uhost hand chan text} {
@@ -78,38 +78,38 @@ proc xprocrun {nick uhost hand chan text} {
   [$text]
   putserv "[$text]"
 }
-set _msg {
+set msg {
 {"\00314 Bagi teman2 yg minat \037\002ZNC gratis\002\037\00314 dari Chating.ID, bisa \00304!request <ident>\003\00314 di room \002#znc\002"}
 
 }
 
-if {![string match "*_speaks*" [timers]]} {
- timer $_time _speaks
+if {![string match "*speaks*" [timers]]} {
+ timer $time speaks
 }
-proc _speaks {} {
- global _msg _chans _time
- if {$_chans == ""} {
-  set _temp [channels]
+proc speaks {} {
+ global msg chans time
+ if {$chans == ""} {
+  set temp [channels]
  } else {
-  set _temp $_chans
+  set temp $chans
  }
- foreach chan $_temp {
-  set _rmsg [lindex $_msg [rand [llength $_msg]]]
-  foreach msgline $_rmsg {
+ foreach chan $temp {
+  set rmsg [lindex $msg [rand [llength $msg]]]
+  foreach msgline $rmsg {
    puthelp "PRIVMSG $chan :[subst $msgline]"
   }
  }
- if {![string match "*_speaks*" [timers]]} {
-  timer $_time _speaks
+ if {![string match "*speaks*" [timers]]} {
+  timer $time speaks
  }
 }
 putlog "-=-=   info.tcl loaded =-=-=-=-=-"
 bind pub -|- `info rand
 
 proc rand {nick uhost hand chan text} {
- global _msg notc
-  set _rmsg [lindex $_msg [rand [llength $_msg]]]
-  foreach msgline $_rmsg {
+ global msg notc
+  set rmsg [lindex $msg [rand [llength $msg]]]
+  foreach msgline $rmsg {
    puthelp "PRIVMSG $chan :$notc $nick, 14[subst $msgline]"
   }
 }
