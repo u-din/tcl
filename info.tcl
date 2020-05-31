@@ -19,7 +19,7 @@ set isplaying 1
 proc help {nick uhost hand chan text} {
   putserv "PRIVMSG $chan :`start, `stop, `chan \"#channel1 #channel2\", `timer <menit>"
 }
-proc start {nick uhost hand chan text} {
+proc start {timer nick uhost hand chan text} {
   global isplaying time
   if {$isplaying} {
     putserv "PRIVMSG $chan :already running"
