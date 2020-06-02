@@ -30,9 +30,7 @@ proc pub:zodiak {nick host hand chan arg} {
   set arg2 [lindex $arg 1] 
   
   if {$arg1=="" || $arg2==""} { 
-    putserv "PRIVMSG $chan :Format yg benar !zodiak <aries,taurus,gemini, cancer,leo,virgo, libra,scorpio,sagitarius, capricorn,aquarius,pisces> <umum>" 
-	putserv "PRIVMSG $chan :Zodiak di update setiap minggu lhoo.."
-	puthelp "PRIVMSG $chan :Catatan: Zodiak ini hanyalah permainan dan iseng belaka. Jangan dipercaya sebagai ramalan."
+    putserv "PRIVMSG $chan :Format yg benar .zod <aries>"
 	return 0 
   } 
   switch [string tolower $arg1] { 
@@ -98,9 +96,7 @@ proc pub:zodiak {nick host hand chan arg} {
 		}
 		
     } default { 
-    putserv "PRIVMSG $chan :Format yg benar !zodiak <aries,taurus,gemini, cancer,leo,virgo, libra,scorpio,sagitarius, capricorn,aquarius,pisces> <umum>" 
-	putserv "PRIVMSG $chan :Zodiak di update setiap hari lhoo.."
-	puthelp "PRIVMSG $chan :Catatan: Zodiak ini hanyalah permainan dan iseng belaka. Jangan dipercaya sebagai ramalan."
+    putserv "PRIVMSG $chan :Format yg benar .zod <aries>"
     } 
   } 
   
