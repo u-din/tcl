@@ -31,8 +31,8 @@ proc ijoo_ganteng {nick uhost hand chan rest} {
                 regexp {"isocode": "(.*?)"} [http::data $token] -> ijoo_code
                 regexp {"proxy": "(.*?)"} [http::data $token] -> ijoo_prox
                 regexp {"type": "(.*?)"} [http::data $token] -> ijoo_type
-                putquick "PRIVMSG $chan :IP:\002 $chkip\002, Provider Oleh:\002 $ijoo_prov\002, ASN:\002 $ijoo_asn\002, Lokasi:\002 $ijoo_reg, $ijoo_cont2, $ijoo_cont ($ijoo_code)\002, Proxy Status:\002 $ijoo_prox ($ijoo_type)\002"
+                putquick "PRIVMSG $chan :IP:\002 $chkip\002, Provider:\002 $ijoo_prov\002, Lokasi:\002 4$ijoo_reg, $ijoo_cont2, $ijoo_cont ($ijoo_code)\002, Status:\002 $ijoo_type ($ijoo_prox)\002"
         }
 }
 
-putlog "CovidIP is Loaded!"
+putlog "ProxyCheck is Loaded!"
