@@ -3,8 +3,8 @@
 ###############
 ##[ binding ]##
 ###############
-set vchan "#lockdown";
-bind pub * .v cek_nick
+set vchan "*";
+bind pub * @v cek_nick
 bind pub * !v cek_nick
 bind pub * !ver cek_nick
 bind pub * versi cek_nick
