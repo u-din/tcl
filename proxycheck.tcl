@@ -2,7 +2,7 @@
 ## Check IP From Proxycheck.io                                                  ##
 ## Simple ProxyCheck TCL By iJoo                                                ##
 ##                                                                              ##
-## Penambahan Region (Wilayah) edited by isfan                       02/10/2021 ##
+## Penambahan Region (Wilayah) edited by isfan                       09/02/2022 ##
 ##################################################################################
 
 package require http
@@ -25,13 +25,14 @@ proc ijoo_ganteng {nick uhost hand chan rest} {
         } else {
                 regexp {"asn": "(.*?)"} [http::data $token] -> ijoo_asn
                 regexp {"provider": "(.*?)"} [http::data $token] -> ijoo_prov
+                regexp {"city": "(.*?)"} [http::data $token] -> ijoo_city
 		regexp {"region": "(.*?)"} [http::data $token] -> ijoo_reg
                 regexp {"continent": "(.*?)"} [http::data $token] -> ijoo_cont
                 regexp {"country": "(.*?)"} [http::data $token] -> ijoo_cont2
                 regexp {"isocode": "(.*?)"} [http::data $token] -> ijoo_code
                 regexp {"proxy": "(.*?)"} [http::data $token] -> ijoo_prox
                 regexp {"type": "(.*?)"} [http::data $token] -> ijoo_type
-                putquick "PRIVMSG $chan :IP:\002 $chkip\002, Provider:\002 $ijoo_prov\002, Lokasi:\002 4$ijoo_reg, $ijoo_cont2, $ijoo_cont ($ijoo_code)\002, Status:\002 $ijoo_type ($ijoo_prox)\002"
+                putquick "PRIVMSG $chan :IP:\002 $chkip\002, Provider:\002 $ijoo_prov\002, Lokasi:\002 4$ijoo_city, $ijoo_reg, $ijoo_cont2, $ijoo_cont ($ijoo_code)\002, Status:\002 $ijoo_type ($ijoo_prox proxy)\002"
         }
 }
 
