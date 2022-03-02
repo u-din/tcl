@@ -14,42 +14,42 @@ bind join - * spyjoinecho
 proc spyjoinecho {n u h c} {
 if {[lsearch -exact [channel info $c] {+spy}] != "-1"} {
 global spyechochannel
-putserv "privmsg $spyechochannel :\002CHANNEL:\002 $c | $n joined channel"
+putserv "privmsg $spyechochannel : $c |\00303 $n joined channel\003"
 }
 }
 bind part - * spypartecho
 proc spypartecho {n u h c t} {
 if {[lsearch -exact [channel info $c] {+spy}] != "-1"} {
 global spyechochannel
-putserv "privmsg $spyechochannel :\002CHANNEL:\002 $c | $n left channel ($t)"
+putserv "privmsg $spyechochannel : $c |\00302 $n left channel ($t)\003"
 }
 }
 bind kick - * spykickecho
 proc spykickecho {n u h c w e} {
 if {[lsearch -exact [channel info $c] {+spy}] != "-1"} {
 global spyechochannel
-putserv "privmsg $spyechochannel :\002CHANNEL:\002 $c | $w has been kicked by $n ($e)"
+putserv "privmsg $spyechochannel : $c |\00304 $w has been kicked by $n ($e)"
 }
 }
 bind pubm - * spymsgecho
 proc spymsgecho { n u h c t } {
 if {[lsearch -exact [channel info $c] {+spy}] != "-1"} {
 global spyechochannel
-putserv "privmsg $spyechochannel :\002CHANNEL:\002 $c | $n said: $t"
+putserv "privmsg $spyechochannel : $c | $n : $t"
 }
 }
 bind mode - * spymodeecho
 proc spymodeecho { n u h c m t } {
 if {[lsearch -exact [channel info $c] {+spy}] != "-1"} {
 global spyechochannel
-putserv "privmsg $spyechochannel :\002CHANNEL:\002 $c | $n sets mode: $m $t"
+putserv "privmsg $spyechochannel : $c | $n sets mode: $m $t"
 }
 }
 bind nick - * spynickecho
 proc spynickecho {n u h c nn} {
 if {[lsearch -exact [channel info $c] {+spy}] != "-1"} {
 global spyechochannel
-putserv "privmsg $spyechochannel :\002CHANNEL:\002 $c | $n is now known as: $nn"
+putserv "privmsg $spyechochannel : $c |\00306 $n is now known as: $nn\003"
 }
 }
 bind ctcp - action spyactionecho
@@ -59,6 +59,6 @@ if {$d == $botnick} {
 return 0
 } elseif {[lsearch -exact [channel info $d] {+spy}] != "-1"} {
 global spyechochannel
-putserv "privmsg $spyechochannel :\002CHANNEL:\002 $d | ACTION: $n $t"
+putserv "privmsg $spyechochannel : $d |\00307 * $n $t\003"
 }
 }
