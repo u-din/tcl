@@ -123,7 +123,7 @@
 # Cmdchar trigger
 # - set here the trigger you want to use.
 ###
-set blackip(cmd_char) "!"
+set blackip(cmd_char) "."
 
 ###
 # set here who can execute the command (-|- for all)
@@ -629,14 +629,14 @@ set black(blackip.en.1) "\[BlackIP\] Use: \002!ip\002 \[ip|\002host\002|nickname
 set black(blackip.en.2) "\[\002%msg.1%\002\] is not Online."
 set black(blackip.en.3) "\[\002X\002\] unable to resolve address \002%msg.1%\002."
 set black(blackip.en.4) "\[\002X\002\] unable to resolve address \002%msg.1%\002 from \002%msg.2%\002."
-set black(blackip.en.5) "\002%msg.1%\002 is located in \002%msg.2%\002 (%msg.3%) ; \002TimeZone\002: %msg.4% ; \002IP\002: %msg.5% ; \002ISP\002: %msg.6% ; \002Mobile\002: %msg.8% ; \002Proxy\002: %msg.7%"
-set black(blackip.en.6) "\002%msg.1%\002 is located in \002%msg.2%\002 (%msg.3%) ; \002TimeZone\002: %msg.4% ; \002Host\002: %msg.5% ; \002ISP\002: %msg.6% ; \002Mobile\002: %msg.8% ; \002Proxy\002: %msg.7%"
+set black(blackip.en.5) "\002%msg.1%\002 is located in \002%msg.2%\002 ; \002IP\002: %msg.5% ; \002ISP\002: %msg.6% ; \002Mobile\002: %msg.8% ; \002Proxy\002: %msg.7%"
+set black(blackip.en.6) "\002%msg.1%\002 is located in \002%msg.2%\002 ; \002Host\002: %msg.5% ; \002ISP\002: %msg.6% ; \002Mobile\002: %msg.8% ; \002Proxy\002: %msg.7%"
 set black(blackip.en.9) "\002Nick\002: %msg.2% ; \002Host\002: %msg.1%"
 set black(blackip.en.11) "\002Other rDNS\002: %msg.1%"
-set black(blackip.en.12) "\002%msg.1%\002 is located in \002%msg.2%\002 (%msg.3%) ; \002TimeZone\002: %msg.4% ; \002IP\002: %msg.5% ; \002ISP\002: %msg.10% ; \002Mobile\002: %msg.11% ; \002Proxy\002: %msg.6% ; \002Spam\002: %msg.7% ; \002TOR\002: %msg.8% ; \002Suspicious\002: %msg.9%"
-set black(blackip.en.13) "\002%msg.1%\002 is located in \002%msg.2%\002 (%msg.3%) ; \002TimeZone\002: %msg.4% ; \002Host\002: %msg.5% ; \002ISP\002: %msg.10% ; \002Mobile\002: %msg.11% ; \002Proxy\002: %msg.6% ; \002Spam\002: %msg.7% ; \002TOR\002: %msg.8% ; \002Suspicious\002: %msg.9%"
-set black(blackip.en.14) "\002%msg.1%\002 is located in \002%msg.2%\002 (%msg.3%) ; \002TimeZone\002: %msg.4% ; \002ISP\002: %msg.5% ; \002Mobile\002: %msg.7% ; \002Proxy\002: %msg.6%"
-set black(blackip.en.15) "\002%msg.1%\002 is located in \002%msg.2%\002 (%msg.3%) ; \002TimeZone\002: %msg.4% ; \002ISP\002: %msg.9% ; \002Mobile\002: %msg.10% ; \002Proxy\002: %msg.5% ; \002Spam\002: %msg.6% ; \002TOR\002: %msg.7% ; \002Suspicious\002: %msg.8%"
+set black(blackip.en.12) "\002%msg.1%\002 is located in \002%msg.2%\002 ; \002IP\002: %msg.5% ; \002ISP\002: %msg.10% ; \002Mobile\002: %msg.11% ; \002Proxy\002: %msg.6% ; \002Spam\002: %msg.7% ; \002TOR\002: %msg.8% ; \002Suspicious\002: %msg.9%"
+set black(blackip.en.13) "\002%msg.1%\002 is located in \002%msg.2%\002 ; \002Host\002: %msg.5% ; \002ISP\002: %msg.10% ; \002Mobile\002: %msg.11% ; \002Proxy\002: %msg.6% ; \002Spam\002: %msg.7% ; \002TOR\002: %msg.8% ; \002Suspicious\002: %msg.9%"
+set black(blackip.en.14) "\002%msg.1%\002 is located in \002%msg.2%\002 ; \002ISP\002: %msg.5% ; \002Mobile\002: %msg.7% ; \002Proxy\002: %msg.6%"
+set black(blackip.en.15) "\002%msg.1%\002 is located in \002%msg.2%\002 ; \002ISP\002: %msg.9% ; \002Mobile\002: %msg.10% ; \002Proxy\002: %msg.5% ; \002Spam\002: %msg.6% ; \002TOR\002: %msg.7% ; \002Suspicious\002: %msg.8%"
 set black(blackip.en.16) "\[X\] \002%msg.1%\002 unknown ip address"
 set black(blackip.en.17) "true"
 set black(blackip.en.18) "false"
