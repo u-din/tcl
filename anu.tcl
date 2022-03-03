@@ -8,7 +8,7 @@
 # - You can are spying multiple channels
 
 setudef flag spy
-set spyechochannel "#i"
+set spyechochannel "#anu"
 
 bind join - * spyjoinecho
 proc spyjoinecho {n u h c} {
@@ -21,7 +21,14 @@ bind part - * spypartecho
 proc spypartecho {n u h c t} {
 if {[lsearch -exact [channel info $c] {+spy}] != "-1"} {
 global spyechochannel
-putserv "privmsg $spyechochannel : $c |\00302 $n left channel ($t)\003"
+putserv "privmsg $spyechochannel : $c |\00314 $n left channel ($t)\003"
+}
+}
+bind sign - * spyquitecho
+proc spyquitecho {n u h c t} {
+if {[lsearch -exact [channel info $c] {+spy}] != "-1"} {
+global spyechochannel
+putserv "privmsg $spyechochannel : $c |\00302 $n quit channel ($t)\003"
 }
 }
 bind kick - * spykickecho
