@@ -8,55 +8,56 @@
 # - You can are spying multiple channels
 
 setudef flag spy
-set spyechochannel "#anu"
+set spyechochannel "#i"
 
 bind join - * spyjoinecho
 proc spyjoinecho {n u h c} {
 if {[lsearch -exact [channel info $c] {+spy}] != "-1"} {
 global spyechochannel
-putserv "privmsg $spyechochannel : $c |\00303 $n joined channel\003"
+putserv "privmsg $spyechochannel :\00310 $c |\003\00303 $n ($u) joined channel\003"
+putserv "privmsg $spyechochannel :.ip $n"
 }
 }
 bind part - * spypartecho
 proc spypartecho {n u h c t} {
 if {[lsearch -exact [channel info $c] {+spy}] != "-1"} {
 global spyechochannel
-putserv "privmsg $spyechochannel : $c |\00314 $n left channel ($t)\003"
+putserv "privmsg $spyechochannel :\00310 $c |\003\00305 $n left channel ($t)\003"
 }
 }
 bind sign - * spyquitecho
 proc spyquitecho {n u h c t} {
 if {[lsearch -exact [channel info $c] {+spy}] != "-1"} {
 global spyechochannel
-putserv "privmsg $spyechochannel : $c |\00302 $n quit channel ($t)\003"
+putserv "privmsg $spyechochannel :\00310 $c |\003\00302 $n quit channel ($t)\003"
 }
 }
 bind kick - * spykickecho
 proc spykickecho {n u h c w e} {
 if {[lsearch -exact [channel info $c] {+spy}] != "-1"} {
 global spyechochannel
-putserv "privmsg $spyechochannel : $c |\00304 $w has been kicked by $n ($e)"
+putserv "privmsg $spyechochannel :\00310 $c |\003\00304 $w has been kicked by $n ($e)"
 }
 }
 bind pubm - * spymsgecho
 proc spymsgecho { n u h c t } {
 if {[lsearch -exact [channel info $c] {+spy}] != "-1"} {
 global spyechochannel
-putserv "privmsg $spyechochannel : $c | $n : $t"
+putserv "privmsg $spyechochannel :\00310 $c |\003\00306 $n :\003\00314 $t\003"
 }
 }
 bind mode - * spymodeecho
 proc spymodeecho { n u h c m t } {
 if {[lsearch -exact [channel info $c] {+spy}] != "-1"} {
 global spyechochannel
-putserv "privmsg $spyechochannel : $c | $n sets mode: $m $t"
+putserv "privmsg $spyechochannel :\00310 $c | $n sets mode: $m $t\003"
 }
 }
 bind nick - * spynickecho
 proc spynickecho {n u h c nn} {
 if {[lsearch -exact [channel info $c] {+spy}] != "-1"} {
 global spyechochannel
-putserv "privmsg $spyechochannel : $c |\00306 $n is now known as: $nn\003"
+putserv "privmsg $spyechochannel :\00310 $c |\003\00306 $n is now known as: $nn\003"
 }
 }
 bind ctcp - action spyactionecho
@@ -69,6 +70,7 @@ global spyechochannel
 putserv "privmsg $spyechochannel : $d |\00307 * $n $t\003"
 }
 }
+
 
 # Commands:
 # ---------
