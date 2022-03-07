@@ -41,20 +41,20 @@ set UnoScoreFile 	"UnoScores"
 set UnoVersion 		"Squad UNO"
 
 # command binds
-bind pub - !uno UnoInit
-bind pub - !stop UnoStop
-bind pub - !unostop UnoStop
-bind pub - !pause UnoPause
-bind pub - !join UnoJoinBotPlayer
-bind pub - !remove UnoRemove
-bind pub - !cmd UnoCmds
-bind pub - !won UnoWon
-bind pub - !rank UnoTopTen
-bind pub - !top3 UnoTopThreeLast
-bind pub - !unostats UnoPlayStats
-bind pub - !unorecords UnoRecords
-bind pub - !unorow UnoCurrentRow
-bind pub - !unoversion UnoVersion
+bind pub - .uno UnoInit
+bind pub - .stop UnoStop
+bind pub - .unostop UnoStop
+bind pub - .pause UnoPause
+bind pub - .join UnoJoinBotPlayer
+bind pub - .remove UnoRemove
+bind pub - .cmd UnoCmds
+bind pub - .won UnoWon
+bind pub - .rank UnoTopTen
+bind pub - .top3 UnoTopThreeLast
+bind pub - .unostats UnoPlayStats
+bind pub - .unorecords UnoRecords
+bind pub - .unorow UnoCurrentRow
+bind pub - .unoversion UnoVersion
 
 # dcc commands
 bind dcc - unohands dccunohands
