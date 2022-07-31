@@ -290,7 +290,7 @@ set mod-path "modules/"
 ## Enter here the filename where dynamic channel settings are stored.
 set chanfile "LamestBot.chan"
 
-channel add #chat
+channel add #bot
 
 #### SERVER MODULE ####
 
@@ -364,7 +364,7 @@ source scripts/BlackIP.tcl
 #source scripts/idle.tcl
 #source scripts/versi.tcl
 #source scripts/whois.tcl
-source scripts/bot.tcl
+source scripts/control.tcl
 
 ## This script provides many useful informational functions, like setting
 ## users' URLs, e-mail address, ICQ numbers, etc. You can modify it to add
