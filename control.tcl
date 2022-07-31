@@ -9704,13 +9704,13 @@ putlog "#########################################"
 
 ##### CHATING SERVER #######
 set servers {
- irc.chating.id:6667
+ irc.withyou.id:6667
 }
 
 putlog "========================================"
 putlog "      ©opyright(2022)     "
 putlog "========================================"
 putlog "Prepare To Load...                      "
-putlog "oops » version 2022 Loaded             "
+putlog "version 2022 Loaded             "
 
 
