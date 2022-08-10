@@ -16,7 +16,7 @@ set tgqdbsep "|"
 #    question<seperator>answer
 #  If set to 0, bot expects lines in the format:
 #    answer<seperator>question
-set tgqdbquestionfirst 0
+set tgqdbquestionfirst 1
 
 #  The full path to the file which tracks the scores. The account
 #  the bot runs on must have read & write access to this file. If
