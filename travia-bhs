@@ -1,6 +1,6 @@
-###########################################################################
-#PLEASE customise the settings before rehashing your bot! Edited by Isfan #
-###########################################################################
+######################################################################
+#PLEASE customise the settings before rehashing your bot!            #
+######################################################################
 
 #  The full path to the file containing the questions and answers.
 #  The account the bot runs on must have read access to this file.
@@ -124,7 +124,7 @@ set tgshowanswer 1
 #  When someone answers a question, will the bot show just that person's score (0)
 #  or will it show all players' scores (1) (default). This is useful in channels with
 #  a large number (>20) players.
-set tgshowallscores 1
+set tgshowallscores 0
 
 #  Use bold codes in messages (1) or not (0)?
 set tgusebold 0
@@ -169,6 +169,8 @@ set tgflagsskip "-|-"
 
 #  Channel command for showing the top 10 scores.
 set tgcmdtop10 "!top10"
+
+set tgcmdscore "!score"
 
 #  Flags required to use the top 10 command.
 set tgflagstop10 "-|-"
@@ -289,6 +291,7 @@ proc tgunbindhintcmd {} {
 tgbindhintcmd
 bind pubm $tgflagsskip "$tgchan %$tgcmdskip" tgskip
 bind pubm $tgflagstop10 "$tgchan %$tgcmdtop10" tgshowtop10
+bind pubm -|- "$tgchan %$tgcmdscore" tgscorelookup
 bind join -|- "$tgchan *" tgjoinmsg
 bind msg - $tgcmdhelp tggivehelp
 bind msg - $tgcmdlookup tgscorelookup
@@ -355,7 +358,7 @@ proc tgskip {nick host hand chan text} {
    global tgstreakmin tgtimenext tgrebindhinttimer
    if {[strlwr $tgchan]==[strlwr $chan]} {
       if {$tgplaying==1&&[utimerexists tghint]!=""} {
-         tggamemsg "[tgcolskip]Skipping to next question by [tgcolmisc2]$nick's[tgcolskip] request..."
+         tggamemsg "[tgcolskip]Pertanyaan TekaTeki di skip oleh [tgcolmisc2]$nick's[tgcolskip] ."
          if {$tgstreakmin>0&&[lindex [split $tgstreak ,] 1]>=$tgstreakmin&&[strlwr [lindex [split $tgstreak ,] 0]]==[strlwr $nick]} {
             tgstreakend
             set tgstreak 0
@@ -548,7 +551,7 @@ if {![info exists tghintnum]} {
 	  tggamemsg "[tgcolqhead]Â»Â» TekaTeki Â«Â«" 
        tggamemsg "[tgcolqbody]$tgcurrentquestion"
    }
-   tggamemsg "[tgcolhint]Hint: [join $_hint] \00306[expr $tghintnum?"(Hint $tghintnum/$tgmaxhintcurrent)":""]\003"
+   tggamemsg "[tgcolhint][expr $tghintnum?"$tghintnum:":""] [join $_hint]"
    set tghinttimer [utimer $tgtimehint tghint]
 }
 
@@ -620,7 +623,7 @@ proc tgcorrectanswer {nick} {
          if {$tgshowallscores==0} {
             append _msg " You've moved up in rank!"
          } else {
-            append _msg " You are now ranked [tgcolmisc2][ordnumber $tgranksbyname([strlwr $nick])][tgcolmisc1] of [tgcolmisc2]$tgscorestotal[tgcolmisc1], behind [tgcolmisc2]$tgrealnames($tgranksbynum([expr $_newrank-1]))[tgcolmisc1] with [tgcolmisc2]$tgscoresbyrank([expr $_newrank-1])[tgcolmisc1]."
+            append _msg " Rank mu [tgcolmisc2][ordnumber $tgranksbyname([strlwr $nick])][tgcolmisc1] of [tgcolmisc2]$tgscorestotal[tgcolmisc1], sebelum [tgcolmisc2]$tgrealnames($tgranksbynum([expr $_newrank-1]))[tgcolmisc1] dengan score [tgcolmisc2]$tgscoresbyrank([expr $_newrank-1])[tgcolmisc1]."
          }
       }
    }
@@ -629,7 +632,7 @@ proc tgcorrectanswer {nick} {
       if {[lindex [split $tgstreak ,] 0]==[strlwr $nick]} {
          set tgstreak [strlwr $nick],[expr [lindex [split $tgstreak ,] 1]+1]
          if {$tgstreakmin>0&&[lindex [split $tgstreak ,] 1]>=$tgstreakmin} {
-            tggamemsg "[tgcolstrk][tgcolmisc2]$nick[tgcolstrk] is on a winning streak! [tgcolmisc2][lindex [split $tgstreak ,] 1] [tgcolstrk]in a row so far!"
+            tggamemsg "[tgcolstrk][tgcolmisc2]$nick[tgcolstrk] win streak! [tgcolmisc2][lindex [split $tgstreak ,] 1] [tgcolstrk]pertanyaan!"
          }
       } else {
          if {$tgstreakmin>0&&[lindex [split $tgstreak ,] 1]>=$tgstreakmin} { tgstreakend }
@@ -735,9 +738,9 @@ proc tgshowscores {nick} {
       if {$tgranksbyname([strlwr $nick])==1} {
          set _tgt "."
       } else {
-         set _tgt ", behind [tgcolmisc2]$tgrealnames($tgranksbynum([expr $tgranksbyname([strlwr $nick])-1]))[tgcolmisc1] with [tgcolmisc2]$tgscoresbyrank([expr $tgranksbyname([strlwr $nick])-1])[tgcolmisc1]."
+         set _tgt ", sebelum [tgcolmisc2]$tgrealnames($tgranksbynum([expr $tgranksbyname([strlwr $nick])-1]))[tgcolmisc1] dengan score [tgcolmisc2]$tgscoresbyrank([expr $tgranksbyname([strlwr $nick])-1])[tgcolmisc1]."
       }
-      tggamemsg "[tgcolmisc2]$nick [tgcolmisc1]now has [tgcolmisc2]$tgscoresbyname([strlwr $nick]) [tgcolmisc1][expr $tgscoresbyname([strlwr $nick])==1?"point":"points"] and is ranked [tgcolmisc2][ordnumber $tgranksbyname([strlwr $nick])] [tgcolmisc1]of [tgcolmisc2]$tgscorestotal[tgcolmisc1]$_tgt"
+      tggamemsg "[tgcolmisc2]$nick [tgcolmisc1]punya [tgcolmisc2]$tgscoresbyname([strlwr $nick]) [tgcolmisc1][expr $tgscoresbyname([strlwr $nick])==1?"point":"points"] di urutan ke [tgcolmisc2][ordnumber $tgranksbyname([strlwr $nick])] [tgcolmisc1]dari [tgcolmisc2]$tgscorestotal[tgcolmisc1]$_tgt"
    }
 }
 
@@ -759,7 +762,7 @@ proc tgresetscores {nick host hand text} {
 #triggered when a winning streak ends.
 proc tgstreakend {} {
       global tgstreak tgrealnames
-      tggamemsg "[tgcolstend]So much for [tgcolmisc2]$tgrealnames([lindex [split $tgstreak ,] 0])'s[tgcolstend] winning streak."
+      tggamemsg "[tgcolstend]Waaahh[tgcolmisc2]$tgrealnames([lindex [split $tgstreak ,] 0])[tgcolstend] win streak."
       return
 }
 
