@@ -1,6 +1,6 @@
-######################################################################
-#PLEASE customise the settings before rehashing your bot!            #
-######################################################################
+###########################################################################
+#PLEASE customise the settings before rehashing your bot! Edited by Isfan #
+###########################################################################
 
 #  The full path to the file containing the questions and answers.
 #  The account the bot runs on must have read access to this file.
@@ -71,7 +71,7 @@ set tgpointsperanswer 10
 set tgmaxhint 3
 
 #  Should the bot show the question on each hint (1) or only on the first (0)?
-set tgalwaysshowq 1
+set tgalwaysshowq 0
 
 #  Show questions in all CAPS (1) or not (0)?
 set tgcapsquestion 0
@@ -105,14 +105,14 @@ set tgtimenext 10
 
 #  Phrases to use at random when someone answers a question correctly. This must
 #  be a TCL list. If you don't know what that means, stick to the defaults.
-set tgcongrats [list "Selamat" "Kerja yang bagus" "Mantap bro" "Keren" "Seep" "Menakjubkan"]
+set tgcongrats [list "Selamat" "Wooow" "Mantap bro" "Keren" "Seep" "Menakjubkan"]
 
 #  Phrases to use when the question has 'expired'. Must also be a TCL list.
-set tgnobodygotit [list "Tidak seorangpun jawaban benar." "Hello? ada orangnya tidak?" "Kamu harus giat mencoba lagi!" "Inikah yang jadi kepikiran kamunya?" "Saya sendirian atau gimana?"]
+set tgnobodygotit [list "Tidak seorangpun benar jawabannya." "Hello... ada orangnya tidak?" "Kamu harus giat mencoba lagi!" "Jangan bingung, ngopi2 lah dulu." "Ayo kamu bisa." "Kasihan sekali tidak bisa menjawab." "Semangat semangat."]
 
 #  Phrases to use when the question expired and there's another one coming up.
 #  Yep, you guessed it... another TCL list.
-set tgtrythenextone [list "Kita lihat kelanjutannya..." "Bersiaplah untuk selanjutanya..." "Mungkin kamu akan melanjutinya..."]
+set tgtrythenextone [list "OK, Pertanyaan selanjutnya..." "OK, Pertanyaan berikutnya..."]
 
 #  Will the bot calculate the time it took to get the correct
 #  answer (1) or not (0)? (requires TCL 8.3 or higher).
@@ -538,14 +538,17 @@ if {![info exists tghintnum]} {
          incr i
       }
    }
+   
+
    if {$tgcapshint==1} {
       set _hint [strupr $_hint]
    }
-   tggamemsg "[tgcolqhead]Â»Â» TekaTeki Â«Â« [expr $tghintnum?"(Hint $tghintnum/$tgmaxhintcurrent)":""]"
+   #tggamemsg "[tgcolqhead]Â»Â» TekaTeki Â«Â« [expr $tghintnum?"(Hint $tghintnum/$tgmaxhintcurrent)":""]"
    if {$tgalwaysshowq==1||$tghintnum==0} {
-      tggamemsg "[tgcolqbody]$tgcurrentquestion"
+	  tggamemsg "[tgcolqhead]Â»Â» TekaTeki Â«Â«" 
+       tggamemsg "[tgcolqbody]$tgcurrentquestion"
    }
-   tggamemsg "[tgcolhint]Hint: [join $_hint]"
+   tggamemsg "[tgcolhint]Hint: [join $_hint] \00306[expr $tghintnum?"(Hint $tghintnum/$tgmaxhintcurrent)":""]\003"
    set tghinttimer [utimer $tgtimehint tghint]
 }
 
