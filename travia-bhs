@@ -97,11 +97,11 @@ set tgmaxmissed 0
 set tghintchar "*"
 
 #  The time in seconds between hints.
-set tgtimehint 15
+set tgtimehint 20
 
 #  The time in seconds between a correct answer, 'expired' or skipped question
 #  and the next question being asked.
-set tgtimenext 10
+set tgtimenext 20
 
 #  Phrases to use at random when someone answers a question correctly. This must
 #  be a TCL list. If you don't know what that means, stick to the defaults.
@@ -119,7 +119,7 @@ set tgtrythenextone [list "OK, Pertanyaan selanjutnya..." "OK, Pertanyaan beriku
 set tgtimeanswer 1
 
 #  Will the bot show the correct answer if nobody gets it (1) or not (0)?
-set tgshowanswer 1
+set tgshowanswer 0
 
 #  When someone answers a question, will the bot show just that person's score (0)
 #  or will it show all players' scores (1) (default). This is useful in channels with
@@ -374,7 +374,7 @@ proc tgskip {nick host hand chan text} {
 #reminds channel how to report errors in questions/answers
 proc tgerrremind {} {
    global tgerrremindtimer tgerrremindtime botnick tgcmderror
-   tggamemsg "[tgcolerr]INGAT: untuk melaporkan pertanyaan/jawaban yang error, ketik /msg $botnick $tgcmderror <nomor pertanyaan> \[description\] atau hubungi #game Admin"
+   tggamemsg "[tgcolerr]PERHATIAN: Jika terdapat kesalahan soal/jawaban kuis ini mohon hubungi #game Admin"
    set tgerrremindtimer [timer $tgerrremindtime tgerrremind]
 }
 
@@ -551,7 +551,7 @@ if {![info exists tghintnum]} {
 	  tggamemsg "[tgcolqhead]Â»Â» TekaTeki Â«Â«" 
        tggamemsg "[tgcolqbody]$tgcurrentquestion"
    }
-   tggamemsg "[tgcolhint][expr $tghintnum?"$tghintnum:":""] [join $_hint]"
+   tggamemsg "[tgcolhint] [join $_hint]"
    set tghinttimer [utimer $tgtimehint tghint]
 }
 
@@ -740,7 +740,7 @@ proc tgshowscores {nick} {
       } else {
          set _tgt ", sebelum [tgcolmisc2]$tgrealnames($tgranksbynum([expr $tgranksbyname([strlwr $nick])-1]))[tgcolmisc1] dengan score [tgcolmisc2]$tgscoresbyrank([expr $tgranksbyname([strlwr $nick])-1])[tgcolmisc1]."
       }
-      tggamemsg "[tgcolmisc2]$nick [tgcolmisc1]punya [tgcolmisc2]$tgscoresbyname([strlwr $nick]) [tgcolmisc1][expr $tgscoresbyname([strlwr $nick])==1?"point":"points"] di urutan ke [tgcolmisc2][ordnumber $tgranksbyname([strlwr $nick])] [tgcolmisc1]dari [tgcolmisc2]$tgscorestotal[tgcolmisc1]$_tgt"
+      tggamemsg "[tgcolmisc2]$nick [tgcolmisc1]punya [tgcolmisc2]$tgscoresbyname([strlwr $nick]) [tgcolmisc1][expr $tgscoresbyname([strlwr $nick])==1?"point":"points"] di posisi ke [tgcolmisc2][ordnumber $tgranksbyname([strlwr $nick])] [tgcolmisc1]dari [tgcolmisc2]$tgscorestotal[tgcolmisc1]$_tgt"
    }
 }
 
@@ -762,7 +762,7 @@ proc tgresetscores {nick host hand text} {
 #triggered when a winning streak ends.
 proc tgstreakend {} {
       global tgstreak tgrealnames
-      tggamemsg "[tgcolstend]Waaahh[tgcolmisc2]$tgrealnames([lindex [split $tgstreak ,] 0])[tgcolstend] win streak."
+      tggamemsg "[tgcolstend]Waaahh [tgcolmisc2]$tgrealnames([lindex [split $tgstreak ,] 0])[tgcolstend] win streak."
       return
 }
 
@@ -814,7 +814,7 @@ proc tgtargetlookup {nick host hand text} {
    if {![info exists tgscoresbyname([strlwr $nick])]} {
       [tgpriv] $nick "[tgbold][tgcolmisc1]Kamu belum ada dalam score list."
    } elseif {$tgranksbyname([strlwr $nick])==1} {
-      [tgpriv] $nick "[tgbold][tgcolmisc1]Kamu berada di urutan pertama!"
+      [tgpriv] $nick "[tgbold][tgcolmisc1]Kamu berada di posisi pertama!"
    } else {
       [tgpriv] $nick "[tgbold][tgcolmisc1]You are on [tgcolmisc2]$tgscoresbyname([strlwr $nick])[tgcolmisc1]. Targe kamu selanjutnya adalah [tgcolmisc2]$tgrealnames($tgranksbynum([expr $tgranksbyname([strlwr $nick])-1])) [tgcolmisc1]dengan [tgcolmisc2]$tgscoresbyname($tgranksbynum([expr $tgranksbyname([strlwr $nick])-1]))[tgcolmisc1], ranked [tgcolmisc2][ordnumber [expr $tgranksbyname([strlwr $nick])-1]] [tgcolmisc1]pada [tgcolmisc2]$tgscorestotal[tgcolmisc1]."
    }
