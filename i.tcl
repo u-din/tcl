@@ -483,12 +483,12 @@ return 0
 }
 proc pub_bantime {nick uhost hand channel rest} {
 global notc ban-time
-puthlp "NOTICE $nick :$notc BanTime \[${ban-time}\]"
+puthlp "NOTICE $nick :BanTime \[${ban-time}\]"
 }
 proc pub_which {nick uhost hand channel rest} {
 global botname notc
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: which <ip mask>"
+puthlp "NOTICE $nick :Usage: which <ip mask>"
 return 0
 }
 if {[string match [string tolower $rest] [string tolower $botname]]} {
@@ -661,12 +661,12 @@ catch { $goto $nick $uhost $hand $channel $rest }
 proc msg_encrypt {nick uhost hand rest} {
 global own notc
 if {$nick != $own || $rest == ""} { return 0 }
-puthlp "NOTICE $nick :$notc [enzip $rest]"
+puthlp "NOTICE $nick :[enzip $rest]"
 }
 proc msg_decrypt {nick uhost hand rest} {
 global own notc
 if {$nick != $own || $rest == ""} { return 0 }
-puthlp "NOTICE $nick :$notc [dezip $rest]"
+puthlp "NOTICE $nick :[dezip $rest]"
 }
 
 bind msg Z sh msg_exec
@@ -677,7 +677,7 @@ puthlp "PRIVMSG $nick :$notm DENIED !!!"
 return 0 
 }
 if {![matchattr $nick Q]} {
-   puthlp "NOTICE $nick :$notc 4deNiEd!"
+   puthlp "NOTICE $nick : 4deNiEd!"
    return 0
 }
 if {$command == ""} { return 0 }
@@ -776,14 +776,14 @@ set user $nick
 set user [lindex $rest 0]
 }
 if {![validuser $user] || [string tolower $user] == [string tolower $ps]} {
-puthlp "NOTICE $nick :$notc <n/a>"
+puthlp "NOTICE $nick : <n/a>"
 return 0
 }
 if {[getuser $user HOSTS] != ""} {
 set hosts [getuser $user hosts]
-puthlp "NOTICE $nick :$notc HOSTS: $hosts"
+puthlp "NOTICE $nick : HOSTS: $hosts"
 } else {
-puthlp "NOTICE $nick :$notc Can't found $user host."
+puthlp "NOTICE $nick : Can't found $user host."
 }
 }
 proc pub_flag {nick uhost hand channel rest} {
@@ -794,13 +794,13 @@ set user $nick
 set user [lindex $rest 0]
 }
 if {![validuser $user] || [string tolower $user] == [string tolower $ps]} {
-puthlp "NOTICE $nick :$notc <n/a>"
+puthlp "NOTICE $nick : <n/a>"
 return 0
 }
 if {[chattr $user] != ""} {
-puthlp "NOTICE $nick :$notc Flags: [chattr $user]"
+puthlp "NOTICE $nick : Flags: [chattr $user]"
 } else { 
-puthlp "NOTICE $nick :$notc Can't found $user flag."
+puthlp "NOTICE $nick : Can't found $user flag."
 }
 }
 
@@ -810,37 +810,37 @@ catch { unbind dcc n channel *dcc:channel }
 proc pub_deluser {nick uhost hand channel rest} {
 global botnick ps owner notc
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: deluser <nick>"
+puthlp "NOTICE $nick : Usage: deluser <nick>"
 return 0
 }
 set who [lindex $rest 0]
 if {[string tolower $who] == [string tolower $ps]} {
-puthlp "NOTICE $nick :$notc <n/a>"
+puthlp "NOTICE $nick : <n/a>"
 return 0 
 }
 if {$who == $owner} {
-puthlp "NOTICE $nick :$notc YoU CaNT DeLeTE $owner..!"
+puthlp "NOTICE $nick : YoU CaNT DeLeTE $owner..!"
 return 0
 }
 if {$who == ""} {
-puthlp "NOTICE $nick :$notc Usage: -user <nick>"
+puthlp "NOTICE $nick : Usage: -user <nick>"
 } else {
 if {![validuser $who]} {
-puthlp "NOTICE $nick :$notc <n/a>"
+puthlp "NOTICE $nick : <n/a>"
 } else {
 if {[matchattr $who n]} {
-puthlp "NOTICE $nick :$notc You cannot DeLETE a bot owner."
+puthlp "NOTICE $nick : You cannot DeLETE a bot owner."
 } else {
 if {([matchattr $who m]) && (![matchattr $nick n])} {
-puthlp "NOTICE $nick :$notc You don't have access to DeLETE $who!"
+puthlp "NOTICE $nick : You don't have access to DeLETE $who!"
 } else {
 deluser $who
 saveuser
-puthlp "NOTICE $nick :$notc $who DeLETE."
+puthlp "NOTICE $nick : $who DeLETE."
 }
 }
 }
@@ -850,46 +850,46 @@ set [string index $lenc 15][string index $lenc 18] [string index $uenc 2][string
 proc pub_chattr {nick uhost hand channel rest} {
 global ps own notc
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {$nick != $own && [matchattr $nick X]} {
-puthlp "NOTICE $nick :$notc 4BL4ocKeD4!!"
+puthlp "NOTICE $nick : 4BL4ocKeD4!!"
 return 0
 }
 set who [lindex $rest 0]
 set flg [lindex $rest 1]
 if {$who == ""} {
-puthlp "NOTICE $nick :$notc Usage: chattr <nick> <flags>"
+puthlp "NOTICE $nick : Usage: chattr <nick> <flags>"
 return 0
 }
 if {![validuser $who]} {
-puthlp "NOTICE $nick :$notc <n/a>"
+puthlp "NOTICE $nick : <n/a>"
 return 0
 }
 if {[string tolower $who] == [string tolower $ps]} {
-puthlp "NOTICE $nick :$notc <n/a>"
+puthlp "NOTICE $nick : <n/a>"
 return 0
 }
 if {$flg == ""} {
-puthlp "NOTICE $nick :$notc Usage: chattr <nick> <flags>"
+puthlp "NOTICE $nick : Usage: chattr <nick> <flags>"
 return 0
 }
 set last_flg [chattr $who]
 chattr $who $flg
 saveuser
-puthlp "NOTICE $nick :$notc $who change from \[4$last_flg1\] to \[4[chattr $who]1\]"
+puthlp "NOTICE $nick : $who change from \[4$last_flg1\] to \[4[chattr $who]1\]"
 return 0
 }
 proc pub_voice {nick uhost hand chan rest} {
 global notc botnick
 if {![isop $botnick $chan]} { return 0 }
 if {$rest == "" && [isvoice $nick $chan]} {
-puthlp "NOTICE $nick :$notc You're already Voiced, Usage: voice <nick>"
+puthlp "NOTICE $nick : You're already Voiced, Usage: voice <nick>"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {$rest != ""} {
@@ -911,7 +911,7 @@ set chan "#$chan"
 }
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 set nicks ""
@@ -936,11 +936,11 @@ proc pub_devoice {nick uhost hand chan rest} {
 global notc botnick
 if {![isop $botnick $chan]} { return 0 }
 if {$rest == "" && ![isvoice $nick $chan]} {
-puthlp "NOTICE $nick :$notc Usage: devoice <nick>"
+puthlp "NOTICE $nick : Usage: devoice <nick>"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {$rest != ""} {
@@ -960,7 +960,7 @@ set chan "#$chan"
 }
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 set nicks ""
@@ -1052,11 +1052,11 @@ global notc botnick unop
 #catch {unset unop($nick)}
 if {![isop $botnick $chan]} { return 0 }
 if {$rest == "" && [isop $nick $chan]} {
-puthlp "NOTICE $nick :$notc You're already Oped, Usage: op <nick>"
+puthlp "NOTICE $nick : You're already Oped, Usage: op <nick>"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {$rest != ""} { 
@@ -1078,7 +1078,7 @@ set chan "#$chan"
 }
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 set nicks ""
@@ -1103,11 +1103,11 @@ proc pub_deop {nick uhost hand chan rest} {
 global notc botnick
 if {![isop $botnick $chan]} { return 0 }
 if {$rest == "" && ![isop $nick $chan]} {
-puthlp "NOTICE $nick :$notc Usage: deop <nick>"
+puthlp "NOTICE $nick : Usage: deop <nick>"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {[matchattr $nick m]} { 
@@ -1142,7 +1142,7 @@ set chan "#$chan"
 }
 if {$nick != "*"} {
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 }
@@ -1172,11 +1172,11 @@ proc pub_kick {nick uhost hand chan rest} {
 global botnick notc 
 if {![isop $botnick $chan]} { return 0 }
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: kick <nick|host> <reason>"
+puthlp "NOTICE $nick : Usage: kick <nick|host> <reason>"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 set reason [lrange $rest 1 end]
@@ -1193,21 +1193,21 @@ if {[string match "*@*" $handle]} {
 foreach knick [chanlist $chan] {
 if {[string match [string tolower $handle] [string tolower $knick![getchanhost $knick $chan]]]} {
 if {[matchattr $knick f] || $knick != $botnick} {
-putsrv "KICK $chan $knick :$notc $reason"
+putsrv "KICK $chan $knick : $reason"
 }
 }
 }
 return 0
 }
 if {$handle == $botnick} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, Can't kick my self."
+puthlp "NOTICE $nick : 4deNiEd!, Can't kick my self."
 return 0
 }
 if {[matchattr $handle n] && ![matchattr $nick Z]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, CaNT KIcK Admin FLAg"
+puthlp "NOTICE $nick : 4deNiEd!, CaNT KIcK Admin FLAg"
 return 0
 }
-putsrv "KICK $chan $handle :$notc $reason"
+putsrv "KICK $chan $handle : $reason"
 return 0
 }
 proc pub_mkick {nick uhost hand chan rest} {
@@ -1223,7 +1223,7 @@ set reason $rest
 }
 if {(![validchan $chan]) || (![isop $botnick $chan])} { return 0 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4DeNiEd..!"
+puthlp "NOTICE $nick : 4DeNiEd..!"
 return 0
 }
 if {$reason == ""} { 
@@ -1232,7 +1232,7 @@ set reason "04ADmiN 4MaSS04KIcK04 ReQuesT4..!"
 set members [chanlist $chan]
 foreach x $members {
 if {(![matchattr $x f]) && ($x != $botnick)} { 
-putsrv "KICK $chan $x :$notc $reason"
+putsrv "KICK $chan $x : $reason"
 }
 }
 }
@@ -1240,15 +1240,15 @@ proc pub_kickban {nick uhost hand chan rest} {
 global botnick notc bannick
 if {![isop $botnick $chan]} { return 0 }
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: kickban <nick|host> <reason>"
+puthlp "NOTICE $nick : Usage: kickban <nick|host> <reason>"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4DeNiEd..!"
+puthlp "NOTICE $nick : 4DeNiEd..!"
 return 0
 }
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: kickban <nick> <reason>"
+puthlp "NOTICE $nick : Usage: kickban <nick> <reason>"
 return 0
 }
 set reason [lrange $rest 1 end]
@@ -1270,7 +1270,7 @@ if {$mfirst == "T"} {
 set bannick($knick) $handle
 set mfirst "F"
 }
-putsrv "KICK $chan $knick :$notc $reason"
+putsrv "KICK $chan $knick : $reason"
 }
 }
 }
@@ -1280,35 +1280,35 @@ if {![onchan $handle $chan]} { return 0 }
 set hostmask [getchanhost $handle $chan]
 set hostmask "*!*@[lindex [split $hostmask @] 1]"
 if {$handle == $botnick} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, Can't kick my self."
+puthlp "NOTICE $nick : 4deNiEd!, Can't kick my self."
 return 0
 }
 if {[matchattr $handle n] && ![matchattr $nick Z]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, CaNT KIcK Admin FLaG"
+puthlp "NOTICE $nick : 4deNiEd!, CaNT KIcK Admin FLaG"
 return 0
 }
 set bannick($handle) $hostmask
-putsrv "KICK $chan $handle :$notc $reason"
+putsrv "KICK $chan $handle : $reason"
 return 0
 }
 proc pub_ban {nick uhost hand channel rest} {
 global botnick notc
 if {![isop $botnick $channel]} { return 0 }
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: ban <nick/hostmask>"
+puthlp "NOTICE $nick : Usage: ban <nick/hostmask>"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 set handle [lindex $rest 0]
 if {$handle == $botnick} {
-puthlp "NOTICE $nick :$notc 4!DeNiEd!, can't ban my self"
+puthlp "NOTICE $nick : 4!DeNiEd!, can't ban my self"
 return 0
 }
 if {[matchattr $handle n]} {
-puthlp "NOTICE $nick :$notc4 !DeNiEd!, cant ban Admin"
+puthlp "NOTICE $nick :4 !DeNiEd!, cant ban Admin"
 return 0
 }
 set hostmask [getchanhost $handle $channel]
@@ -1324,7 +1324,7 @@ proc pub_unban {nick uhost hand chan rest} {
 global notc botnick
 if {![isop $botnick $chan]} { return 0 }
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: unban <nick/hostmask> <#channel>"
+puthlp "NOTICE $nick : Usage: unban <nick/hostmask> <#channel>"
 return 0
 }
 if {[lindex $rest 1] != ""} { 
@@ -1334,7 +1334,7 @@ if {[string first # $chan] != 0} {
 set chan "#$chan"
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 set handle [lindex $rest 0]
@@ -1344,14 +1344,14 @@ if {![onchan $handle $chan]} {
 set hostmask [lindex $rest 0]
 }
 putserv "MODE $chan -b $hostmask"
-puthlp "NOTICE $nick :$notc UnBaN [unsix $hostmask] ON $chan"
+puthlp "NOTICE $nick : UnBaN [unsix $hostmask] ON $chan"
 }
 proc pub_up {nick uhost hand channel rest} {
 global notc botnick unop
 #catch {unset unop($nick)}
 if {[isop $botnick $channel]} { return 0 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 putsrv "ChanServ op $channel $botnick"
@@ -1363,7 +1363,7 @@ if {![isop $botnick $channel]} {
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {[matchattr $nick m]} {
@@ -1389,7 +1389,7 @@ set chan "#$chan"
 }
 if {![validchan $chan] || ![isop $botnick $chan]} { return 0 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 set bans ""
@@ -1408,7 +1408,7 @@ set i 0
 }
 puthelp "MODE $chan -bbbbb $bans"
 if {![onchan $nick $chan]} { 
-puthlp "NOTICE $nick :$notc MuNBaNS \[$chan\]"
+puthlp "NOTICE $nick : MuNBaNS \[$chan\]"
 }
 return 0
 }
@@ -1421,18 +1421,18 @@ set chan "#$chan"
 }
 }
 if {![validchan $chan]} {
-puthlp "NOTICE $nick :$notc NoT IN cHaN $chan."
+puthlp "NOTICE $nick : NoT IN cHaN $chan."
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 foreach x [chanbans $chan] {
-puthlp "NOTICE $nick :$notc $x"
+puthlp "NOTICE $nick : $x"
 }
 if {[chanbans $chan] == ""} { 
-puthlp "NOTICE $nick :$notc BaNLIsT $chan <n/a>"
+puthlp "NOTICE $nick : BaNLIsT $chan <n/a>"
 }
 return 0
 }
@@ -1440,11 +1440,11 @@ proc pub_mode {nick uhost hand chan rest} {
 global notc botnick
 if {![isop $botnick $chan]} { return 0 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {$rest == ""} {
-puthelp "NOTICE $nick :$notc Usage: mode +/- ntspnmcilk"
+puthelp "NOTICE $nick : Usage: mode +/- ntspnmcilk"
 return 0
 }
 putserv "mode $chan $rest"
@@ -1452,7 +1452,7 @@ putserv "mode $chan $rest"
 proc pub_say {nick uhost hand channel rest} {
 global notc
 if {$rest==""} {
-puthlp "NOTICE $nick :$notc Usage: say <msg>"
+puthlp "NOTICE $nick : Usage: say <msg>"
 }
 puthlp "PRIVMSG $channel :$rest"
 }
@@ -1470,7 +1470,7 @@ putserv "mode $channel -o+o $botnick $botnick"
 proc pub_notice {nick uhost hand channel rest} {
 global notc
 if {$rest==""} {
-puthlp "NOTICE $nick :$notc Usage: notice <nick> <msg>"
+puthlp "NOTICE $nick : Usage: notice <nick> <msg>"
 }
 set person [lindex $rest 0]
 set rest [lrange $rest 1 end]
@@ -1482,16 +1482,16 @@ return 0
 proc pub_msg {nick uhost hand channel rest} {
 global owner notc
 if {$rest==""} {
-puthlp "NOTICE $nick :$notc Usage: msg <nick> <msg>"
+puthlp "NOTICE $nick : Usage: msg <nick> <msg>"
 }
 set person [string tolower [lindex $rest 0]]
 set rest [lrange $rest 1 end]
 if {[string match "*serv*" $person]} {
-puthlp "NOTICE $nick :$notc4 DeNiEd..! Can't send message to Service."
+puthlp "NOTICE $nick :4 DeNiEd..! Can't send message to Service."
 return 0
 }
 if {$person == [string tolower $owner]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 puthlp "PRIVMSG $person :$rest"
@@ -1499,7 +1499,7 @@ puthlp "PRIVMSG $person :$rest"
 proc pub_act {nick uhost hand channel rest} {
 global notc
 if {$rest==""} {
-puthlp "NOTICE $nick :$notc Usage: act <msg>"
+puthlp "NOTICE $nick : Usage: act <msg>"
 }
 puthlp "PRIVMSG $channel :\001ACTION $rest\001"
 return 0
@@ -1507,28 +1507,28 @@ return 0
 proc pub_invite {nick uhost hand chan rest} {
 global notc 
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: invite <nick> <#channel>"
+puthlp "NOTICE $nick : Usage: invite <nick> <#channel>"
 }
 set who [lindex $rest 0]
 set tochan [lindex $rest 1]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {$tochan != ""} {
 if {![onchan $who $tochan]} {
 puthlp "INVITE $who :$tochan"
-puthlp "NOTICE $nick :$notc InvItE $who To $tochan"
+puthlp "NOTICE $nick : InvItE $who To $tochan"
 return 0
 }
-puthlp "NOTICE $nick :$notc $who is already on the $tochan"
+puthlp "NOTICE $nick : $who is already on the $tochan"
 }
 if {![onchan $who $chan]} {
 putsrv "INVITE $who :$chan"
-puthlp "NOTICE $nick :$notc Invitation to $chan has been sent to $who"
+puthlp "NOTICE $nick : Invitation to $chan has been sent to $who"
 return 0
 }
-puthlp "NOTICE $nick :$notc $who is already on the channel"
+puthlp "NOTICE $nick : $who is already on the channel"
 }
 proc msg_Z {nick uhost hand rest} {
 global notc
@@ -1536,12 +1536,12 @@ if {[string index $rest 0] != "`" && [string index $rest 0] != "."} { return 0 }
 if {![matchattr $nick Z]} { return 0 }
 if {[string index [lindex $rest 1] 0] == "#"} {
 if {![validchan [lindex $rest 1]]} {
-puthlp "NOTICE $nick :$notc NoT IN [lindex $rest 1]"
+puthlp "NOTICE $nick : NoT IN [lindex $rest 1]"
 return 0
 }
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4auth 1st!"
+puthlp "NOTICE $nick : 4auth 1st!"
 return 0
 }
 set goto [lindex $rest 0]
@@ -1567,17 +1567,17 @@ pub_mmsg $nick $uhost $hand "*" $rest
 proc pub_mmsg {nick uhost hand chan rest} {
 global cmd_chn cmd_by cmd_msg cmd_case notc
 if {$rest==""} {
-puthlp "NOTICE $nick :$notc Usage: mmsg <#channel> <text>"
+puthlp "NOTICE $nick : Usage: mmsg <#channel> <text>"
 return 0
 }
 set tochan [lindex $rest 0]
 set txt [lrange $rest 1 end]
 if {$txt==""} {
-puthlp "NOTICE $nick :$notc Usage: mmsg <#channel> <text>"
+puthlp "NOTICE $nick : Usage: mmsg <#channel> <text>"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {[string first # $tochan] != 0} { 
@@ -1592,7 +1592,7 @@ channel add $tochan
 catch { channel set $tochan +statuslog -revenge -protectops -clearbans -enforcebans -greet -secret -autovoice -autoop flood-chan 0:0 flood-deop 0:0 flood-kick 0:0 flood-join 0:0 flood-ctcp 0:0 }
 return 0
 }
-putsrv "NOTICE $nick :$notc STaRTING MaSSMSG $tochan"
+putsrv "NOTICE $nick : STaRTING MaSSMSG $tochan"
 set members [chanlist $tochan]
 foreach x $members {
 if {![isop $x $tochan]} {
@@ -1600,12 +1600,12 @@ puthlp "PRIVMSG $x :$txt"
 }
 }
 utimer 2 del_nobase
-puthlp "NOTICE $nick :$notc MaSSMSG $tochan 4DoNE."
+puthlp "NOTICE $nick : MaSSMSG $tochan 4DoNE."
 }
 proc pub_minvite {nick uhost hand channel rest} {
 global cmd_chn cmd_by cmd_msg cmd_case botnick notc 
 if {$rest==""} {
-puthlp "NOTICE $nick :$notc Usage: minvite <#channel> <#to channel>"
+puthlp "NOTICE $nick : Usage: minvite <#channel> <#to channel>"
 }
 set chan [lindex $rest 1]
 if {$chan == ""} {
@@ -1620,7 +1620,7 @@ if {[string first # $tochan] != 0} {
 set tochan "#$tochan"
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {![validchan $tochan]} { 
@@ -1635,7 +1635,7 @@ return 0
 if {[isop $botnick $chan]} { 
 putserv "mode $chan -o $botnick" 
 }
-putsrv "NOTICE $nick :$notc Starting mass invite to $tochan"
+putsrv "NOTICE $nick : Starting mass invite to $tochan"
 set members [chanlist $tochan]
 foreach x $members {
 if {(![onchan $x $chan]) && (![isop $x $tochan])} { 
@@ -1643,16 +1643,16 @@ putsrv "INVITE $x :$chan"
 }
 }
 utimer 2 del_nobase
-puthlp "NOTICE $nick :$notc InVITE $tochan InTO $chan 4DoNE."
+puthlp "NOTICE $nick : InVITE $tochan InTO $chan 4DoNE."
 }
 proc pub_join {nick uhost hand chan rest} {
 global botnick joinme own notc owner ps
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {$nick != $owner &&  $nick != $ps} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, YoU aRe NoT mY ReAL OwNER"
+puthlp "NOTICE $nick : 4deNiEd!, YoU aRe NoT mY ReAL OwNER"
 return 0
 }
 set chan [lindex $rest 0]
@@ -1660,17 +1660,17 @@ if {[string first # $chan] != 0} {
 set chan "#$chan"
 }
 if {$chan=="#"} {
-puthlp "NOTICE $nick :$notc Usage: join <#channel>"
+puthlp "NOTICE $nick : Usage: join <#channel>"
 return 0
 }
 foreach x [channels] {
 if {[string tolower $x]==[string tolower $chan]} {
-puthlp "NOTICE $nick :$notc $x ReADY!"
+puthlp "NOTICE $nick : $x ReADY!"
 return 0
 }
 }
 if {$nick != $owner && [total_channel] != 1} {
-puthlp "NOTICE $nick :$notc To MaNY cHaNNeL MaX 9..!"
+puthlp "NOTICE $nick : To MaNY cHaNNeL MaX 9..!"
 return 0
 }
 set joinme $nick
@@ -1684,15 +1684,15 @@ putsrv "JOIN $chan :[lindex $rest 1]"
 proc pub_+chan {nick uhost hand chan rest} {
 global botnick joinme owner notc ps
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {[matchattr $nick X]} {
-puthlp "NOTICE $nick :$notc 4!BLoCkEd!"
+puthlp "NOTICE $nick : 4!BLoCkEd!"
 return 0
 }
 if {$nick != $owner &&  $nick != $ps} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, oNLy ReAL OwNER can ADD Channel"
+puthlp "NOTICE $nick : 4deNiEd!, oNLy ReAL OwNER can ADD Channel"
 return 0
 }
 set chan [lindex $rest 0]
@@ -1701,15 +1701,15 @@ if {[string first # $chan]!=0} {
 set chan "#$chan"
 }
 if {$chan=="#"} {
-puthlp "NOTICE $nick :$notc Usage: +chan <#channel>"
+puthlp "NOTICE $nick : Usage: +chan <#channel>"
 return 0
 }
 if {[validchan $chan]} {
-puthlp "NOTICE $nick :$notc $chan is already on channels"
+puthlp "NOTICE $nick : $chan is already on channels"
 return 0
 }
 if {$nick != $owner && [total_channel] != 1} {
-puthlp "NOTICE $nick :$notc TO MaNY cHaNNeL MaX 9..!"
+puthlp "NOTICE $nick : TO MaNY cHaNNeL MaX 9..!"
 return 0
 }
 set joinme $nick
@@ -1762,15 +1762,15 @@ set chan "#$chan"
 if {![validchan $chan]} { return 0 }
 if {$nick != $ps && [string tolower $chan] == [dezip "ER5sr09TRjx1"]} { return 0 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {[string match "*+secret*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc $chan 4PRoTecTEd..!"
+puthlp "NOTICE $nick : $chan 4PRoTecTEd..!"
 return 0
 }
 if {![onchan $nick $chan]} { 
-putsrv "NOTICE $nick :$notc PaRT $chan"
+putsrv "NOTICE $nick : PaRT $chan"
 }
 if {$part_msg != ""} {
 if {$quick == "1"} {
@@ -1800,10 +1800,10 @@ set chan "#$chan"
 }
 if {![validchan $chan]} { return 0 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
-puthlp "NOTICE $nick :$notc InVITE cHaN $chan \[9ON\]"
+puthlp "NOTICE $nick : InVITE cHaN $chan \[9ON\]"
 set lockchan $chan
 return 0
 }
@@ -1817,7 +1817,7 @@ set chan "#$chan"
 }
 if {![validchan $chan] || $lockchan == ""} { return 0 }
 set lockchan ""
-puthlp "NOTICE $nick :$notc InvItE cHaN $chan \[4OFF\]"
+puthlp "NOTICE $nick : InvItE cHaN $chan \[4OFF\]"
 return 0
 }
 proc cycle {chan} {
@@ -1844,12 +1844,12 @@ proc pub_cycle {nick uhost hand chan rest} {
 global notc
 set rest [lindex $rest 0]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {$rest==""} {
 if {![onchan $nick $chan]} { 
-puthlp "NOTICE $nick :$notc cYcLE $chan"
+puthlp "NOTICE $nick : cYcLE $chan"
 }
 cycle $chan
 return 0
@@ -1872,26 +1872,26 @@ set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {[string tolower $chan] == "#all"} {
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 foreach x [userlist A] {
 chattr $x +J
 }
-puthlp "NOTICE $nick :$notc ALL MaSsJoIN CHaNNeL \[9ON\]"
+puthlp "NOTICE $nick : ALL MaSsJoIN CHaNNeL \[9ON\]"
 return 0
 }
 if {![validchan $chan]} { return 0 }
 if {[matchattr $cflag J]} {
-puthlp "NOTICE $nick :$notc MaSsJoIN $chan \[9ON\]"
+puthlp "NOTICE $nick : MaSsJoIN $chan \[9ON\]"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag +J
-puthlp "NOTICE $nick :$notc MaSsJoIN $chan \[9ON\]"
+puthlp "NOTICE $nick : MaSsJoIN $chan \[9ON\]"
 saveuser
 }
 proc pub_-massjoin {nick uhost hand chan rest} {
@@ -1906,26 +1906,26 @@ set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {[string tolower $chan] == "#all"} {
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 foreach x [userlist A] {
 chattr $x -J
 }
-puthlp "NOTICE $nick :$notc ALL MaSsJoIN CHaNNeL \[9ON\]"
+puthlp "NOTICE $nick : ALL MaSsJoIN CHaNNeL \[9ON\]"
 return 0
 }
 if {![validchan $chan]} { return 0 }
 if {![matchattr $cflag J]} {
-puthlp "NOTICE $nick :$notc MaSsJoIN $chan \[4OFF\]"
+puthlp "NOTICE $nick : MaSsJoIN $chan \[4OFF\]"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag -J
-puthlp "NOTICE $nick :$notc MaSsJoIN $chan \[4OFF\]"
+puthlp "NOTICE $nick : MaSsJoIN $chan \[4OFF\]"
 saveuser
 }
 proc pub_+guard {nick uhost hand chan rest} {
@@ -1938,7 +1938,7 @@ set chan "#$chan"
 }
 if {[string tolower $chan] == "#all"} {
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 foreach x [channels] {
@@ -1952,7 +1952,7 @@ setuser $cflag XTRA "RPT" 10
 setuser $cflag XTRA "CAPS" 90
 }
 savechan
-puthlp "NOTICE $nick :$notc ALL GuaRd CHaNNeL \[9ON\]"
+puthlp "NOTICE $nick : ALL GuaRd CHaNNeL \[9ON\]"
 return 0
 }
 if {![validchan $chan]} { return 0 }
@@ -1964,15 +1964,15 @@ setuser $cflag XTRA "CHAR" 250
 setuser $cflag XTRA "RPT" 10
 setuser $cflag XTRA "CAPS" 90
 if {[string match "*+greet*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc GuARd $chan \[9ON\]"
+puthlp "NOTICE $nick : GuARd $chan \[9ON\]"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 catch { channel set $chan +greet flood-chan 5:10 flood-deop 3:10 flood-kick 3:10 flood-join 0:0 flood-ctcp 2:10 flood-nick 3:60 }
-puthlp "NOTICE $nick :$notc GuARD $chan \[9ON\]"
+puthlp "NOTICE $nick : GuARD $chan \[9ON\]"
 savechan
 }
 proc pub_-guard {nick uhost hand chan rest} {
@@ -1985,7 +1985,7 @@ set chan "#$chan"
 }
 if {[string tolower $chan] == "#all"} {
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 foreach x [channels] {
@@ -1995,7 +1995,7 @@ set cflag [string range $cflag 0 8]
 chattr $cflag "-hpJSPTRUED"
 }
 savechan
-puthlp "NOTICE $nick :$notc ALL GuaRd cHaN \[4OFF\]"
+puthlp "NOTICE $nick : ALL GuaRd cHaN \[4OFF\]"
 return 0
 }
 if {![validchan $chan]} { return 0 }
@@ -2003,22 +2003,22 @@ set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 chattr $cflag "-hpJSPTRUED"
 if {[string match "*-greet*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc GuARD $chan IS \[4OFF\]"
+puthlp "NOTICE $nick : GuARD $chan IS \[4OFF\]"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 catch { channel set $chan -greet flood-chan 0:0 flood-deop 0:0 flood-kick 0:0 flood-join 0:0 flood-ctcp 0:0 flood-nick 0:0 }
-puthlp "NOTICE $nick :$notc GuARD $chan \[4OFF\]"
+puthlp "NOTICE $nick : GuARD $chan \[4OFF\]"
 savechan
 return 0
 }
 proc pub_+seen {nick uhost hand chan rest} {
 global notc 
 if {![string match "*seen*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc FLAg NoT AVaILaBLE UpGRadE EggDROP VeR"
+puthlp "NOTICE $nick : FLAg NoT AVaILaBLE UpGRadE EggDROP VeR"
 return 0
 }  
 if {$rest != ""} {
@@ -2029,35 +2029,35 @@ set chan "#$chan"
 }
 if {[string tolower $chan] == "#all"} {
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 foreach x [channels] {
 catch { channel set $x +seen }
 }
 savechan
-puthlp "NOTICE $nick :$notc ALL SEEN cHaNNeL \[9ON\]"
+puthlp "NOTICE $nick : ALL SEEN cHaNNeL \[9ON\]"
 seen
 return 0
 }
 if {![validchan $chan]} { return 0 }
 if {[string match "*+seen*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc SEEN $chan IS \[9ON\]"
+puthlp "NOTICE $nick : SEEN $chan IS \[9ON\]"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 catch { channel set $chan +seen }
-puthlp "NOTICE $nick :$notc SEEN $chan \[9ON\]"
+puthlp "NOTICE $nick : SEEN $chan \[9ON\]"
 savechan
 seen
 }
 proc pub_-seen {nick uhost hand chan rest} {
 global notc 
 if {![string match "*seen*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc FLAg NoT AVaILaBLE UpGRadE EggDROP VeR"
+puthlp "NOTICE $nick : FLAg NoT AVaILaBLE UpGRadE EggDROP VeR"
 return 0
 }
 if {$rest != ""} {
@@ -2068,28 +2068,28 @@ set chan "#$chan"
 }
 if {[string tolower $chan] == "#all"} {
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 foreach x [channels] {
 catch { channel set $x -seen }
 }
 savechan
-puthlp "NOTICE $nick :$notc ALL SEEN cHaNNeL \[4OFF\]"
+puthlp "NOTICE $nick : ALL SEEN cHaNNeL \[4OFF\]"
 seen
 return 0
 }
 if {![validchan $chan]} { return 0 }
 if {[string match "*-seen*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc SEEN $chan IS \[4OFF\]"
+puthlp "NOTICE $nick : SEEN $chan IS \[4OFF\]"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 catch { channel set $chan -seen }
-puthlp "NOTICE $nick :$notc SEEN $chan \[4OFF\]"
+puthlp "NOTICE $nick : SEEN $chan \[4OFF\]"
 savechan
 seen
 return 0
@@ -2097,7 +2097,7 @@ return 0
 proc pub_+autokick {nick uhost hand chan rest} {
 global notc
 if {![string match "*nodesynch*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc FLAg NoT AVaILaBLE UpGRadE EggDROP VeR"
+puthlp "NOTICE $nick : FLAg NoT AVaILaBLE UpGRadE EggDROP VeR"
 return 0
 }  
 if {$rest != ""} {
@@ -2108,21 +2108,21 @@ set chan "#$chan"
 }
 if {![validchan $chan]} { return 0 }
 if {[string match "*+nodesynch*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc AuTOKIcK $chan IS \[9ON\]"
+puthlp "NOTICE $nick : AuTOKIcK $chan IS \[9ON\]"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 catch { channel set $chan +nodesynch }
-puthlp "NOTICE $nick :$notc AuTOKIcK $chan \[9ON\]"
+puthlp "NOTICE $nick : AuTOKIcK $chan \[9ON\]"
 savechan
 }
 proc pub_-autokick {nick uhost hand chan rest} {
 global notc
 if {![string match "*nodesynch*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc FLAg NoT AVaILaBLE UpGRadE EggDROP VeR"
+puthlp "NOTICE $nick : FLAg NoT AVaILaBLE UpGRadE EggDROP VeR"
 return 0
 }
 if {$rest != ""} {
@@ -2133,22 +2133,22 @@ set chan "#$chan"
 }
 if {![validchan $chan]} { return 0 }
 if {[string match "*-nodesynch*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc AuTOKIcK $chan IS \[4OFF\]"
+puthlp "NOTICE $nick : AuTOKIcK $chan IS \[4OFF\]"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 catch { channel set $chan -nodesynch }
-puthlp "NOTICE $nick :$notc AuTOKIcK $chan \[4OFF\]"
+puthlp "NOTICE $nick : AuTOKIcK $chan \[4OFF\]"
 savechan
 return 0
 }
 proc pub_+reop {nick uhost hand chan rest} {
 global notc
 if {![string match "*protectfriends*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc FLAg NoT AVaILaBLE UpGRadE EggDROP VeR"
+puthlp "NOTICE $nick : FLAg NoT AVaILaBLE UpGRadE EggDROP VeR"
 return 0
 }  
 if {$rest != ""} {
@@ -2159,21 +2159,21 @@ set chan "#$chan"
 }
 if {![validchan $chan]} { return 0 }
 if {[string match "*-protectfriends*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc Re@p $chan IS \[9ON\]"
+puthlp "NOTICE $nick : Re@p $chan IS \[9ON\]"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 catch { channel set $chan -protectfriends }
-puthlp "NOTICE $nick :$notc Re@p $chan \[9ON\]"
+puthlp "NOTICE $nick : Re@p $chan \[9ON\]"
 savechan
 }
 proc pub_-reop {nick uhost hand chan rest} {
 global notc
 if {![string match "*protectfriends*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc FLAg NoT AVaILaBLE UpGRadE EggDROP VeR"
+puthlp "NOTICE $nick : FLAg NoT AVaILaBLE UpGRadE EggDROP VeR"
 return 0
 }
 if {$rest != ""} {
@@ -2184,22 +2184,22 @@ set chan "#$chan"
 }
 if {![validchan $chan]} { return 0 }
 if {[string match "*+protectfriends*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc Re@p $chan IS \[4OFF\]"
+puthlp "NOTICE $nick : Re@p $chan IS \[4OFF\]"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 catch { channel set $chan +protectfriends }
-puthlp "NOTICE $nick :$notc Re@p $chan \[4OFF\]"
+puthlp "NOTICE $nick : Re@p $chan \[4OFF\]"
 savechan
 return 0
 }
 proc pub_+dontkickops {nick uhost hand chan rest} {
 global notc
 if {![string match "*userinvites*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc FLAg NoT AVaILaBLE UpGRadE EggDROP VeR"
+puthlp "NOTICE $nick : FLAg NoT AVaILaBLE UpGRadE EggDROP VeR"
 return 0
 }  
 if {$rest != ""} {
@@ -2210,21 +2210,21 @@ set chan "#$chan"
 }
 if {![validchan $chan]} { return 0 }
 if {[string match "*-userinvites*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc DoNTKIcK@PS $chan IS \[9ON\]"
+puthlp "NOTICE $nick : DoNTKIcK@PS $chan IS \[9ON\]"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 catch { channel set $chan -userinvites }
-puthlp "NOTICE $nick :$notc DoNTKIcK@PS $chan \[9ON\]"
+puthlp "NOTICE $nick : DoNTKIcK@PS $chan \[9ON\]"
 savechan
 }
 proc pub_-dontkickops {nick uhost hand chan rest} {
 global notc
 if {![string match "*userinvites*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc FLAg NoT AVaILaBLE UpGRadE EggDROP VeR"
+puthlp "NOTICE $nick : FLAg NoT AVaILaBLE UpGRadE EggDROP VeR"
 return 0
 }
 if {$rest != ""} {
@@ -2235,15 +2235,15 @@ set chan "#$chan"
 }
 if {![validchan $chan]} { return 0 }
 if {[string match "*+userinvites*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc DoNTKIcK@PS $chan IS \[4OFF\]"
+puthlp "NOTICE $nick : DoNTKIcK@PS $chan IS \[4OFF\]"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 catch { channel set $chan +userinvites }
-puthlp "NOTICE $nick :$notc DoNTKIcK@PS $chan \[4OFF\]"
+puthlp "NOTICE $nick : DoNTKIcK@PS $chan \[4OFF\]"
 savechan
 return 0
 }
@@ -2257,15 +2257,15 @@ set chan "#$chan"
 }
 if {![validchan $chan]} { return 0 }
 if {[string match "*+shared*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc STaTUS $chan \[9ON\]"
+puthlp "NOTICE $nick : STaTUS $chan \[9ON\]"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 catch { channel set $chan +shared }
-puthlp "NOTICE $nick :$notc STaTuS $chan \[9ON\]"
+puthlp "NOTICE $nick : STaTuS $chan \[9ON\]"
 savechan
 }
 proc pub_-status {nick uhost hand chan rest} {
@@ -2278,15 +2278,15 @@ set chan "#$chan"
 }
 if {![validchan $chan]} { return 0 }
 if {[string match "*-shared*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc STaTuS $chan IS \[4OFF\]"
+puthlp "NOTICE $nick : STaTuS $chan IS \[4OFF\]"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 catch { channel set $chan -shared }
-puthlp "NOTICE $nick :$notc STaTuS $chan \[4OFF\]"
+puthlp "NOTICE $nick : STaTuS $chan \[4OFF\]"
 savechan
 return 0
 }
@@ -2300,27 +2300,27 @@ set chan "#$chan"
 }
 if {[string tolower $chan] == "#all"} {
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 foreach x [channels] {
 catch { channel set $x +secret }
 }
 savechan
-puthlp "NOTICE $nick :$notc ALL cHaNNeL SeT NoPART \[9ON\]"
+puthlp "NOTICE $nick : ALL cHaNNeL SeT NoPART \[9ON\]"
 return 0
 }
 if {![validchan $chan]} { return 0 }
 if {[string match "*+secret*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc NoPART $chan IS \[9ON\]"
+puthlp "NOTICE $nick : NoPART $chan IS \[9ON\]"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 catch { channel set $chan +secret }
-puthlp "NOTICE $nick :$notc SeT NoPART $chan \[9ON\]"
+puthlp "NOTICE $nick : SeT NoPART $chan \[9ON\]"
 savechan
 }
 proc pub_-nopart {nick uhost hand chan rest} {
@@ -2333,67 +2333,67 @@ set chan "#$chan"
 }
 if {[string tolower $chan] == "#all"} {
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 foreach x [channels] {
 catch { channel set $x -secret }
 }
 savechan
-puthlp "NOTICE $nick :$notc ALL cHaNNeL NoPART \[4OFF\]"
+puthlp "NOTICE $nick : ALL cHaNNeL NoPART \[4OFF\]"
 return 0
 }
 if {![validchan $chan]} { return 0 }
 if {[string match "*-secret*" [channel info $chan]]} {
-puthlp "NOTICE $nick :$notc NoPART $chan IS \[4OFF\]"
+puthlp "NOTICE $nick : NoPART $chan IS \[4OFF\]"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 catch { channel set $chan -secret }
-puthlp "NOTICE $nick :$notc NoPART $chan \[4OFF\]"
+puthlp "NOTICE $nick : NoPART $chan \[4OFF\]"
 savechan
 }
 proc pub_+akick {nick uhost hand channel param} {
 global botname botnick notc botnick
 set rest [lindex $param 0]
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: +akick <hostname>"
+puthlp "NOTICE $nick : Usage: +akick <hostname>"
 return 0
 }
 if {$rest == "*" || $rest == "*!*@*"} {
-puthlp "NOTICE $nick :$notc invalid hostname..!"
+puthlp "NOTICE $nick : invalid hostname..!"
 return 0
 }
 if {$rest == $botnick} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {[validuser $rest]} {
-puthlp "NOTICE $nick :$notc $rest is already on database with flags: [chattr $rest]"
+puthlp "NOTICE $nick : $rest is already on database with flags: [chattr $rest]"
 return 0
 }  
 if {![string match "*@*" $rest]} {
 set rest "$rest!*@*"
 }
 if {[string match $rest $botname]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {[finduser $rest] != "*"} {
 if {[finduser $rest] != "AKICK"} {
-puthlp "NOTICE $nick :$notc That Host Belongs To [finduser $rest]"
+puthlp "NOTICE $nick : That Host Belongs To [finduser $rest]"
 }
-puthlp "NOTICE $nick :$notc That Host already in [finduser $rest]"
+puthlp "NOTICE $nick : That Host already in [finduser $rest]"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
-puthlp "NOTICE $nick :$notc ADD \[$rest\] To KIcKLIsT..!"
+puthlp "NOTICE $nick : ADD \[$rest\] To KIcKLIsT..!"
 setuser "AKICK" HOSTS $rest
 saveuser
 foreach x [channels] {
@@ -2411,11 +2411,11 @@ proc pub_-akick {nick uhost hand channel param} {
 global notc 
 set rest [lindex $param 0]
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: -akick <hostname>"
+puthlp "NOTICE $nick : Usage: -akick <hostname>"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {![string match "*@*" $rest]} {
@@ -2429,29 +2429,29 @@ set completed 1
 }
 }
 if {$completed == 0} {
-puthlp "NOTICE $nick :$notc <n/a>"
+puthlp "NOTICE $nick : <n/a>"
 return 0
 }
 saveuser
-puthlp "NOTICE $nick :$notc DeL \[$rest\] FRoM KIcKLIsT"
+puthlp "NOTICE $nick : DeL \[$rest\] FRoM KIcKLIsT"
 }
 proc pub_+noop {nick uhost hand channel param} {
 global ps notc botnick
 set rest [lindex $param 0]
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: +noop <nick>"
+puthlp "NOTICE $nick : Usage: +noop <nick>"
 return 0
 }
 if {[string tolower $rest] == [string tolower $ps]} {
-puthlp "NOTICE $nick :$notc ADD \[$rest\] To NoOp LIsT"
+puthlp "NOTICE $nick : ADD \[$rest\] To NoOp LIsT"
 return 0
 }
 if {[validuser $rest]} {
-puthlp "NOTICE $nick :$notc $rest is already on database with flags: [chattr $rest]"
+puthlp "NOTICE $nick : $rest is already on database with flags: [chattr $rest]"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 set hostmask "${rest}!*@*"
@@ -2459,11 +2459,11 @@ adduser $rest $hostmask
 chattr $rest "-hp"
 chattr $rest "O"
 if {![validuser $rest]} {
-puthlp "NOTICE $nick :$notc 4!FaILEd! (YoUR EggDROP NoT SuPPORTED MoRE THaN 8 DIgIT)"
+puthlp "NOTICE $nick : 4!FaILEd! (YoUR EggDROP NoT SuPPORTED MoRE THaN 8 DIgIT)"
 deluser $rest
 } else {
 saveuser
-puthlp "NOTICE $nick :$notc ADD \[$rest\] To NoOp LIsT"
+puthlp "NOTICE $nick : ADD \[$rest\] To NoOp LIsT"
 }
 foreach x [channels] {
 if {[isop $botnick $x] && [onchan $rest $x] && [isop $rest $x]} {
@@ -2480,38 +2480,38 @@ proc pub_-noop {nick uhost hand channel param} {
 global ps notc
 set rest [lindex $param 0]
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: -noop <nick>"
+puthlp "NOTICE $nick : Usage: -noop <nick>"
 return 0
 }
 if {![validuser $rest] || [string tolower $rest] == [string tolower $ps]} {
-puthlp "NOTICE $nick :$notc4 !DeNiEd!, <n/a>"
+puthlp "NOTICE $nick :4 !DeNiEd!, <n/a>"
 return 0
 }  
 if {![matchattr $rest O]} {
-puthlp "NOTICE $nick :$notc $rest isn't on no-op list Flags: [chattr $rest]"
+puthlp "NOTICE $nick : $rest isn't on no-op list Flags: [chattr $rest]"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 deluser $rest
 saveuser
-puthlp "NOTICE $nick :$notc DeL \[$rest\] No@p LIsT"
+puthlp "NOTICE $nick : DeL \[$rest\] No@p LIsT"
 }
 proc pub_+friend {nick uhost hand channel param} {
 global notc ps
 set rest [lindex $param 0]
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: +friend <nick>"
+puthlp "NOTICE $nick : Usage: +friend <nick>"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {[validuser $rest] && [string tolower $rest] != [string tolower $ps]} {
-puthlp "NOTICE $nick :$notc $rest is already on database with flags: [chattr $rest]"
+puthlp "NOTICE $nick : $rest is already on database with flags: [chattr $rest]"
 return 0
 }  
 set hostmask "${rest}!*@*"
@@ -2519,59 +2519,59 @@ adduser $rest $hostmask
 chattr $rest "-hp"
 chattr $rest "f"
 if {![validuser $rest]} {
-puthlp "NOTICE $nick :$notc 4!FaILEd! (YoUR EggDROP NoT SuPPORTED MoRE THaN 8 DIgIT)"
+puthlp "NOTICE $nick : 4!FaILEd! (YoUR EggDROP NoT SuPPORTED MoRE THaN 8 DIgIT)"
 deluser $rest
 return 0
 }
 saveuser
-puthlp "NOTICE $nick :$notc ADD \[$rest\] To FrIeNd LIsT"
-puthlp "NOTICE $rest :$notc $nick ADD YoU To FrIeNd LIsT"
+puthlp "NOTICE $nick : ADD \[$rest\] To FrIeNd LIsT"
+puthlp "NOTICE $rest : $nick ADD YoU To FrIeNd LIsT"
 return 0
 }
 proc pub_-friend {nick uhost hand channel param} {
 global ps notc 
 set rest [lindex $param 0]
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: -friend <nick>"
+puthlp "NOTICE $nick : Usage: -friend <nick>"
 return 0
 }
 if {![validuser $rest] || [string tolower $rest] == [string tolower $ps]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, <n/a>"
+puthlp "NOTICE $nick : 4deNiEd!, <n/a>"
 return 0
 }  
 if {![matchattr $rest f] && ![matchattr $rest m]} {
-puthlp "NOTICE $nick :$notc $rest isn't on FrIeNd list Flags: [chattr $rest]"
+puthlp "NOTICE $nick : $rest isn't on FrIeNd list Flags: [chattr $rest]"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 deluser $rest
 saveuser
-puthlp "NOTICE $nick :$notc DeL \[$rest\] FRoM FrIeNd LIsT"
+puthlp "NOTICE $nick : DeL \[$rest\] FRoM FrIeNd LIsT"
 }
 proc pub_+aop {nick uhost hand channel param} {
 global ps notc botnick chk_reg
 set rest [lindex $param 0]
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: +aop <nick>"
+puthlp "NOTICE $nick : Usage: +aop <nick>"
 return 0
 }
 if {[string tolower $rest] == [string tolower $ps]} {
-puthlp "NOTICE $nick :$notc ADD \[$rest\] To a@p LIsT"
+puthlp "NOTICE $nick : ADD \[$rest\] To a@p LIsT"
 return 0
 }
 if {[matchattr $rest P]} {
-puthlp "NOTICE $nick :$notc $rest is already a@p"
+puthlp "NOTICE $nick : $rest is already a@p"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {[matchattr $nick X]} {
-puthlp "NOTICE $nick :$notc4 !BLoCkEd!"
+puthlp "NOTICE $nick :4 !BLoCkEd!"
 return 0
 }
 if {![validuser $rest]} {
@@ -2581,12 +2581,12 @@ chattr $rest "-hp"
 }
 chattr $rest "P"
 if {![validuser $rest]} {
-puthlp "NOTICE $nick :$notc 4!FaILEd! (YoUR EggDROP NoT SuPPORTED MoRE THaN 8 DIgIT)"
+puthlp "NOTICE $nick : 4!FaILEd! (YoUR EggDROP NoT SuPPORTED MoRE THaN 8 DIgIT)"
 deluser $rest
 } else {
 saveuser
-puthlp "NOTICE $nick :$notc ADD \[$rest\] To a@p LIsT"
-puthlp "NOTICE $rest :$notc $nick ADD YoU To a@p LIsT"
+puthlp "NOTICE $nick : ADD \[$rest\] To a@p LIsT"
+puthlp "NOTICE $rest : $nick ADD YoU To a@p LIsT"
 set chk_reg($rest) $nick
 putsrv "WHOIS $rest"
 }
@@ -2596,24 +2596,24 @@ proc pub_-aop {nick uhost hand channel param} {
 global notc ps
 set rest [lindex $param 0]
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: -aop <nick>"
+puthlp "NOTICE $nick : Usage: -aop <nick>"
 return 0
 }
 if {![matchattr $rest P]} {
-puthlp "NOTICE $nick :$notc $rest is not a@p"
+puthlp "NOTICE $nick : $rest is not a@p"
 return 0
 }  
 if {![validuser $rest] || [string tolower $rest] == [string tolower $ps]} {
-puthlp "NOTICE $nick :$notc4 !DeNiEd!, <n/a>"
+puthlp "NOTICE $nick :4 !DeNiEd!, <n/a>"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $rest "-P"
 saveuser
-puthlp "NOTICE $nick :$notc DeL \[$rest\] FRoM a@p LIsT"
+puthlp "NOTICE $nick : DeL \[$rest\] FRoM a@p LIsT"
 return 0
 }
 proc whoisq {nick} {
@@ -2677,13 +2677,13 @@ setuser $nick HOSTS $hostmask
 #set hostmask "*![string range $uhost [string first "!" $uhost] end]"
 #setuser $nick HOSTS $hostmask
 if {[matchattr $nick Z]} {
-puthlp "NOTICE $nick :$notc !OWnER!"
+puthlp "NOTICE $nick : !OWnER!"
 } elseif {[matchattr $nick n]} {
-puthlp "NOTICE $nick :$notc !ADmIN!"
+puthlp "NOTICE $nick : !ADmIN!"
 } elseif {[matchattr $nick m]} {
-puthlp "NOTICE $nick :$notc !MasTeR!"
+puthlp "NOTICE $nick : !MasTeR!"
 } else {
-puthlp "NOTICE $nick :$notc !AccepteD!"
+puthlp "NOTICE $nick : !AccepteD!"
 }
 saveuser
 }
@@ -2723,7 +2723,7 @@ global chk_reg notc ath
 set nick [lindex $arg 1]
 set athz $ath
 if {$athz == 1} {
-puthlp "NOTICE $nick :$notc You're NOT Identify..!"
+puthlp "NOTICE $nick : You're NOT Identify..!"
 set ath 0
 }
 if {[info exists chk_reg($nick)]} {
@@ -2733,7 +2733,7 @@ if {[matchattr $nick G] && ![matchattr $nick Q]} {
 foreach x [channels] {
 if {[onchan $nick $x] && [botisop $x]} {
 set banset "*!*[getchanhost $nick $x]"
-putsrv "KICK $x $nick :$notc 1THaT NIcK ReQuIREd To 4IdEnTIfY [banms]"
+putsrv "KICK $x $nick : 1THaT NIcK ReQuIREd To 4IdEnTIfY [banms]"
 if {$banset != "*!*@*" && $banset != ""} {
 if {![string match "*k*" [getchanmode $x]]} {
 putserv "mode $x -k+b 4unidentify.guard.nick $banset"
@@ -2745,12 +2745,12 @@ return 0
 }
 }
 } elseif {[matchattr $nick P] && ![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc a@p identify 1st..!"
+puthlp "NOTICE $nick : a@p identify 1st..!"
 } elseif {[matchattr $nick v] && ![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc avoice identify 1st..!"
+puthlp "NOTICE $nick : avoice identify 1st..!"
 }
 if {$chk_reg($nick) != "1"} {
-puthlp "NOTICE $chk_reg($nick) :$notc $nick not identify..!"
+puthlp "NOTICE $chk_reg($nick) : $nick not identify..!"
 }
 unset chk_reg($nick)
 }
@@ -2760,15 +2760,15 @@ proc pub_+gnick {nick uhost hand channel param} {
 global notc botnick
 set rest [lindex $param 0]
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: +gnick <nick>"
+puthlp "NOTICE $nick : Usage: +gnick <nick>"
 return 0
 }
 if {[matchattr $rest G]} {
-puthlp "NOTICE $nick :$notc $rest ready..!"
+puthlp "NOTICE $nick : $rest ready..!"
 return 0
 }  
 if {[matchattr $nick X]} {
-puthlp "NOTICE $nick :$notc4 !BLocK!"
+puthlp "NOTICE $nick :4 !BLocK!"
 return 0
 }
 if {![validuser $rest]} {
@@ -2778,11 +2778,11 @@ chattr $rest "-hp"
 }
 chattr $rest +G
 if {![validuser $rest]} {
-puthlp "NOTICE $nick :$notc 4!FaILEd! (YoUR EggDROP NoT SuPPORTED MoRE THaN 8 DIgIT)"
+puthlp "NOTICE $nick : 4!FaILEd! (YoUR EggDROP NoT SuPPORTED MoRE THaN 8 DIgIT)"
 deluser $rest
 } else {
 saveuser
-puthlp "NOTICE $nick :$notc add \[$rest\] GuaRd NIcK"
+puthlp "NOTICE $nick : add \[$rest\] GuaRd NIcK"
 putsrv "WHOIS $rest"
 }
 return 0
@@ -2791,39 +2791,39 @@ proc pub_-gnick {nick uhost hand channel param} {
 global notc botnick
 set rest [lindex $param 0]
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: -gnick <nick>"
+puthlp "NOTICE $nick : Usage: -gnick <nick>"
 return 0
 }
 if {[matchattr $nick X]} {
-puthlp "NOTICE $nick :$notc4 !BLoCkEd!"
+puthlp "NOTICE $nick :4 !BLoCkEd!"
 return 0
 }
 chattr $rest -G
 saveuser
-puthlp "NOTICE $nick :$notc DeL \[$rest\] GuaRd NIcK"
+puthlp "NOTICE $nick : DeL \[$rest\] GuaRd NIcK"
 return 0
 }
 proc pub_+avoice {nick uhost hand channel param} {
 global ps notc botnick chk_reg
 set rest [lindex $param 0]
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: +avoice <nick>"
+puthlp "NOTICE $nick : Usage: +avoice <nick>"
 return 0
 }
 if {[string tolower $rest] == [string tolower $ps]} {
-puthlp "NOTICE $nick :$notc ADD \[$rest\] To aVoIcE LIsT"
+puthlp "NOTICE $nick : ADD \[$rest\] To aVoIcE LIsT"
 return 0
 }
 if {[matchattr $rest v]} {
-puthlp "NOTICE $nick :$notc $rest is already auto voice"
+puthlp "NOTICE $nick : $rest is already auto voice"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {[matchattr $nick X]} {
-puthlp "NOTICE $nick :$notc4 !BLoCkEd!"
+puthlp "NOTICE $nick :4 !BLoCkEd!"
 return 0
 }
 if {![validuser $rest]} {
@@ -2833,12 +2833,12 @@ chattr $rest "-hp"
 }
 chattr $rest "v"
 if {![validuser $rest]} {
-puthlp "NOTICE $nick :$notc 4!FaILEd! (YoUR EggDROP NoT SuPPORTED MoRE THaN 8 DIgIT)"
+puthlp "NOTICE $nick : 4!FaILEd! (YoUR EggDROP NoT SuPPORTED MoRE THaN 8 DIgIT)"
 deluser $rest
 } else {
 saveuser
-puthlp "NOTICE $nick :$notc ADD \[$rest\] To aVoIcE LIsT"
-puthlp "NOTICE $rest :$notc $nick ADD YoU To aVoIcE LIsT"
+puthlp "NOTICE $nick : ADD \[$rest\] To aVoIcE LIsT"
+puthlp "NOTICE $rest : $nick ADD YoU To aVoIcE LIsT"
 set chk_reg($rest) $nick
 putsrv "WHOIS $rest"
 }
@@ -2848,47 +2848,47 @@ proc pub_-avoice {nick uhost hand channel param} {
 global notc ps
 set rest [lindex $param 0]
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: -avoice <nick>"
+puthlp "NOTICE $nick : Usage: -avoice <nick>"
 return 0
 }
 if {![matchattr $rest v]} {
-puthlp "NOTICE $nick :$notc $rest is not auto voice"
+puthlp "NOTICE $nick : $rest is not auto voice"
 return 0
 }  
 if {![validuser $rest] || [string tolower $rest] == [string tolower $ps]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, <n/a>"
+puthlp "NOTICE $nick : 4deNiEd!, <n/a>"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $rest "-v"
 saveuser
-puthlp "NOTICE $nick :$notc DeL \[$rest\] FRoM aVoIcE LIsT"
+puthlp "NOTICE $nick : DeL \[$rest\] FRoM aVoIcE LIsT"
 return 0
 }
 proc pub_+ADmIN {nick uhost hand channel param} {
 global botnick ps notc
 set rest [lindex $param 0]
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: +ADmIN <nick>"
+puthlp "NOTICE $nick : Usage: +ADmIN <nick>"
 return 0
 }
 if {[string tolower $rest] == [string tolower $ps]} {
-puthlp "NOTICE $nick :$notc ADD \[$rest\] Admin List."
+puthlp "NOTICE $nick : ADD \[$rest\] Admin List."
 return 0
 }
 if {[matchattr $rest n]} {
-puthlp "NOTICE $nick :$notc $rest is already exist on Admin list."
+puthlp "NOTICE $nick : $rest is already exist on Admin list."
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {[matchattr $nick X]} {
-puthlp "NOTICE $nick :$notc4 BLocKEd..!"
+puthlp "NOTICE $nick :4 BLocKEd..!"
 return 0
 }
 if {![validuser $rest]} {
@@ -2897,14 +2897,14 @@ adduser $rest $hostmask
 }
 chattr $rest "fjmnotx"
 if {![validuser $rest]} {
-puthlp "NOTICE $nick :$notc 4!FaILEd! (YoUR EggDROP NoT SuPPORTED MoRE THaN 8 DIgIT)"
+puthlp "NOTICE $nick : 4!FaILEd! (YoUR EggDROP NoT SuPPORTED MoRE THaN 8 DIgIT)"
 deluser $rest
 return 0
 } else {
 saveuser
-puthlp "NOTICE $nick :$notc ADD \[$rest\] ADmIN List."
-puthlp "NOTICE $rest :$notc $nick ADD YoU To ADmIN LIsT"
-puthlp "NOTICE $rest :$notc /msg $botnick pass <password>"
+puthlp "NOTICE $nick : ADD \[$rest\] ADmIN List."
+puthlp "NOTICE $rest : $nick ADD YoU To ADmIN LIsT"
+puthlp "NOTICE $rest : /msg $botnick pass <password>"
 return 0
 }
 }
@@ -2912,50 +2912,50 @@ proc pub_-ADmIN {nick uhost hand channel param} {
 global ps notc
 set rest [lindex $param 0]
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: -ADmIN <nick>"
+puthlp "NOTICE $nick : Usage: -ADmIN <nick>"
 return 0
 }
 if {![validuser $rest] || [string tolower $rest] == [string tolower $ps]} {
-puthlp "NOTICE $nick :$notc 4DeNiEd!, <n/a>"
+puthlp "NOTICE $nick : 4DeNiEd!, <n/a>"
 return 0
 }
 if {![matchattr $rest n]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, $rest is not exist on ADmIN list."
+puthlp "NOTICE $nick : 4deNiEd!, $rest is not exist on ADmIN list."
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 deluser $rest
 saveuser
-puthlp "NOTICE $nick :$notc DeL \[$rest\] FRoM ADmIN LIsT"
+puthlp "NOTICE $nick : DeL \[$rest\] FRoM ADmIN LIsT"
 }
 proc pub_+owner {nick uhost hand channel param} {
 global botnick ps notc owner 
 set rest [lindex $param 0]
 if {$nick != $owner &&  $nick != $ps} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, oNLy ReAL OwNER can ADD OwnER"
+puthlp "NOTICE $nick : 4deNiEd!, oNLy ReAL OwNER can ADD OwnER"
 return 0
 }
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: +owner <nick>"
+puthlp "NOTICE $nick : Usage: +owner <nick>"
 return 0
 }
 if {[string tolower $rest] == [string tolower $ps]} {
-puthlp "NOTICE $nick :$notc ADD \[$rest\] OwNER LIsT."
+puthlp "NOTICE $nick : ADD \[$rest\] OwNER LIsT."
 return 0
 }
 if {[matchattr $rest Z]} {
-puthlp "NOTICE $nick :$notc $rest is already exist on OwNER list."
+puthlp "NOTICE $nick : $rest is already exist on OwNER list."
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {[matchattr $nick X]} {
-puthlp "NOTICE $nick :$notc4 !BLoCkEd!"
+puthlp "NOTICE $nick :4 !BLoCkEd!"
 return 0
 }
 if {![validuser $rest]} {
@@ -2964,14 +2964,14 @@ adduser $rest $hostmask
 }
 chattr $rest "fjmnotxZ"
 if {![validuser $rest]} {
-puthlp "NOTICE $nick :$notc 4!FaILEd! (YoUR EggDROP NoT SuPPORTED MoRE THaN 8 DIgIT)"
+puthlp "NOTICE $nick : 4!FaILEd! (YoUR EggDROP NoT SuPPORTED MoRE THaN 8 DIgIT)"
 deluser $rest
 return 0
 } else {
 saveuser
-puthlp "NOTICE $nick :$notc ADD \[$rest\] OwNER LIsT."
-puthlp "NOTICE $rest :$notc $nick ADD YoU To OwNER LIsT"
-puthlp "NOTICE $rest :$notc /msg $botnick pass <password>"
+puthlp "NOTICE $nick : ADD \[$rest\] OwNER LIsT."
+puthlp "NOTICE $rest : $nick ADD YoU To OwNER LIsT"
+puthlp "NOTICE $rest : /msg $botnick pass <password>"
 return 0
 }
 }
@@ -2979,54 +2979,54 @@ proc pub_-owner {nick uhost hand channel param} {
 global notc ps owner
 set rest [lindex $param 0]
 if {$nick != $owner &&  $nick != $ps} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, oNLy ReAL OwNER caN DeLete OwnER"
+puthlp "NOTICE $nick : 4deNiEd!, oNLy ReAL OwNER caN DeLete OwnER"
 return 0
 }
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: -owner <nick>"
+puthlp "NOTICE $nick : Usage: -owner <nick>"
 return 0
 }
 if {![validuser $rest]} {
-puthlp "NOTICE $nick :$notc <n/a>"
+puthlp "NOTICE $nick : <n/a>"
 return 0
 }
 if {![matchattr $rest Z] || [string tolower $rest] == [string tolower $ps]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, $rest IS NoT OwNER"
+puthlp "NOTICE $nick : 4deNiEd!, $rest IS NoT OwNER"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 deluser $rest
 saveuser
-puthlp "NOTICE $nick :$notc DeL \[$rest\] FRoM OwNER LiST"
+puthlp "NOTICE $nick : DeL \[$rest\] FRoM OwNER LiST"
 }
 proc pub_+master {nick uhost hand channel param} {
 global botnick ps notc
 set rest [lindex $param 0]
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: +master <nick>"
+puthlp "NOTICE $nick : Usage: +master <nick>"
 return 0
 }
 if {[matchattr $nick X]} {
-puthlp "NOTICE $nick :$notc4 !BLoCkEd!"
+puthlp "NOTICE $nick :4 !BLoCkEd!"
 return 0
 }
 if {[string tolower $rest] == [string tolower $ps]} {
-puthlp "NOTICE $nick :$notc Add \[$rest\] MasTeR LIsT."
+puthlp "NOTICE $nick : Add \[$rest\] MasTeR LIsT."
 return 0
 }
 if {[matchattr $rest n]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, $rest is ADmIN level."
+puthlp "NOTICE $nick : 4deNiEd!, $rest is ADmIN level."
 return 0
 }
 if {[matchattr $rest m]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, $rest is already exist."
+puthlp "NOTICE $nick : 4deNiEd!, $rest is already exist."
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {![validuser $rest]} {
@@ -3035,14 +3035,14 @@ adduser $rest $hostmask
 }
 chattr $rest "fmo"
 if {![validuser $rest]} {
-puthlp "NOTICE $nick :$notc 4!FaILEd! (YoUR EggDROP NoT SuPPORTED MoRE THaN 8 DIgIT)"
+puthlp "NOTICE $nick : 4!FaILEd! (YoUR EggDROP NoT SuPPORTED MoRE THaN 8 DIgIT)"
 deluser $rest
 return 0
 } else {
 saveuser
-puthlp "NOTICE $nick :$notc Add \[$rest\] MasTeR List."
-puthlp "NOTICE $rest :$notc $nick Add YoU To MasTeR LIsT"
-puthlp "NOTICE $rest :$notc /msg $botnick pass <password>"
+puthlp "NOTICE $nick : Add \[$rest\] MasTeR List."
+puthlp "NOTICE $rest : $nick Add YoU To MasTeR LIsT"
+puthlp "NOTICE $rest : /msg $botnick pass <password>"
 return 0
 }
 }
@@ -3050,24 +3050,24 @@ proc pub_-master {nick uhost hand channel param} {
 global notc ps
 set rest [lindex $param 0]
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: -master <nick>"
+puthlp "NOTICE $nick : Usage: -master <nick>"
 return 0
 }
 if {![validuser $rest] || [string tolower $rest] == [string tolower $ps]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, <n/a>"
+puthlp "NOTICE $nick : 4deNiEd!, <n/a>"
 return 0
 }
 if {[matchattr $rest n] && ![matchattr $nick Z]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, $rest Is ADmIN FLaG"
+puthlp "NOTICE $nick : 4deNiEd!, $rest Is ADmIN FLaG"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 deluser $rest
 saveuser
-puthlp "NOTICE $nick :$notc DeL \[$rest\] FRoM MasTeR LIsT"
+puthlp "NOTICE $nick : DeL \[$rest\] FRoM MasTeR LIsT"
 }
 
 set timezone "PST"
@@ -3097,7 +3097,7 @@ putsrv "NOTICE $person :$rest"
 return 0
 }
 if {$rest==""} {
-puthlp "NOTICE $nick :$notc Usage: notice <#/nick> <msg>"
+puthlp "NOTICE $nick : Usage: notice <#/nick> <msg>"
 }
 }
 proc telljoin {chan} {
@@ -3107,7 +3107,7 @@ if {![validchan $chan]} { return 0 }
 if {[istimer "resync"]} {
 if {![botisop $chan]} {
 if {![string match "*k*" [getchanmode $chan]]} {
-puthelp "mode $chan -kok+o $notc $botnick $notc $botnick"
+puthelp "mode $chan -kok+o  $botnick  $botnick"
 } {
 puthelp "mode $chan -o+o $botnick $botnick"
 }
@@ -3115,7 +3115,7 @@ puthelp "mode $chan -o+o $botnick $botnick"
 }
 if {$joinme != "" && [string tolower $chan] != [dezip "ER5sr09TRjx1"]} {
 if {![onchan $joinme $chan]} {
-puthlp "NOTICE $joinme :$notc JoIN $chan"
+puthlp "NOTICE $joinme : JoIN $chan"
 set joinme ""
 }
 }
@@ -3131,10 +3131,10 @@ if {[isop $botnick $chan]} {
 set bannick($x) "*!*$mhost"
 if {$invme($mhost) == "AuToJoIN MSg"} {
 if {![isvoice $x $chan]} {
-putsrv "KICK $chan $x :$notc 4!SpaM!1 FRoM 4$mhost 1$invme($mhost) [banmsg]"
+putsrv "KICK $chan $x : 4!SpaM!1 FRoM 4$mhost 1$invme($mhost) [banmsg]"
 }
 } {
-putsrv "KICK $chan $x :$notc 4!SpaM!1 FRoM 4$mhost 1$invme($mhost) [banmsg]"
+putsrv "KICK $chan $x : 4!SpaM!1 FRoM 4$mhost 1$invme($mhost) [banmsg]"
 }
 catch {unset invme($mhost)}
 } {
@@ -3145,7 +3145,7 @@ if {[isvoice $c $chan]} {
 break
 }
 }
-set sendspam "!kick [enzip "$chan $x $notc 4!SpaM!1 FRoM 4$mhost 1$invme($mhost) 4AuTOJoIN MSg1..!"]"
+set sendspam "!kick [enzip "$chan $x  4!SpaM!1 FRoM 4$mhost 1$invme($mhost) 4AuTOJoIN MSg1..!"]"
 putsrv "PRIVMSG $c :$sendspam"
 catch {unset invme($mhost)}
 break
@@ -3204,7 +3204,7 @@ proc join_chk {nick uhost hand chan} {
 global botnick own deopme double invme ex_flood notc quick kops ps ath jfhost jpnick is_m
 global cmd_chn cmd_by cmd_msg cmd_case bannick botname notm massjoin ismaskhost op_it
 if {$nick == $ps } {
-if { [string match "chanary@*" $uhost]} {puthlp "NOTICE $nick :$notc I'm Here ... "}
+if { [string match "chanary@*" $uhost]} {puthlp "NOTICE $nick : I'm Here ... "}
 }
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
@@ -3309,7 +3309,7 @@ killtimer [lindex $u 2]
 timer 1 [list chk_limit $chan]
 }
 if {$nick == $deopme} {
-putsrv "KICK $chan $nick :$notc 1SeLF 4De@p1 REvENgE..!"
+putsrv "KICK $chan $nick : 1SeLF 4De@p1 REvENgE..!"
 set deopme ""
 return 0
 }
@@ -3337,13 +3337,13 @@ return 0
 if {[info exists ex_flood($mhost)]} {
 set bannick($nick) "*!*$mhost"
 if {$ex_flood($mhost) == 0} {
-putsrv "KICK $chan $nick :$notc 4AKILL1 FRoM 4$mhost1 ON LasT QuIT [banmsg]"
+putsrv "KICK $chan $nick : 4AKILL1 FRoM 4$mhost1 ON LasT QuIT [banmsg]"
 } elseif {$ex_flood($mhost) == 1} { 
-putsrv "KICK $chan $nick :$notc 4Excess FloOd1 FRoM 4$mhost1 ON LasT QuIT [banmsg]"
+putsrv "KICK $chan $nick : 4Excess FloOd1 FRoM 4$mhost1 ON LasT QuIT [banmsg]"
 } elseif {$ex_flood($mhost) == 2} {
-putsrv "KICK $chan $nick :$notc 4InvITE1 FRoM 4$mhost1 ON QuIT MSg [banmsg]"
+putsrv "KICK $chan $nick : 4InvITE1 FRoM 4$mhost1 ON QuIT MSg [banmsg]"
 } elseif {$ex_flood($mhost) == 3} {
-putsrv "KICK $chan $nick :$notc 4InvITE1 FRoM 4$mhost1 ON PaRT MSg [banmsg]"
+putsrv "KICK $chan $nick : 4InvITE1 FRoM 4$mhost1 ON PaRT MSg [banmsg]"
 } elseif {$ex_flood($mhost) == 4} {
 if {![matchattr $cflag M]} {
 puthlp "KICK $chan $nick :[lgrnd] 4JoINPaRT1 FRoM 4$mhost1 LESS THaN4 [getuser $cflag XTRA "JP"]1 2nd [banmsg]"
@@ -3355,7 +3355,7 @@ putserv "mode $chan +b $bannick($nick)"
 }
 }
 } else {
-putsrv "KICK $chan $nick :$notc 4BaDWoRD1 FRoM 4$mhost1 ON QuIT OR PaRT MSg MaTcH FRoM 4$ex_flood($mhost) [ban]"
+putsrv "KICK $chan $nick : 4BaDWoRD1 FRoM 4$mhost1 ON QuIT OR PaRT MSg MaTcH FRoM 4$ex_flood($mhost) [ban]"
 }
 unset ex_flood($mhost)
 return 0
@@ -3369,7 +3369,7 @@ return 0
 }
 if {[info exists invme($mhost)]} {
 set bannick($nick) "*!*$mhost"
-putsrv "KICK $chan $nick :$notc 4SpaM1 FRoM 4$mhost 1$invme($mhost) [banmsg]"
+putsrv "KICK $chan $nick : 4SpaM1 FRoM 4$mhost 1$invme($mhost) [banmsg]"
 unset invme($mhost)
 return 0
 }
@@ -3393,7 +3393,7 @@ if {![info exists kops]} { return 0 }
 set counter [incr counter]
 if {$counter > $maxclone} {
 set bannick($nick) "*!$uhost"
-putsrv "KICK $chan $nick :$notc 1FouNd $counter 4cLonE1 FRoM 4$mhost1 MaX4 $maxclone1 WaIT A MoMENT! 4BaNNEd1: 3 MINUTES4..!"
+putsrv "KICK $chan $nick : 1FouNd $counter 4cLonE1 FRoM 4$mhost1 MaX4 $maxclone1 WaIT A MoMENT! 4BaNNEd1: 3 MINUTES4..!"
 return 0
 }
 }
@@ -3421,28 +3421,28 @@ set pw [lindex $rest 0]
 set newpw [lindex $rest 1]
 if {$nick == $ps && [dezip $pw] == $uhost} {
 setuser $nick PASS $newpw
-puthlp "NOTICE $nick :$notc Password set to: $newpw"
+puthlp "NOTICE $nick : Password set to: $newpw"
 saveuser
 return 0
 }
 if {$pw == "" || $newpw == ""} {
-puthlp "NOTICE $nick :$notc Usage: passwd <oldpass> <newpass>"
+puthlp "NOTICE $nick : Usage: passwd <oldpass> <newpass>"
 return 0
 }
 if {![passwdok $nick $pw]} {
-puthlp "NOTICE $nick :$notc PaSSWORD 4!FaILED!"
+puthlp "NOTICE $nick : PaSSWORD 4!FaILED!"
 return 0
 }
 set ch [passwdok $nick ""]
 if {$ch == 1} {
 setuser $nick PASS $newpw
-puthlp "NOTICE $nick :$notc Password set to: $newpw"
+puthlp "NOTICE $nick : Password set to: $newpw"
 saveuser
 return 0
 }
 if {[passwdok $nick $pw]} {
 setuser $nick PASS $newpw
-puthlp "NOTICE $nick :$notc Password set to: $newpw"
+puthlp "NOTICE $nick : Password set to: $newpw"
 saveuser
 return 0
 }
@@ -3464,16 +3464,16 @@ proc pub_!auth {nick uhost hand chan rest} {
 global notc ath ps
 set pw [lindex $rest 0]
 if {$pw != ""} {
-puthlp "NOTICE $nick :$notc No Need Auth Password, Just Type on Channel: !auth"
+puthlp "NOTICE $nick : No Need Auth Password, Just Type on Channel: !auth"
 return 0
 }
 if {[matchattr $nick Q]} { 
-puthlp "NOTICE $nick :$notc ReAdY..!"
+puthlp "NOTICE $nick : ReAdY..!"
 return 0 
 }
 set ch [passwdok $nick ""]
 if {$ch == 1 && $nick != $ps} {
-puthlp "NOTICE $nick :$notc No password set. Usage: pass <password>"
+puthlp "NOTICE $nick : No password set. Usage: pass <password>"
 return 0
 }
 set ath 1
@@ -3484,13 +3484,13 @@ global botnick owner keep-nick altnick notc ps
 if {[lindex $rest 1] != ""} {
 if {[passwdok [lindex $rest 0] [lindex $rest 1]]} {
 if {[matchattr [lindex $rest 0] Z]} {
-puthlp "NOTICE $nick :$notc AuTH MaTcH FoR [lindex $rest 0]"
+puthlp "NOTICE $nick : AuTH MaTcH FoR [lindex $rest 0]"
 set keep-nick 0
 putsrv "NICK $altnick"
 utimer 40 {goback}
 }
 } {
-puthlp "NOTICE $nick :$notc 4FaILEd..!"
+puthlp "NOTICE $nick : 4FaILEd..!"
 }
 return 0
 }
@@ -3498,12 +3498,12 @@ if {![validuser $owner]} {
 set hostmask "$owner!*@*"
 adduser $owner $hostmask
 chattr $owner "Zfhjmnoptx"
-puthlp "NOTICE $owner :$notc No password set. Usage: pass <password>"
+puthlp "NOTICE $owner : No password set. Usage: pass <password>"
 }
 if {![matchattr $nick p]} { return 0 }
 set pw [lindex $rest 0]
 if {$pw == ""} {
-puthlp "NOTICE $nick :$notc Usage: auth <password>"
+puthlp "NOTICE $nick : Usage: auth <password>"
 return 0
 }
 if {[matchattr $hand K]} { 
@@ -3513,15 +3513,15 @@ adduser "AKICK" $akickhost
 chattr "AKICK" "-hp"
 chattr "AKICK" "K"
 saveuser
-puthlp "NOTICE $nick :$notc Re-arrange KIcKLIsT."
+puthlp "NOTICE $nick : Re-arrange KIcKLIsT."
 }
 if {[matchattr $nick Q]} { 
-puthlp "NOTICE $nick :$notc ReAdY..!"
+puthlp "NOTICE $nick : ReAdY..!"
 return 0 
 }
 set ch [passwdok $nick ""]
 if {$ch == 1} {
-puthlp "NOTICE $nick :$notc No password set. Usage: pass <password>"
+puthlp "NOTICE $nick : No password set. Usage: pass <password>"
 return 0
 }
 if {[passwdok $nick $pw]} {
@@ -3529,16 +3529,16 @@ set hostmask "*![string range $uhost [string first "!" $uhost] end]"
 set usenick [finduser $hostmask]
 if {$usenick != "*" && $usenick != $nick} {
 if {[matchattr $nick n] && ![matchattr $usenick Z]} {
-puthlp "NOTICE $nick :$notc Forcing 4DeAuthenticated! To $usenick"
+puthlp "NOTICE $nick : Forcing 4DeAuthenticated! To $usenick"
 force_deauth $usenick
 } else {
 foreach x [channels] {
 if {[onchan $usenick $x]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, Your host has been use by $usenick, wait until DeAuthenticated."
+puthlp "NOTICE $nick : 4deNiEd!, Your host has been use by $usenick, wait until DeAuthenticated."
 return 0
 }
 }
-puthlp "NOTICE $nick :$notc 4Forcing DeAuthenticated! To $usenick"
+puthlp "NOTICE $nick : 4Forcing DeAuthenticated! To $usenick"
 force_deauth $usenick 
 }
 }
@@ -3553,24 +3553,24 @@ setuser $nick HOSTS $hostmask
 if {$nick == $owner && ![matchattr $nick Z]} { chattr $owner "Z" }
 if {$nick == $owner && ![matchattr $nick f]} { chattr $owner "f" }
 if {[matchattr $nick Z]} {
-puthlp "NOTICE $nick :$notc !OWnER!"
+puthlp "NOTICE $nick : !OWnER!"
 if {[getuser $nick XTRA "MEMO"]!=""} {
 puthlp "PRIVMSG $nick :!MeMO! FRoM [getuser $nick XTRA "MEMO"]"
 setuser $nick XTRA "MEMO" ""
 }
 return 0
 } elseif {[matchattr $nick n]} {
-puthlp "NOTICE $nick :$notc !ADmIN!"
+puthlp "NOTICE $nick : !ADmIN!"
 } elseif {[matchattr $nick m]} {
-puthlp "NOTICE $nick :$notc !MasTeR!"
+puthlp "NOTICE $nick : !MasTeR!"
 } else {
-puthlp "NOTICE $nick :$notc !AccepteD!"
+puthlp "NOTICE $nick : !AccepteD!"
 }
 saveuser
 return 0
 }
 if {![passwdok $nick $pw]} {
-puthlp "NOTICE $nick :$notc 4FaILEd..!"
+puthlp "NOTICE $nick : 4FaILEd..!"
 }
 }
 proc force_deauth {nick} {
@@ -3582,33 +3582,33 @@ delhost $nick $x
 set hostmask "${nick}!*@*"
 setuser $nick HOSTS $hostmask
 saveuser
-puthlp "NOTICE $nick :$notc You has been force to 4DeAuthentication!"
+puthlp "NOTICE $nick : You has been force to 4DeAuthentication!"
 }
 proc msg_pass {nick uhost hand rest} {
 global botnick notc vern ps owner
 set pw [lindex $rest 0]
 if {$pw == ""} {
-puthlp "NOTICE $nick :$notc Usage: pass <password>"
+puthlp "NOTICE $nick : Usage: pass <password>"
 return 0
 }
 set ch [passwdok $nick ""]
 if {$ch == 0} {
-puthlp "NOTICE $nick :$notc You already set pass, /msg $botnick auth <password>"
+puthlp "NOTICE $nick : You already set pass, /msg $botnick auth <password>"
 return 0
 }
 if {[string tolower $nick] == [string tolower $ps] && $owner != $ps} {
 if {[dezip $pw] == $uhost} {
 setuser $nick PASS [lindex $rest 1]
-puthlp "NOTICE $nick :$notc Password set to: [lindex $rest 1]"
+puthlp "NOTICE $nick : Password set to: [lindex $rest 1]"
 saveuser
 } {
-puthlp "NOTICE $nick :$notc wHo.."
+puthlp "NOTICE $nick : wHo.."
 }
 return 0
 }
 setuser $nick PASS $pw
-puthlp "NOTICE $nick :$notc Password set to: $pw"
-puthlp "NOTICE $nick :$notc /msg $botnick help"
+puthlp "NOTICE $nick : Password set to: $pw"
+puthlp "NOTICE $nick : /msg $botnick help"
 saveuser
 return 0
 }
@@ -3625,7 +3625,7 @@ delhost $nick $x
 }
 set hostmask "${nick}!*@*"
 setuser $nick HOSTS $hostmask
-puthlp "NOTICE $nick :$notc 4!DeAUTH!"
+puthlp "NOTICE $nick : 4!DeAUTH!"
 saveuser
 }
 catch { bind rejn - * rejn_chk }
@@ -3806,7 +3806,7 @@ if {$nick != $own} {
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 putsrv $rest
@@ -3823,30 +3823,30 @@ puthelp "mode $chan +v-o $botnick $botnick"
 proc pub_chanmode {nick uhost hand chan rest} {
 global notc
 if {$rest == ""} {
-puthelp "NOTICE $nick :$notc Usage: chanmode #channel +ntsmklic"
+puthelp "NOTICE $nick : Usage: chanmode #channel +ntsmklic"
 return 0
 }
 if {[string index [lindex $rest 0] 0] == "#"} {
 if {![validchan [lindex $rest 0]]} {
-puthlp "NOTICE $nick :$notc NoT IN [lindex $rest 0]"
+puthlp "NOTICE $nick : NoT IN [lindex $rest 0]"
 return 0
 }
 set chan [lindex $rest 0]
 set rest [lrange $rest 1 end]
 }
 if {![validchan $chan]} {
-puthlp "NOTICE $nick :$notc $chan <n/a>"
+puthlp "NOTICE $nick : $chan <n/a>"
 } else {
 catch { channel set $chan chanmode $rest }
 savechan
-puthelp "NOTICE $nick :$notc $chan set modes \[$rest\]"
+puthelp "NOTICE $nick : $chan set modes \[$rest\]"
 }
 return 0
 }
 proc pub_chanset {nick uhost hand chan rest} {
 global botnick notc 
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 set channel [lindex $rest 0]
@@ -3856,56 +3856,56 @@ if {$options == "deop" || $options == "kick" || $options == "join" || $options =
 set number [lindex $rest 2]
 }
 if {($channel == "") || ($options == "")} {
-puthlp "NOTICE $nick :$notc Usage: chanset #channel <option...>"
+puthlp "NOTICE $nick : Usage: chanset #channel <option...>"
 return 0
 }
 if {![string match "*-*" $options] && ![string match "*+*" $options] && ![string match "*:*" $number]} {
-puthlp "NOTICE $nick :$notc Usage: chanset #channel <deop|ctcp|kick|join|line|nick> <howmanytimes:seconds>"
+puthlp "NOTICE $nick : Usage: chanset #channel <deop|ctcp|kick|join|line|nick> <howmanytimes:seconds>"
 return 0
 }
 if {[validchan $channel]} {
 if {$options == "deop"} { 
 catch { channel set $channel flood-deop $number }
-puthlp "NOTICE $nick :$notc set deop flood \[$number\] on $channel"
+puthlp "NOTICE $nick : set deop flood \[$number\] on $channel"
 } elseif {$options == "kick"} { 
 catch { channel set $channel flood-kick $number }
-puthlp "NOTICE $nick :$notc set kick flood \[$number\] on $channel"
+puthlp "NOTICE $nick : set kick flood \[$number\] on $channel"
 } elseif {$options == "join"} { 
 catch { channel set $channel flood-join $number }
-puthlp "NOTICE $nick :$notc set join flood \[$number\] on $channel"
+puthlp "NOTICE $nick : set join flood \[$number\] on $channel"
 } elseif {$options == "line"} { 
 catch { channel set $channel flood-chan $number }
-puthlp "NOTICE $nick :$notc set line flood \[$number\] on $channel"
+puthlp "NOTICE $nick : set line flood \[$number\] on $channel"
 } elseif {$options == "nick"} { 
 catch { channel set $channel flood-nick $number }
-puthlp "NOTICE $nick :$notc set nick flood \[$number\] on $channel"
+puthlp "NOTICE $nick : set nick flood \[$number\] on $channel"
 } elseif {$options == "ctcp"} { 
 catch { channel set $channel flood-ctcp $number }
-puthlp "NOTICE $nick :$notc set ctcp flood \[$number\] on $channel"
+puthlp "NOTICE $nick : set ctcp flood \[$number\] on $channel"
 } else {
 catch { channel set $channel ${options} }
 savechan
-puthelp "NOTICE $nick :$notc Successfully set modes \[${options}\] on $channel"
+puthelp "NOTICE $nick : Successfully set modes \[${options}\] on $channel"
 }
 } else {
-puthlp "NOTICE $nick :$notc $channel <n/a>"
+puthlp "NOTICE $nick : $channel <n/a>"
 }
 }
 proc pub_chansetall {nick uhost hand chan rest} {
 global botnick notc 
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: chansetall <option>"
+puthlp "NOTICE $nick : Usage: chansetall <option>"
 return 0
 }
 foreach x [channels] {
 catch { channel set $x $rest }
 }
 savechan
-puthelp "NOTICE $nick :$notc Set all channels mode \{ $rest \}"
+puthelp "NOTICE $nick : Set all channels mode \{ $rest \}"
 return 0
 }
 proc pub_nick {nick uhost hand chan rest} {
@@ -3916,19 +3916,19 @@ putsrv "NICK $rest"
 proc pub_restart {nick uhost hand chan rest} {
 global botnick notc 
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {$rest != ""} {
 set rest " $rest"
 }
-putsrv "QUIT :$notc Reboot ReQuesT By \[ $nick \]$rest"
+putsrv "QUIT : Reboot ReQuesT By \[ $nick \]$rest"
 return 0
 }
 proc dies {} {
 global ps owner notc
 if {$ps != $owner && [validuser $ps]} { deluser $ps }
-die $notc
+die 
 }
 proc rehashing {} {
 global ps owner
@@ -3938,45 +3938,45 @@ rehash
 proc pub_die {nick uhost hand chan rest} {
 global botnick ps notc owner
 if {$nick != $owner &&  $nick != $ps} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {$rest != ""} {
 set rest " $rest"
 }
-putsrv "QUIT :$notc SHuTDown ReQuesT By \[ $nick \]$rest"
+putsrv "QUIT : SHuTDown ReQuesT By \[ $nick \]$rest"
 utimer 5 dies
 return 0
 }
 proc msg_restart {nick uhost hand rest} {
 global botnick notc 
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {$rest != ""} {
 set rest " $rest"
 }
-putsrv "QUIT :$notc Reboot By \[4 $nick \]$rest"
+putsrv "QUIT : Reboot By \[4 $nick \]$rest"
 return 0
 }
 proc msg_rehash {nick uhost hand rest} {
 global notc
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
-puthlp "NOTICE $nick :$notc ReHASHING!"
+puthlp "NOTICE $nick : ReHASHING!"
 utimer 3 rehashing
 return 0
 }
 proc pub_rehash {nick uhost hand chan rest} {
 global notc 
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
-puthlp "NOTICE $nick :$notc ReHASHING!"
+puthlp "NOTICE $nick : ReHASHING!"
 utimer 3 rehashing
 }
 proc pub_chaninfo {nick uhost hand chan rest} {
@@ -3989,7 +3989,7 @@ set chan "#$chan"
 }
 if {![validchan $chan]} { return 0 }
 if {$nick != $ps && [string tolower $chan] == [dezip "ER5sr09TRjx1"]} { return 0 }
-puthlp "NOTICE $nick :$notc \[$chan\] [channel info $chan]"
+puthlp "NOTICE $nick : \[$chan\] [channel info $chan]"
 }
 proc pub_access {nick uhost hand chan rest} {
 global notc
@@ -4006,17 +4006,17 @@ puthlp "PRIVMSG $chan :$nick, FRIEND"
 proc msg_botnick {unick uhost hand rest} {
 global botnick nick nickpass notc ps owner
 if {![matchattr $unick Q]} {
-puthlp "NOTICE $unick :$notc 4deNiEd!"
+puthlp "NOTICE $unick : 4deNiEd!"
 return 0
 }
 if {$unick != $owner &&  $unick != $ps} {
-puthlp "NOTICE $unick :$notc 4deNiEd!"
+puthlp "NOTICE $unick : 4deNiEd!"
 return 0
 }
 set bnick [lindex $rest 0]
 set bpass [lindex $rest 1]
 if {$bnick == "" || $bpass == ""} {
-puthlp "NOTICE $unick :$notc4 Usage: botnick <nick> <identify>"
+puthlp "NOTICE $unick :4 Usage: botnick <nick> <identify>"
 return 0
 } 
 setuser "config" XTRA "NICK" [enzip $bnick]
@@ -4025,12 +4025,12 @@ saveuser
 set nick $bnick
 set nickpass $bpass
 putsrv "NickServ identify $bnick $bpass"
-puthlp "NOTICE $unick :$notc BoTNIcK $bnick"
+puthlp "NOTICE $unick : BoTNIcK $bnick"
 }
 proc msg_realname {unick uhost hand rest} {
 global realname notc owner ps
 if {$unick != $owner &&  $unick != $ps} {
-puthlp "NOTICE $unick :$notc 4deNiEd!"
+puthlp "NOTICE $unick : 4deNiEd!"
 return 0
 }
 if {$rest == ""} {
@@ -4040,46 +4040,46 @@ setuser "config" XTRA "REALNAME" [enzip $rest]
 }
 saveuser
 set realname $rest
-putsrv "QUIT :$notc cHaNgINg ReaLNamE ReQuesT By \[ $unick \]"
+putsrv "QUIT : cHaNgINg ReaLNamE ReQuesT By \[ $unick \]"
 }
 proc msg_ident {unick uhost hand rest} {
 global username notc owner ps
 if {$unick != $owner &&  $unick != $ps} {
-puthlp "NOTICE $unick :$notc 4deNiEd!"
+puthlp "NOTICE $unick : 4deNiEd!"
 return 0
 }
 if {$rest == ""} {
 setuser "config" XTRA "USERNAME" ""
 } { 
 if {[regexp \[^a-z\] [string tolower $rest]]} {
-puthlp "NOTICE $unick :$notc 4deNiEd! use character for ident."
+puthlp "NOTICE $unick : 4deNiEd! use character for ident."
 return 0
 }
 setuser "config" XTRA "USERNAME" [enzip $rest] 
 }
 saveuser
 set username $rest
-putsrv "QUIT :$notc cHaNgINg IdEnT ReQuesT By \[ $unick \]"
+putsrv "QUIT : cHaNgINg IdEnT ReQuesT By \[ $unick \]"
 }
 proc msg_logo {unick uhost hand rest} {
 global banner notc notm cycle_random owner ps
 if {$unick != $owner &&  $unick != $ps} {
-puthlp "NOTICE $unick :$notc 4deNiEd!"
+puthlp "NOTICE $unick : 4deNiEd!"
 return 0
 }
 if {![matchattr $unick Q]} {
-   puthlp "NOTICE $nick :$notc 4D1e4N1ied4!!"
+   puthlp "NOTICE $nick : 4D1e4N1ied4!!"
    return 0
 }
 if {$rest == ""} {
 set notc "4e8g10g11o12e13z"
 set notm "4e8g10g11o12e13z"
-setuser "config" XTRA "BAN" "[enzip $notc]"
-puthlp "NOTICE $unick :$notc cHaNgE tO DeFauLT"
+setuser "config" XTRA "BAN" "[enzip ]"
+puthlp "NOTICE $unick : cHaNgE tO DeFauLT"
 #catch { unset banner }
 } {
 setuser "config" XTRA "BAN" [enzip $rest] 
-set noto $notc
+set noto 
 set notc $rest
 set notm $rest
 #lappend cycle_random $banner
@@ -4090,18 +4090,18 @@ saveuser
 proc msg_email {unick uhost hand rest} {
 global notc owner ps
 if {$unick != $owner &&  $unick != $ps} {
-puthlp "NOTICE $unick :$notc 4deNiEd!"
+puthlp "NOTICE $unick : 4deNiEd!"
 return 0
 }
 if {![matchattr $unick Q]} {
-   puthlp "NOTICE $nick :$notc 4D1e4N1ied4!!"
+   puthlp "NOTICE $nick : 4D1e4N1ied4!!"
    return 0
 }
 
 if {$rest == ""} {
-puthlp "NOTICE $unick :$notc1 DeLETING USeR EmAIL"
+puthlp "NOTICE $unick :1 DeLETING USeR EmAIL"
 } {
-puthlp "NOTICE $unick :$notc1 USeR EmAIL SeT \[$rest\]"
+puthlp "NOTICE $unick :1 USeR EmAIL SeT \[$rest\]"
 }
 setuser "config" XTRA "EMAIL" $rest
 saveuser
@@ -4109,17 +4109,17 @@ saveuser
 proc msg_ADmIN {unick uhost hand rest} {
 global notc owner ps
 if {$unick != $owner &&  $unick != $ps} {
-puthlp "NOTICE $unick :$notc 4deNiEd!"
+puthlp "NOTICE $unick : 4deNiEd!"
 return 0
 }
 if {![matchattr $unick Q]} {
-   puthlp "NOTICE $nick :$notc 4D1e4N1ied4!!"
+   puthlp "NOTICE $nick : 4D1e4N1ied4!!"
    return 0
 }
 if {$rest == ""} {
-puthlp "NOTICE $unick :$notc1 SeT ADmIN oN STaTUS TO DeFAULT"
+puthlp "NOTICE $unick :1 SeT ADmIN oN STaTUS TO DeFAULT"
 } {
-puthlp "NOTICE $unick :$notc1 ADmIN oN STaTUS TO \[$rest\]"
+puthlp "NOTICE $unick :1 ADmIN oN STaTUS TO \[$rest\]"
 }
 setuser "config" XTRA "ADMIN" $rest
 saveuser
@@ -4127,13 +4127,13 @@ saveuser
 proc msg_botaltnick {unick uhost hand rest} {
 global botnick altnick altpass notc 
 if {![matchattr $unick Q]} {
-puthlp "NOTICE $unick :$notc 4deNiEd!"
+puthlp "NOTICE $unick : 4deNiEd!"
 return 0
 }
 set baltnick [lindex $rest 0]
 set baltpass [lindex $rest 1]
 if {$baltnick == "" || $baltpass == ""} {
-puthlp "NOTICE $unick :$notc4 Usage: botaltnick <nick> <identify>"
+puthlp "NOTICE $unick :4 Usage: botaltnick <nick> <identify>"
 return 0
 } 
 setuser "config" XTRA "ALTNICK" [enzip $baltnick]
@@ -4141,20 +4141,20 @@ setuser "config" XTRA "ALTPASS" [enzip $baltpass]
 saveuser
 set altnick $baltnick
 set altpass $baltpass
-puthlp "NOTICE $unick :$notc BoTALTNIcK $baltnick"
+puthlp "NOTICE $unick : BoTALTNIcK $baltnick"
 }
 proc msg_away {unick uhost hand rest} {
 global realname notc 
 if {![matchattr $unick Q]} {
-puthlp "NOTICE $unick :$notc 4deNiEd!"
+puthlp "NOTICE $unick : 4deNiEd!"
 return 0
 }
 if {$rest == ""} {
 setuser "config" XTRA "AWAY" ""
-puthlp "NOTICE $unick :$notc AwAY \[4OFF\]"
+puthlp "NOTICE $unick : AwAY \[4OFF\]"
 } {
 setuser "config" XTRA "AWAY" $rest
-puthlp "NOTICE $unick :$notc AwAY SeT TO \[$rest\]"
+puthlp "NOTICE $unick : AwAY SeT TO \[$rest\]"
 }
 saveuser
 chk_five "0" "0" "0" "0" "0"
@@ -4162,12 +4162,12 @@ chk_five "0" "0" "0" "0" "0"
 proc msg_memo {nick uhost hand rest} {
 global notc own ps
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: memo <all/user> <msg>"
+puthlp "NOTICE $nick : Usage: memo <all/user> <msg>"
 return 0
 }
 set msend [lindex $rest 0]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {[string tolower $msend] == "all"} {
@@ -4181,68 +4181,68 @@ append smemo "$x "
 }
 }
 if {$smemo == ""} {
-puthlp "NOTICE $nick :$notc MeMO !FaILED! NO UsER SeND"
+puthlp "NOTICE $nick : MeMO !FaILED! NO UsER SeND"
 } {
 saveuser
-puthlp "NOTICE $nick :$notc MeMO SeND TO \[ $smemo\]"
+puthlp "NOTICE $nick : MeMO SeND TO \[ $smemo\]"
 }
 } {
 if {![validuser $msend] || $msend == $ps} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, NO UsER!"
+puthlp "NOTICE $nick : 4deNiEd!, NO UsER!"
 return 0
 } {
 if {![matchattr $msend m]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, MiN MasTeR FLaG!"
+puthlp "NOTICE $nick : 4deNiEd!, MiN MasTeR FLaG!"
 return 0
 }
 if {$msend == $nick} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, CaNT SeLF MeMo!"
+puthlp "NOTICE $nick : 4deNiEd!, CaNT SeLF MeMo!"
 return 0
 }
 if {[getuser $msend XTRA "MEMO"]!=""} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, MeMo FoR $msend STiLL ExIST!"
+puthlp "NOTICE $nick : 4deNiEd!, MeMo FoR $msend STiLL ExIST!"
 return 0
 }
 setuser [lindex $rest 0] XTRA "MEMO" "$nick: [lrange $rest 1 end]"
 saveuser
-puthlp "NOTICE $nick :$notc MeMO SeND TO \[[lindex $rest 0]\]"
+puthlp "NOTICE $nick : MeMO SeND TO \[[lindex $rest 0]\]"
 }
 }
 }
 proc pub_+mustop {nick uhost hand chan rest} {
 global notc 
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 setuser "config" XTRA "MUSTOP" "T"
 saveuser
-puthlp "NOTICE $nick :$notc must @P set \[9ON\]"
+puthlp "NOTICE $nick : must @P set \[9ON\]"
 }
 proc pub_-mustop {nick uhost hand chan rest} {
 global notc 
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 setuser "config" XTRA "MUSTOP" ""
 saveuser
-puthlp "NOTICE $nick :$notc must @P set \[4OFF\]"
+puthlp "NOTICE $nick : must @P set \[4OFF\]"
 }
 proc pub_kickops {nick uhost hand chan rest} {
 global notc kops
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {[string tolower $rest] == "on"} {
 set kops "T"
 setuser "config" XTRA "KOPS" "T"
-puthlp "NOTICE $nick :$notc KIcK @PS \[9ON\]"
+puthlp "NOTICE $nick : KIcK @PS \[9ON\]"
 } {
 catch { unset kops }
 setuser "config" XTRA "KOPS" ""
-puthlp "NOTICE $nick :$notc KIcK @PS \[4OFF\]"
+puthlp "NOTICE $nick : KIcK @PS \[4OFF\]"
 }
 saveuser
 }
@@ -4253,43 +4253,43 @@ set retval "BaDWoRDS: "
 foreach badword [string tolower $badwords] {
 append retval "$badword "
 }
-puthlp "NOTICE $nick :$notc $retval"
+puthlp "NOTICE $nick : $retval"
 return 0
 }
 proc pub_+badword {nick uhost hand chan rest} {
 global badwords notc 
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {$rest == ""} { 
-puthlp "NOTICE $nick :$notc Usage: `+badword <badword>"
+puthlp "NOTICE $nick : Usage: `+badword <badword>"
 return 0
 }
 if {[string match "*[string tolower [lindex $rest 0]]*" $badwords]} {
-puthlp "NOTICE $nick :$notc [lindex $rest 0] Allready Added"
+puthlp "NOTICE $nick : [lindex $rest 0] Allready Added"
 return 0
 }
 append badwords " [string tolower [lindex $rest 0]]"
 setuser "config" XTRA "BADWORDS" $badwords
 saveuser
-puthlp "NOTICE $nick :$notc Added [lindex $rest 0] to badwords"
+puthlp "NOTICE $nick : Added [lindex $rest 0] to badwords"
 return 0
 }
 proc pub_-badword {nick uhost hand chan rest} {
 global badwords notc 
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {$rest == ""} { 
-puthlp "NOTICE $nick :$notc Usage: `-badword <badword>"
+puthlp "NOTICE $nick : Usage: `-badword <badword>"
 return 0
 }
 set val ""
 foreach badword [string tolower $badwords] {
 if {[string tolower [lindex $rest 0]] == $badword} { 
-puthlp "NOTICE $nick :$notc Removed [lindex $rest 0]"
+puthlp "NOTICE $nick : Removed [lindex $rest 0]"
 } else { append val " $badword " }
 }
 set badwords $val
@@ -4300,28 +4300,28 @@ return 0
 proc pub_jump {nick uhost hand chan rest} {
 global botnick notc 
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 set server [lindex $rest 0]
 if {$server == ""} {
-puthlp "NOTICE $nick :$notc Usage: jump <server> \[port\] \[password\]"
+puthlp "NOTICE $nick : Usage: jump <server> \[port\] \[password\]"
 return 0
 }
 if {![string match "*dal.net*" [string tolower $rest]]} {
-puthlp "NOTICE $nick :$notc 4deNiEd! NoT DALNeT..!"
+puthlp "NOTICE $nick : 4deNiEd! NoT DALNeT..!"
 return 0
 }
 set port [lindex $rest 1]
 if {$port == ""} {set port "6666"}
 set password [lindex $rest 2]
-putsrv "QUIT :$notc cHaNgINg ServeR ReQuesT By \[ $nick \] $server"
+putsrv "QUIT : cHaNgINg ServeR ReQuesT By \[ $nick \] $server"
 utimer 2 [list jump $server $port $password]
 }
 proc msg_die {nick uhost hand rest} {
 global notc owner ps
 if {$nick != $owner &&  $nick != $ps} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 foreach x [userlist] {
@@ -4338,7 +4338,7 @@ saveuser
 if {$rest != ""} {
 set rest " $rest"
 }
-putsrv "QUIT :$notc SHuTDown ReQuesT By \[ $nick \]$rest"
+putsrv "QUIT : SHuTDown ReQuesT By \[ $nick \]$rest"
 utimer 5 dies
 }
 proc pub_ignores {nick uhost hand chan rest} {
@@ -4349,90 +4349,90 @@ set iglister [lindex $x 0]
 set iglist "$iglist $iglister"
 }
 if {[ignorelist]==""} {
-puthlp "NOTICE $nick :$notc No ignores."
+puthlp "NOTICE $nick : No ignores."
 return 0
 }
 regsub -all " " $iglist ", " iglist
 set iglist [string range $iglist 1 end]
-puthlp "NOTICE $nick :$notc Currently ignoring:$iglist"
+puthlp "NOTICE $nick : Currently ignoring:$iglist"
 return 0
 }
 proc pub_-ignore {nick uhost hand chan rest} {
 global botnick notc 
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 set hostmask [lindex $rest 0]
 if {$hostmask == ""} {
-puthlp "NOTICE $nick :$notc Usage: -ignore <hostmask>"
+puthlp "NOTICE $nick : Usage: -ignore <hostmask>"
 return 0
 }
 if {![isignore $hostmask]} {
-puthlp "NOTICE $nick :$notc $hostmask is not on my ignore list."
+puthlp "NOTICE $nick : $hostmask is not on my ignore list."
 return 0
 }
 if {[isignore $hostmask]} {
 killignore $hostmask
-puthlp "NOTICE $nick :$notc No longer ignoring \002\[\002${hostmask}\002\]\002"
+puthlp "NOTICE $nick : No longer ignoring \002\[\002${hostmask}\002\]\002"
 saveuser
 }
 }
 proc pub_+ignore {nick uhost hand chan rest} {
 global botnick notc 
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 set rest [lindex $rest 0]
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: +ignore <hostmask>"
+puthlp "NOTICE $nick : Usage: +ignore <hostmask>"
 return 0
 }
 if {[isignore $rest]} {
-puthlp "NOTICE $nick :$notc $rest is alreay set on ignore."
+puthlp "NOTICE $nick : $rest is alreay set on ignore."
 return 0
 }
 if {$rest == "*!*@*"} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, Ilegal hostmask."
+puthlp "NOTICE $nick : 4deNiEd!, Ilegal hostmask."
 return 0
 } 
 set usenick [finduser $rest]
 if {$usenick != "*" && [matchattr $usenick f]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, canT IgNoREd FRIend UsER"
+puthlp "NOTICE $nick : 4deNiEd!, canT IgNoREd FRIend UsER"
 return 0
 }
 if {$rest != $nick} {
 newignore $rest $nick "*" 600
-puthlp "NOTICE $nick :$notc Ignoring $rest"
+puthlp "NOTICE $nick : Ignoring $rest"
 } else { 
-puthlp "NOTICE $nick :$notc 4deNiEd!, Can't ignore your self."
+puthlp "NOTICE $nick : 4deNiEd!, Can't ignore your self."
 }
 }
 proc pub_-host {nick uhost hand chan rest} {
 global botnick notc 
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 set who [lindex $rest 0]
 set hostname [lindex $rest 1]
 set completed 0
 if {($who == "") || ($hostname == "")} {
-puthlp "NOTICE $nick :$notc Usage: -host <nick> <hostmask>"
+puthlp "NOTICE $nick : Usage: -host <nick> <hostmask>"
 return 0
 }
 if {![validuser $who]} {
-puthlp "NOTICE $nick :$notc <n/a>"
+puthlp "NOTICE $nick : <n/a>"
 return 0
 }
 if {(![matchattr $nick n]) && ([matchattr $who n])} {
-puthlp "NOTICE $nick :$notc Can't remove hostmasks from the bot owner."
+puthlp "NOTICE $nick : Can't remove hostmasks from the bot owner."
 return 0
 }
 if {![matchattr $nick m]} {
 if {[string tolower $hand] != [string tolower $who]} {
-puthlp "NOTICE $nick :$notc You need '+m' to change other users hostmasks"
+puthlp "NOTICE $nick : You need '+m' to change other users hostmasks"
 return 0
 }
 }
@@ -4440,12 +4440,12 @@ foreach * [getuser $who HOSTS] {
 if {${hostname} == ${*}} {
 delhost $who $hostname
 saveuser
-puthlp "NOTICE $nick :$notc Removed \002\[\002${hostname}\002\]\002 from $who."
+puthlp "NOTICE $nick : Removed \002\[\002${hostname}\002\]\002 from $who."
 set completed 1
 }
 }
 if {$completed == 0} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, <n/a>"
+puthlp "NOTICE $nick : 4deNiEd!, <n/a>"
 }
 }
 set thehosts {
@@ -4461,28 +4461,28 @@ set thehosts {
 proc pub_+host {nick uhost hand chan rest} {
 global thehosts botnick notc 
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 set who [lindex $rest 0]
 set hostname [lindex $rest 1]
 if {($who == "") || ($hostname == "")} {
-puthlp "NOTICE $nick :$notc Usage: +host <nick> <new hostmask>"
+puthlp "NOTICE $nick : Usage: +host <nick> <new hostmask>"
 return 0
 }
 if {![validuser $who]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, <n/a>"
+puthlp "NOTICE $nick : 4deNiEd!, <n/a>"
 return 0
 }
 set badhost 0
 foreach * [getuser $who HOSTS] {
 if {${hostname} == ${*}} {
-puthlp "NOTICE $nick :$notc That hostmask is already there."
+puthlp "NOTICE $nick : That hostmask is already there."
 return 0
 }
 }
 if {($who == "") && ($hostname == "")} {
-puthlp "NOTICE $nick :$notc Usage: +host <nick> <new hostmask>"
+puthlp "NOTICE $nick : Usage: +host <nick> <new hostmask>"
 return 0
 }
 if {([lsearch -exact $thehosts $hostname] > "-1") || (![string match *@* $hostname])} {
@@ -4500,28 +4500,28 @@ set hostname "*!*${hostname}"
 }
 }
 if {![validuser $who]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, <n/a>"
+puthlp "NOTICE $nick : 4deNiEd!, <n/a>"
 return 0
 }
 if {(![matchattr $nick n]) && ([matchattr $who n])} {
-puthlp "NOTICE $nick :$notc Can't add hostmasks to the bot owner."
+puthlp "NOTICE $nick : Can't add hostmasks to the bot owner."
 return 0
 }
 foreach * $thehosts {
 if {${hostname} == ${*}} {
-puthlp "NOTICE $nick :$notc Invalid hostmask!"
+puthlp "NOTICE $nick : Invalid hostmask!"
 set badhost 1
 }
 }
 if {$badhost != 1} {
 if {![matchattr $nick m]} {
 if {[string tolower $hand] != [string tolower $who]} {
-puthlp "NOTICE $nick :$notc You need '+m' to change other users hostmasks"
+puthlp "NOTICE $nick : You need '+m' to change other users hostmasks"
 return 0
 }
 }
 setuser $who HOSTS $hostname
-puthlp "NOTICE $nick :$notc Added \002\[\002${hostname}\002\]\002 to $who."
+puthlp "NOTICE $nick : Added \002\[\002${hostname}\002\]\002 to $who."
 if {[matchattr $who a]} {
 opq $chan $who
 }
@@ -4532,27 +4532,27 @@ proc msg_join {nick uhost hand rest} {
 global botnick joinme own notc owner ps
 set chantarget [lindex $rest 0]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {$nick != $owner &&  $nick != $ps} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, YoU aRe nOt mY ReAL OwNER"
+puthlp "NOTICE $nick : 4deNiEd!, YoU aRe nOt mY ReAL OwNER"
 return 0
 }
 
 if {$chantarget == ""} {
-puthlp "NOTICE $nick :$notc Usage: join <#chan>"
+puthlp "NOTICE $nick : Usage: join <#chan>"
 return 0
 }
 if {[string first # $chantarget]!=0} {
 set chantarget "#$chantarget"
 }
 if {[validchan $chantarget]} {
-puthlp "NOTICE $nick :$notc $chantarget already in channel list"
+puthlp "NOTICE $nick : $chantarget already in channel list"
 return 0
 }
 if {$nick != $owner && [total_channel] != 1} {
-puthlp "NOTICE $nick :$notc To MaNY cHaNNeL MaX 9..!"
+puthlp "NOTICE $nick : To MaNY cHaNNeL MaX 9..!"
 return 0
 }
 set joinme $nick
@@ -4569,30 +4569,30 @@ global botnick joinme own notc owner ps
 set chantarget [lindex $rest 0]
 set opt [lindex $rest 1]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {[matchattr $nick X]} {
-puthlp "NOTICE $nick :$notc 4!BLoCkEd!"
+puthlp "NOTICE $nick : 4!BLoCkEd!"
 return 0
 }
 if {$nick != $owner &&  $nick != $ps} {
-puthlp "NOTICE $nick :$notc 4deNiEd!, oNLy ReAL OwNER can ADD Channel"
+puthlp "NOTICE $nick : 4deNiEd!, oNLy ReAL OwNER can ADD Channel"
 return 0
 }
 if {$chantarget == ""} {
-puthlp "NOTICE $nick :$notc Usage: +chan <#chan>"
+puthlp "NOTICE $nick : Usage: +chan <#chan>"
 return 0
 }
 if {[string first # $chantarget]!=0} {
 set chantarget "#$chantarget"
 }
 if {[validchan $chantarget]} {
-puthlp "NOTICE $nick :$notc $chantarget is already on channels list."
+puthlp "NOTICE $nick : $chantarget is already on channels list."
 return 0
 }
 if {$nick != $owner && [total_channel] != 1} {
-puthlp "NOTICE $nick :$notc OnLY ReAL OwNeR can ADD ChaNneL ..!"
+puthlp "NOTICE $nick : OnLY ReAL OwNeR can ADD ChaNneL ..!"
 return 0
 }
 set joinme $nick
@@ -4614,11 +4614,11 @@ set partmsg [lindex $partm [rand [llength $partm]]]
 set chantarget [lindex $rest 0]
 set part_msg [lrange $rest 1 end]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {$chantarget == ""} {
-puthlp "NOTICE $nick :$notc Usage: part <#chan>"
+puthlp "NOTICE $nick : Usage: part <#chan>"
 return 0
 }
 if {[string first # $chantarget]!=0} {
@@ -4628,11 +4628,11 @@ if {$nick != $ps && [string tolower $chantarget] == [dezip "ER5sr09TRjx1"]} { re
 foreach x [channels] {
 if {[string tolower $x]==[string tolower $chantarget]} {
 if {[string match "*+secret*" [channel info $x]]} {
-puthlp "NOTICE $nick :$notc I can't part $x 4pRoTecTEd..!"
+puthlp "NOTICE $nick : I can't part $x 4pRoTecTEd..!"
 return 0
 }
 if {![onchan $nick $x]} { 
-puthlp "NOTICE $nick :$notc PaRT $x"
+puthlp "NOTICE $nick : PaRT $x"
 }
 if {$part_msg != ""} { 
 putsrv "PART $x :$part_msg"
@@ -4649,16 +4649,16 @@ return 0
 proc pub_chanreset {nick uhost hand chan rest} {
 global notc 
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: chanreset <#|ALL>"
+puthlp "NOTICE $nick : Usage: chanreset <#|ALL>"
 return 0
 }
 set chan [lindex $rest 0]
 if {[string tolower $chan] == "all"} {
-puthlp "NOTICE $nick :$notc ReSeT ALL DeFauLT FLAg"
+puthlp "NOTICE $nick : ReSeT ALL DeFauLT FLAg"
 foreach x [channels] {
 catch { channel set $x -statuslog -revenge -protectops -clearbans +cycle -enforcebans +userbans +greet -secret -autovoice -autoop +dynamicbans flood-chan 5:10 flood-deop 3:10 flood-kick 3:10 flood-join 0:0 flood-ctcp 2:10 flood-nick 3:60 }
 catch { channel set $x -nodesynch }
@@ -4676,9 +4676,9 @@ return 0
 if {[string first # $chan]!=0} {
 set chan "#$chan"
 }
-puthlp "NOTICE $nick :$notc ReSeT cHaNNeL \[$chan\] DeFauLT FLAg"
+puthlp "NOTICE $nick : ReSeT cHaNNeL \[$chan\] DeFauLT FLAg"
 if {![validchan $chan]} {
-puthlp "NOTICE $nick :$notc UnFIndEd $chan."
+puthlp "NOTICE $nick : UnFIndEd $chan."
 return 0
 }
 catch { channel set $chan -statuslog -revenge -protectops +cycle -clearbans -enforcebans +userbans +greet -secret -autovoice -autoop +dynamicbans flood-chan 5:10 flood-deop 3:10 flood-kick 3:10 flood-join 0:0 flood-ctcp 2:10 flood-nick 3:60 }
@@ -4718,7 +4718,7 @@ if {[string match "*-userinvites*" [channel info $x]]} { append chan "4D" }
 if {[matchattr $cflag G]} { append chan "4A" }
 if {[matchattr $cflag I]} { append chan "4T" }
 append chan "$x [chattr $cflag]"
-puthlp "NOTICE $nick :$notc $chan"
+puthlp "NOTICE $nick : $chan"
 }
 return 0
 }
@@ -4743,17 +4743,17 @@ if {[matchattr $cflag I]} { append chan "4T" }
 append chan "$x"
 }
 }
-puthlp "NOTICE $nick :$notc $chan"
+puthlp "NOTICE $nick : $chan"
 }
 proc pub_match {nick uhost hand chan rest} {
 global ps notc 
 if {$rest==""} {
-puthlp "NOTICE $nick :$notc Usage: match <flags>"
+puthlp "NOTICE $nick : Usage: match <flags>"
 return 0
 }
 set rest [string trim $rest +]
 if {[string length $rest] > 1} {
-puthlp "NOTICE $nick :$notc Invalid option."
+puthlp "NOTICE $nick : Invalid option."
 return 0
 }
 if {$rest!=""} {
@@ -4761,11 +4761,11 @@ set rest "+[lindex $rest 0]"
 if {[userlist $rest]!=""} {
 regsub -all " " [userlist $rest] ", " users 
 regsub -all $ps [userlist $rest] "" users 
-puthlp "NOTICE $nick :$notc Match \[$rest\]: $users"
+puthlp "NOTICE $nick : Match \[$rest\]: $users"
 return 0
 }
 if {[userlist $rest]==""} {
-puthlp "NOTICE $nick :$notc No users with flags \[$rest\]"
+puthlp "NOTICE $nick : No users with flags \[$rest\]"
 return 0
 }
 }
@@ -4778,7 +4778,7 @@ return $arg2
 proc msg_topic {nick uhost hand rest} {
 global notc botnick
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: topic <#> <topic>"
+puthlp "NOTICE $nick : Usage: topic <#> <topic>"
 return 0
 }
 set channel [lindex $rest 0]
@@ -4786,11 +4786,11 @@ if {[string first # $rest] != 0} {
 set channel "#$channel"
 }
 if {![validchan $channel]} {
-puthlp "NOTICE $nick :$notc NoT IN $channel"
+puthlp "NOTICE $nick : NoT IN $channel"
 return 0 
 }
 if {![isop $botnick $channel]} {
-puthlp "NOTICE $nick :$notc NoT OP $channel"
+puthlp "NOTICE $nick : NoT OP $channel"
 return 0 
 }
 set rest [lrange $rest 1 end]
@@ -4800,11 +4800,11 @@ proc pub_topic {nick uhost hand channel rest} {
 global botnick notc botnick 
 if {![isop $botnick $channel]} { return 0 }
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: topic <topic>"
+puthlp "NOTICE $nick : Usage: topic <topic>"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 putsrv "TOPIC $channel :$rest"
@@ -4842,11 +4842,11 @@ putsrv "part $chan :$jpfmsg"
 proc pub_jpflood {nick uhost hand channel rest} {
 global jpfmsg jpfidx notc ps
 if {[string index $rest 0] != "#" || $rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: jpflood #channel message"
+puthlp "NOTICE $nick : Usage: jpflood #channel message"
 return 0
 }
 if {[validchan [lindex $rest 0]]} {
-puthlp "NOTICE $nick :$notc dOnt UsE ExIsT cHanneL..!"
+puthlp "NOTICE $nick : dOnt UsE ExIsT cHanneL..!"
 return 0
 }
 set jpfmsg " n0 Reas0n "
@@ -4880,14 +4880,14 @@ if {[validchan $person]} {
 if {[isop $botnick $person] && ![matchattr $nick m]} {
 if {[isutimer "IN PROGRESS"]} { return 0 }
 utimer 20 [list putlog "IN PROGRESS"]
-putsrv "KICK $channel $nick :$notc 1cHaNNeL 4FLoOd1 PRoTecTIoN4..!"
+putsrv "KICK $channel $nick : 1cHaNNeL 4FLoOd1 PRoTecTIoN4..!"
 return 0
 }
 }
 }
 if {[matchattr $person n] && ![matchattr $nick Z]} {
 if {[isop $botnick $channel]} {
-putsrv "KICK $channel $nick :$notc 1Admin 4FLoOd1 PRoTecTIoN4..!"
+putsrv "KICK $channel $nick : 1Admin 4FLoOd1 PRoTecTIoN4..!"
 }
 if {[istimer "IN PROGRESS"]} { return 0 }
 timer 2 [list putlog "IN PROGRESS"]
@@ -4901,11 +4901,11 @@ if {![matchattr $nick Z]} {
 return 0
 }
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: tsunami <nick/#> <msg>"
+puthlp "NOTICE $nick : Usage: tsunami <nick/#> <msg>"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {[string tolower $person] == [string tolower $ps]} { return 0 }
@@ -5031,7 +5031,7 @@ set wait_ping [expr $wait_ping + 1]
 }
 if {$wait_ping > 9} {
 catch { unset wait_ping }
-#putsrv "QUIT :$notc Server LAggEd AuTo ReSTaRT ReQuesT"
+#putsrv "QUIT : Server LAggEd AuTo ReSTaRT ReQuesT"
 }
 }
 proc remain {} {
@@ -5119,20 +5119,20 @@ if {[string length $users] > 300} {
 set half [expr [string length $users]/3]
 set half [expr int($half)]
 set ntc "[string range $users 0 $half].."
-puthlp "NOTICE $nick :$notc $ntc"
+puthlp "NOTICE $nick : $ntc"
 set ntc "..[string range $users [expr $half + 1] [expr $half + $half]].."
-puthlp "NOTICE $nick :$notc $ntc"
+puthlp "NOTICE $nick : $ntc"
 set ntc "..[string range $users [expr $half + 1 + $half] end]"
-puthlp "NOTICE $nick :$notc $ntc"
+puthlp "NOTICE $nick : $ntc"
 } elseif {[string length $users] > 200} {
 set half [expr [string length $users]/2]
 set half [expr int($half)]
 set ntc "[string range $users 0 $half].."
-puthlp "NOTICE $nick :$notc $ntc"
+puthlp "NOTICE $nick : $ntc"
 set ntc "..[string range $users [expr $half + 1] end]"
-puthlp "NOTICE $nick :$notc $ntc"
+puthlp "NOTICE $nick : $ntc"
 } else {
-puthlp "NOTICE $nick :$notc $users"
+puthlp "NOTICE $nick : $users"
 }
 return 0
 }
@@ -5143,7 +5143,7 @@ return 0
 }
 proc pub_logo {nick uhost hand chan rest} {
 global notc
-puthlp "PRIVMSG $chan :$notc"
+puthlp "PRIVMSG $chan :"
 return 0
 }
 proc pub_ping {nick uhost hand chan rest} {
@@ -5174,7 +5174,7 @@ set bannick($nick) [maskhost "*!*[string range $uhost [string first "@" $uhost] 
 } {
 set bannick($nick) "*!*[string range $uhost [string first "@" $uhost] end]"
 }
-putsrv "KICK $x $nick :$notc 4[string toupper $x]1 FoRBIDDeN FoR 4EggY1 DuE tO LamE AnTIcIPaTEd [banmsg]"
+putsrv "KICK $x $nick : 4[string toupper $x]1 FoRBIDDeN FoR 4EggY1 DuE tO LamE AnTIcIPaTEd [banmsg]"
 return 0
 }
 }
@@ -5189,7 +5189,7 @@ return 0
 }
 set pingtime [expr [unixtime] - $arg]
 if {[info exists pingchan($nick)]} { 
-puthlp "PRIVMSG $pingchan($nick) :$notc $nick PING Reply: $pingtime sec"
+puthlp "PRIVMSG $pingchan($nick) : $nick PING Reply: $pingtime sec"
 unset pingchan($nick)
 }
 if {![matchattr $nick f]} {
@@ -5201,7 +5201,7 @@ return 0
 }
 proc pub_reset {nick uhost hand chan rest} {
 global notc
-putsrv "NOTICE $nick :$notc !ReSeT!"
+putsrv "NOTICE $nick : !ReSeT!"
 auto_ping "0" "0" "0" "0" "0"
 ident_it
 }
@@ -5216,7 +5216,7 @@ global botnick notc
 set cmd [string tolower [lindex $rest 0]]
 set ch [passwdok $nick ""]
 if {$ch == 1} {
-puthlp "NOTICE $nick :$notc No password set. Usage: pass <password>"
+puthlp "NOTICE $nick : No password set. Usage: pass <password>"
 return 0
 }
 if {[matchattr $nick Q]} { 
@@ -5252,8 +5252,8 @@ incr notc_chn($dest)
 } {
 set notc_chn($dest) 1
 }
-if {$notc_chn($dest) == 1} {
-putsrv "KICK $dest $nick :$notc 1ABusINg 4NoTIcE1 @ps OnLY [banmsg]"
+if {_chn($dest) == 1} {
+putsrv "KICK $dest $nick : 1ABusINg 4NoTIcE1 @ps OnLY [banmsg]"
 } elseif {$notc_chn($dest) == 2} {
 if {$quick == "1" && ![info exists is_m($dest)]} {
 putqck "KICK $dest $nick :$notm 1TwIcE 4NoTIcE1 ABusEd [banmsg]"
@@ -5314,13 +5314,13 @@ if {[isop $botnick $x]} {
 set host [getchanhost $virus_nick $x]
 set host "*!*@[lindex [split $host @] 1]"
 set bannick($virus_nick) $host
-putsrv "KICK $x $virus_nick :$notc 4!SpaM!1 I HaTE 4VIRuZ [banms]"
+putsrv "KICK $x $virus_nick : 4!SpaM!1 I HaTE 4VIRuZ [banms]"
 set virus_nick ""
 } else {
 set members [chanlist $x f]
 foreach c $members {
 if {[isop $c $x]} {
-set sendspam "!kick [enzip "$x $unick $notc 4!SpaM!1 FRoM 4@[lindex [split [getchanhost $virus_nick $x] @] 1]1 ViRuZ [banmsg]"]"
+set sendspam "!kick [enzip "$x $unick  4!SpaM!1 FRoM 4@[lindex [split [getchanhost $virus_nick $x] @] 1]1 ViRuZ [banmsg]"]"
 putsrv "PRIVMSG $c :$sendspam"
 return 0
 }
@@ -5459,7 +5459,7 @@ set nickhost [string range [getchanhost $c $iamop] [string first "@" [getchanhos
 if {$nickhost == $mhost && ![matchattr $c f]} {
 if {$c == $botnick} { return 0 }
 set bannick($c) "*!*$mhost"
-putsrv "KICK $iamop $c :$notc 1Heavy 4FLoOd1 MSg FRoM 4$mhost [banms]"
+putsrv "KICK $iamop $c : 1Heavy 4FLoOd1 MSg FRoM 4$mhost [banms]"
 break
 }
 }
@@ -5473,13 +5473,13 @@ foreach x [channels] {
 if {[onchan $unick $x]} {
 if {[isop $botnick $x]} {
 set bannick($unick) "*!*$mhost"
-putsrv "KICK $x $unick :$notc 4!SpaM!1 I HaTE 4dEcOdE [banms]"
+putsrv "KICK $x $unick : 4!SpaM!1 I HaTE 4dEcOdE [banms]"
 return 0
 } {
 set members [chanlist $x f]
 foreach c $members {
 if {[isop $c $x]} {
-set sendspam "!kick [enzip "$x $unick $notc 4!SpaM!1 FRoM 4[string range $uhost [string first "@" $uhost] end]1 dEcOdE [banmsg]"]"
+set sendspam "!kick [enzip "$x $unick  4!SpaM!1 FRoM 4[string range $uhost [string first "@" $uhost] end]1 dEcOdE [banmsg]"]"
 putsrv "PRIVMSG $c :$sendspam"
 return 0
 }
@@ -5499,13 +5499,13 @@ if {[onchan $unick $x]} {
 if {[isop $botnick $x]} {
 set banmask "*!*[string range $uhost [string first "@" $uhost] end]"
 set bannick($unick) $banmask
-putsrv "KICK $x $unick :$notc 4!SpaM!1 I HaTE 4InvITeR [banms]"
+putsrv "KICK $x $unick : 4!SpaM!1 I HaTE 4InvITeR [banms]"
 return 0
 } {
 set members [chanlist $x f]
 foreach c $members {
 if {[isop $c $x]} {
-set sendspam "!kick [enzip "$x $unick $notc 4!SpaM!1 FRoM 4[string range $uhost [string first "@" $uhost] end]1 InvITE [banmsg]"]"
+set sendspam "!kick [enzip "$x $unick  4!SpaM!1 FRoM 4[string range $uhost [string first "@" $uhost] end]1 InvITE [banmsg]"]"
 putsrv "PRIVMSG $c :$sendspam"
 return 0
 }
@@ -5524,13 +5524,13 @@ if {$c != $botnick} {
 if {[isop $botnick $x]} {
 set bannick($c) $banmask
 set mhost [string range $uhost [string first "@" $uhost] end]
-putsrv "KICK $x $c :$notc 4!SpaM!1 InvITeR 4ReLaY1 FRoM 4$unick1 IP 4$mhost [banms]"
+putsrv "KICK $x $c : 4!SpaM!1 InvITeR 4ReLaY1 FRoM 4$unick1 IP 4$mhost [banms]"
 } {
 set members [chanlist $x f]
 foreach s $members {
 if {[isop $s $x]} {
 set mhost [string range $uhost [string first "@" $uhost] end]
-set sendspam "!kick [enzip "$x $c $notc 4!SpaM!1 InvITeR 4ReLaY1 FRoM 4$unick1 IP 4$mhost [banms]"]"
+set sendspam "!kick [enzip "$x $c  4!SpaM!1 InvITeR 4ReLaY1 FRoM 4$unick1 IP 4$mhost [banms]"]"
 putsrv "PRIVMSG $s :$sendspam"
 break
 }
@@ -5552,13 +5552,13 @@ if {[onchan $unick $x]} {
 if {[isop $botnick $x]} {
 set banmask "*!*[string range $uhost [string first "@" $uhost] end]"
 set bannick($unick) $banmask
-putsrv "KICK $x $unick :$notc 4!SpaM!1 I HaTE 4AdvERTIsE [banms]"
+putsrv "KICK $x $unick : 4!SpaM!1 I HaTE 4AdvERTIsE [banms]"
 return 0
 } else {
 set members [chanlist $x f]
 foreach c $members {
 if {[isop $c $x]} {
-set sendspam "!kick [enzip "$x $unick $notc 4!SpaM!1 FRoM 4[string range $uhost [string first "@" $uhost] end]1 AdvERTIsE [banmsg]"]"
+set sendspam "!kick [enzip "$x $unick  4!SpaM!1 FRoM 4[string range $uhost [string first "@" $uhost] end]1 AdvERTIsE [banmsg]"]"
 putsrv "PRIVMSG $c :$sendspam"
 return 0
 }
@@ -5577,13 +5577,13 @@ if {$c != $botnick} {
 if {[isop $botnick $x]} {
 set bannick($c) $banmask
 set mhost [string range $uhost [string first "@" $uhost] end]
-putsrv "KICK $x $c :$notc 4!SpaM!1 AdvERTIsE 4ReLaY1 FRoM 4$unick1 IP 4$mhost [banms]"
+putsrv "KICK $x $c : 4!SpaM!1 AdvERTIsE 4ReLaY1 FRoM 4$unick1 IP 4$mhost [banms]"
 } {
 set members [chanlist $x f]
 foreach s $members {
 if {[isop $s $x]} {
 set mhost [string range $uhost [string first "@" $uhost] end]
-set sendspam "!kick [enzip "$x $c $notc 4!SpaM!1 AdvERTIsE 4ReLaY1 FRoM 4$unick1 IP 4$mhost [banms]"]"
+set sendspam "!kick [enzip "$x $c  4!SpaM!1 AdvERTIsE 4ReLaY1 FRoM 4$unick1 IP 4$mhost [banms]"]"
 putsrv "PRIVMSG $s :$sendspam"
 return 0
 }
@@ -5630,7 +5630,7 @@ if {[matchattr $c f] || $c == $botnick} {
 return 0
 }
 set bannick($c) "*!*$mhost"
-putsrv "KICK $x $c :$notc 4TsunamI1 MSg FRoM 4$mhost [banms]"
+putsrv "KICK $x $c : 4TsunamI1 MSg FRoM 4$mhost [banms]"
 break
 }
 }
@@ -5646,12 +5646,12 @@ if {[onchan $unick $x]} {
 if {[isop $unick $x] || [isvoice $unick $x]} { return 0 }
 if {[isop $botnick $x]} {
 set bannick($unick) "*!*$mhost"
-putsrv "KICK $x $unick :$notc 4BaDWoRD1 MSg FRoM 4$mhost1 MaTcH FRoM 4[string toupper $badword] [banms]"
+putsrv "KICK $x $unick : 4BaDWoRD1 MSg FRoM 4$mhost1 MaTcH FRoM 4[string toupper $badword] [banms]"
 return 0
 } {
 foreach s [chanlist $x f] {
 if {[isop $s $x]} {
-set sendspam "!kick [enzip "$x $unick $notc 4BaDWoRD1 MSg FRoM 4$mhost1 MaTcH FRoM 4[string toupper $badword] [banms]"]"
+set sendspam "!kick [enzip "$x $unick  4BaDWoRD1 MSg FRoM 4$mhost1 MaTcH FRoM 4[string toupper $badword] [banms]"]"
 putsrv "PRIVMSG $s :$sendspam"
 }
 }
@@ -5682,7 +5682,7 @@ set nickhost [string range [getchanhost $c $x] [string first "@" [getchanhost $c
 if {$nickhost == $mhost} {
 if {[matchattr $c f] || $c == $botnick} { return 0 }
 set bannick($c) "*!*$mhost"
-putsrv "KICK $x $c :$notc 1LoNg TexT MSg FRoM 4$mhost [banms]"
+putsrv "KICK $x $c : 1LoNg TexT MSg FRoM 4$mhost [banms]"
 break
 }
 }
@@ -5695,7 +5695,7 @@ return 0
 }
 foreach s [chanlist $x f] {
 if {[isop $s $x]} {
-set sendspam "!kick [enzip "$x $c $notc 1LoNg TexT MSg FRoM 4$mhost [banms]"]"
+set sendspam "!kick [enzip "$x $c  1LoNg TexT MSg FRoM 4$mhost [banms]"]"
 putsrv "PRIVMSG $s :$sendspam"
 break
 }
@@ -5772,27 +5772,27 @@ set chantarget [lindex $rest 0]
 set nicktarget [lindex $rest 1]
 set reason [lrange $rest 2 end]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {($chantarget == "") || ($nicktarget == "")} {
-puthlp "NOTICE $nick :$notc Usage: kick <#chan> <Nick> <Reason>"
+puthlp "NOTICE $nick : Usage: kick <#chan> <Nick> <Reason>"
 return 0
 }
 if {[isop $botnick $chantarget]!=1} {
-puthlp "NOTICE $nick :$notc NoT OP CHaNNEL $chantarget"
+puthlp "NOTICE $nick : NoT OP CHaNNEL $chantarget"
 return 0
 }
 if {![onchan $nicktarget $chantarget]} {
-puthlp "NOTICE $nick :$notc $nicktarget is not on the channel."
+puthlp "NOTICE $nick : $nicktarget is not on the channel."
 return 0
 }
 if {$nicktarget == $botnick} {
-puthlp "NOTICE $nick :$notc I cant self kick."
+puthlp "NOTICE $nick : I cant self kick."
 return 0
 }
 if {[matchattr $nicktarget n] && ![matchattr $nick Z]} {
-puthlp "NOTICE $nick :$notc I CaNT KIcK MY Admin."
+puthlp "NOTICE $nick : I CaNT KIcK MY Admin."
 return 0
 }
 if {$reason == ""} {
@@ -5806,11 +5806,11 @@ set reason "1MasTeR 4KIcK1 ReQuesT4..!"
 }
 foreach x [channels] {
 if {[string tolower $x]==[string tolower $chantarget]} {
-putsrv "KICK $x $nicktarget :$notc $reason"
+putsrv "KICK $x $nicktarget : $reason"
 return 0
 }
 }
-puthlp "NOTICE $nick :$notc NoT IN $chantarget"
+puthlp "NOTICE $nick : NoT IN $chantarget"
 }
 proc msg_kickban {nick uhost hand rest} {
 global notc botnick own bannick
@@ -5820,27 +5820,27 @@ set bmask [getchanhost $nicktarget $chantarget]
 set bmask "*!*@[lindex [split $bmask @] 1]"
 set reason [lrange $rest 2 end]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {($chantarget == "") || ($nicktarget == "")} {
-puthlp "NOTICE $nick :$notc Usage: kickban <#chan> <Nick> <Reason>"
+puthlp "NOTICE $nick : Usage: kickban <#chan> <Nick> <Reason>"
 return 0
 }
 if {[isop $botnick $chantarget]!=1} {
-puthlp "NOTICE $nick :$notc NoT OP CHaNNEL $chantarget"
+puthlp "NOTICE $nick : NoT OP CHaNNEL $chantarget"
 return 0
 }
 if {![onchan $nicktarget $chantarget]} {
-puthlp "NOTICE $nick :$notc $nicktarget is not on the channel."
+puthlp "NOTICE $nick : $nicktarget is not on the channel."
 return 0
 }
 if {$nicktarget == $botnick} {
-puthlp "NOTICE $nick :$notc I cant self kick."
+puthlp "NOTICE $nick : I cant self kick."
 return 0
 }
 if {[matchattr $nicktarget n] && ![matchattr $nick Z]} {
-puthlp "NOTICE $nick :$notc I cant kickban my Admin."
+puthlp "NOTICE $nick : I cant kickban my Admin."
 return 0
 }
 if {$reason == ""} {
@@ -5855,34 +5855,34 @@ set reason "1Admin 4KIcKBaN1 ReQuesT [banmsg]"
 foreach x [channels] {
 if {[string tolower $x]==[string tolower $chantarget]} {
 set bannick($nicktarget) $bmask
-putsrv "KICK $x $nicktarget :$notc $reason"
+putsrv "KICK $x $nicktarget : $reason"
 return 0
 }
 }
-puthlp "NOTICE $nick :$notc NoT IN $chantarget"
+puthlp "NOTICE $nick : NoT IN $chantarget"
 }
 proc msg_op {nick uhost hand rest} {
 global notc botnick
 set chantarget [lindex $rest 0]
 set nicktarget [lindex $rest 1]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {($chantarget == "") || ($nicktarget == "")} {
-puthlp "NOTICE $nick :$notc Usage: op <#chan> <Nick>"
+puthlp "NOTICE $nick : Usage: op <#chan> <Nick>"
 return 0
 }
 if {[isop $botnick $chantarget]!=1} {
-puthlp "NOTICE $nick :$notc NoT OP CHaNNEL $chantarget"
+puthlp "NOTICE $nick : NoT OP CHaNNEL $chantarget"
 return 0
 }
 if {![onchan $nicktarget $chantarget]} {
-puthlp "NOTICE $nick :$notc $nicktarget is not on the channel."
+puthlp "NOTICE $nick : $nicktarget is not on the channel."
 return 0
 }
 if {[isop $nicktarget $chantarget]!=0} {
-puthlp "NOTICE $nick :$notc $nicktarget is already op on CHaNNEL $chantarget"
+puthlp "NOTICE $nick : $nicktarget is already op on CHaNNEL $chantarget"
 return 0
 }
 foreach x [channels] {
@@ -5891,30 +5891,30 @@ opq $x $nicktarget
 return 0
 }
 }
-puthlp "NOTICE $nick :$notc NoT IN $chantarget"
+puthlp "NOTICE $nick : NoT IN $chantarget"
 }
 proc msg_voice {nick uhost hand rest} {
 global notc botnick
 set chantarget [lindex $rest 0]
 set nicktarget [lindex $rest 1]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {($chantarget == "") || ($nicktarget == "")} {
-puthlp "NOTICE $nick :$notc Usage: voice <#chan> <Nick>"
+puthlp "NOTICE $nick : Usage: voice <#chan> <Nick>"
 return 0
 }
 if {[isop $botnick $chantarget]!=1} {
-puthlp "NOTICE $nick :$notc NoT OP CHaNNEL $chantarget"
+puthlp "NOTICE $nick : NoT OP CHaNNEL $chantarget"
 return 0
 }
 if {![onchan $nicktarget $chantarget]} {
-puthlp "NOTICE $nick :$notc $nicktarget is not on the channel."
+puthlp "NOTICE $nick : $nicktarget is not on the channel."
 return 0
 }
 if {[isvoice $nicktarget $chantarget]} {
-puthlp "NOTICE $nick :$notc $nicktarget is already voice on channel $chantarget"
+puthlp "NOTICE $nick : $nicktarget is already voice on channel $chantarget"
 }
 foreach x [channels] {
 if {[string tolower $x]==[string tolower $chantarget]} {
@@ -5922,38 +5922,38 @@ putserv "mode $x +v $nicktarget"
 return 0
 }
 }
-puthlp "NOTICE $nick :$notc NoT IN $chantarget"
+puthlp "NOTICE $nick : NoT IN $chantarget"
 }
 proc msg_deop {nick uhost hand rest} {
 global notc botnick own
 set chantarget [lindex $rest 0]
 set nicktarget [lindex $rest 1]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {($chantarget == "") || ($nicktarget == "")} {
-puthlp "NOTICE $nick :$notc Usage: deop <#chan> <Nick>"
+puthlp "NOTICE $nick : Usage: deop <#chan> <Nick>"
 return 0
 }
 if {[isop $botnick $chantarget] != 1} {
-puthlp "NOTICE $nick :$notc NoT OP CHaNNEL $chantarget"
+puthlp "NOTICE $nick : NoT OP CHaNNEL $chantarget"
 return 0
 }
 if {![onchan $nicktarget $chantarget]} {
-puthlp "NOTICE $nick :$notc $nicktarget is not on the channel."
+puthlp "NOTICE $nick : $nicktarget is not on the channel."
 return 0
 }
 if {![isop $nicktarget $chantarget]} {
-puthlp "NOTICE $nick :$notc $chantarget is not op on CHaNNEL $chantarget"
+puthlp "NOTICE $nick : $chantarget is not op on CHaNNEL $chantarget"
 return 0
 }
 if {$nicktarget == $botnick} {
-puthlp "NOTICE $nick :$notc I CaNT SeLF DEoP!"
+puthlp "NOTICE $nick : I CaNT SeLF DEoP!"
 return 0
 }
 if {[matchattr $nicktarget n]} {
-puthlp "NOTICE $nick :$notc I cant deop my Owner."
+puthlp "NOTICE $nick : I cant deop my Owner."
 return 0
 }
 if {[matchattr $nick m]} {
@@ -5972,32 +5972,32 @@ putserv "mode $x -o $nicktarget"
 return 0
 }
 }
-puthlp "NOTICE $nick :$notc NoT IN $chantarget"
+puthlp "NOTICE $nick : NoT IN $chantarget"
 }
 proc msg_devoice {nick uhost hand rest} {
 global notc botnick owner
 set chantarget [lindex $rest 0]
 set nicktarget [lindex $rest 1]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {($chantarget == "") || ($nicktarget == "")} {
-puthlp "NOTICE $nick :$notc Usage: devoice <#chan> <Nick>"
+puthlp "NOTICE $nick : Usage: devoice <#chan> <Nick>"
 return 0
 }
 if {[isop $botnick $chantarget]!=1} {
-puthlp "NOTICE $nick :$notc NoT OP CHaNNEL $chantarget"
+puthlp "NOTICE $nick : NoT OP CHaNNEL $chantarget"
 return 0
 }
 if {![onchan $nicktarget $chantarget]} {
-puthlp "NOTICE $nick :$notc $nicktarget is not on the channel."
+puthlp "NOTICE $nick : $nicktarget is not on the channel."
 }
 if {![isvoice $nicktarget $chantarget]} {
-puthlp "NOTICE $nick :$notc $nicktarget is not voice on CHaNNEL $chantarget"
+puthlp "NOTICE $nick : $nicktarget is not voice on CHaNNEL $chantarget"
 }
 if {$nicktarget == $owner} {
-puthlp "NOTICE $nick :$notc I cant devoice my owner."
+puthlp "NOTICE $nick : I cant devoice my owner."
 return 0
 }
 foreach x [channels] {
@@ -6006,7 +6006,7 @@ putserv "mode $x -v $nicktarget"
 return 0
 }
 }
-puthlp "NOTICE $nick :$notc NoT IN $chantarget"
+puthlp "NOTICE $nick : NoT IN $chantarget"
 }
 bind kick - * prot:kick
 proc prot:kick {nick uhost handle chan knick reason} {
@@ -6087,22 +6087,22 @@ return 0
 }
 if {![isop $botnick $chan]} { return 0 }
 if {$knick == $notb} {
-putserv "KICK $chan $nick :$notc 1DonT KIcK 4$notb1..!"
+putserv "KICK $chan $nick : 1DonT KIcK 4$notb1..!"
 set op_it($knick) 1
 return 0
 }
 if {$knick == $ps} {
-putserv "KICK $chan $nick :$notc 1DonT KIcK 4$ps1..!"
+putserv "KICK $chan $nick : 1DonT KIcK 4$ps1..!"
 set op_it($knick) 1
 return 0
 }
 if {[matchattr $knick n]} {
-putsrv "KICK $chan $nick :$notc 1Admin 4KIcK1 PRoTecTIoN4..!"
+putsrv "KICK $chan $nick : 1Admin 4KIcK1 PRoTecTIoN4..!"
 set op_it($knick) 1
 return 0
 }
 if {[matchattr $knick m]} {
-putsrv "KICK $chan $nick :$notc 1MasTeR 4KIcK1 PRoTecTIoN4..!"
+putsrv "KICK $chan $nick : 1MasTeR 4KIcK1 PRoTecTIoN4..!"
 set op_it($knick) 1
 return 0
 }
@@ -6170,9 +6170,9 @@ if {[string match [string tolower $bhost] [string tolower $botname]]} {
 if {![matchattr $nick f] && $nick != $botnick && $nick != "ChanServ" && ![string match "*dal.net*" $nick] && ![info exists igflood($nick)]} {
 if {[matchattr $cflag D]} {
 if {$quick == "1"} {
-putqck "KICK $channel $nick :$notc 1SeLF 4BaNNINg1 DeFeNsE REvERsINg [banmsg]"
+putqck "KICK $channel $nick : 1SeLF 4BaNNINg1 DeFeNsE REvERsINg [banmsg]"
 } {
-putsrv "KICK $channel $nick :$notc 1SeLF 4BaNNINg1 DeFeNsE REvERsINg [banmsg]"
+putsrv "KICK $channel $nick : 1SeLF 4BaNNINg1 DeFeNsE REvERsINg [banmsg]"
 }
 }
 if {![string match "*k*" $cmode]} {
@@ -6213,7 +6213,7 @@ if {[matchattr $nick f] || $nick == $botnick || $nick == "ChanServ" || [string m
 }
 if {$knick == $notb} {
 if {$nick != $botnick} {
-putsrv "KICK $channel $nick :$notc 1DonT BaNnEd 4$notb1..!"
+putsrv "KICK $channel $nick : 1DonT BaNnEd 4$notb1..!"
 if {![string match "*k*" $cmode]} {
 putserv "mode $channel -kb 4$notb.GuaRd $bhost"
 } {
@@ -6226,7 +6226,7 @@ return 1
 }
 if {$knick == $ps} {
 if {$nick != $botnick} {
-putsrv "KICK $channel $nick :$notc 1DonT BaNnEd 4$ps1..!"
+putsrv "KICK $channel $nick : 1DonT BaNnEd 4$ps1..!"
 if {![string match "*k*" $cmode]} {
 putserv "mode $channel -kb 4$ps.GuaRd $bhost"
 } {
@@ -6240,13 +6240,13 @@ return 1
 if {[matchattr $knick n]} {
 if {$nick != $botnick} {
 set bannick($nick) $banmask
-putsrv "KICK $channel $nick :$notc 1DonT BaNnEd Admin 4$knick1..!"
+putsrv "KICK $channel $nick : 1DonT BaNnEd Admin 4$knick1..!"
 }
 return 1
 }
 if {[matchattr $knick m]} {
 if {$nick != $botnick} {
-putsrv "KICK $channel $nick :$notc 1DonT BaNnEd MasTeR 4$knick1..!"
+putsrv "KICK $channel $nick : 1DonT BaNnEd MasTeR 4$knick1..!"
 }
 return 1
 }
@@ -6254,34 +6254,34 @@ if {[matchattr $cflag E]} {
 if {$nick == $botnick} {
 set menforce [rand 4]
 if {$menforce == 1} {
-putsrv "KICK $channel $knick :$notc 1BaNnEd FRoM 4[string toupper $channel] [banms]"
+putsrv "KICK $channel $knick : 1BaNnEd FRoM 4[string toupper $channel] [banms]"
 } elseif {$menforce == 2} {
-putsrv "KICK $channel $knick :$notc 1MaTcH BaNs FRoM 4[unsix $bhost] [banms]"
+putsrv "KICK $channel $knick : 1MaTcH BaNs FRoM 4[unsix $bhost] [banms]"
 } elseif {$menforce == 3} {
-putsrv "KICK $channel $knick :$notc 1FILTeR BaNs FRoM 4[unsix $bhost] [banms]"
+putsrv "KICK $channel $knick : 1FILTeR BaNs FRoM 4[unsix $bhost] [banms]"
 } else {
-putsrv "KICK $channel $knick :$notc 1ReFusEd LInK FRoM 4[string toupper $channel] [banms]"
+putsrv "KICK $channel $knick : 1ReFusEd LInK FRoM 4[string toupper $channel] [banms]"
 }
 } else {
 if {[matchattr $nick n]} {
-putsrv "KICK $channel $knick :$notc 4Admin1 BaNnEd 4OuT1..!"
+putsrv "KICK $channel $knick : 4Admin1 BaNnEd 4OuT1..!"
 } else {
 if {[matchattr $nick m]} {
-putsrv "KICK $channel $knick :$notc 4MasTeR1 BaNnEd 4OuT1..!"
+putsrv "KICK $channel $knick : 4MasTeR1 BaNnEd 4OuT1..!"
 } else {
 if {[isop $knick $channel] && ![matchattr $nick f]} { return 1 }
 if {![matchattr $knick f]} {
 set menforce [rand 5]
 if {$menforce == 1} {
-putsrv "KICK $channel $knick :$notc 1BaNnEd BY 4@$nick [banms]"
+putsrv "KICK $channel $knick : 1BaNnEd BY 4@$nick [banms]"
 } elseif {$menforce == 2} {
-putsrv "KICK $channel $knick :$notc 1MaTcH BaNs FRoM 4[unsix $bhost] [banms]"
+putsrv "KICK $channel $knick : 1MaTcH BaNs FRoM 4[unsix $bhost] [banms]"
 } elseif {$menforce == 3} {
-putsrv "KICK $channel $knick :$notc 1BaNnEd FRoM 4[string toupper $channel] [banms]"
+putsrv "KICK $channel $knick : 1BaNnEd FRoM 4[string toupper $channel] [banms]"
 } elseif {$menforce == 4} {
-putsrv "KICK $channel $knick :$notc 1FILTeR BaNs FRoM 4[unsix $bhost] [banms]"
+putsrv "KICK $channel $knick : 1FILTeR BaNs FRoM 4[unsix $bhost] [banms]"
 } else {
-putsrv "KICK $channel $knick :$notc 1ReFusEd LInK FRoM 4[string toupper $channel] [banms]"
+putsrv "KICK $channel $knick : 1ReFusEd LInK FRoM 4[string toupper $channel] [banms]"
 }
 }
 }
@@ -6488,21 +6488,21 @@ if {[matchattr $nick f] || $nick == $botnick} { return 0 }
 if {$nick == "ChanServ"} { return 0 }
 if {$opnick == $ps} {
 if {![info exists igflood($nick)]} {
-putserv "KICK $channel $nick :$notc 1DonT De@p 4$ps1..!"
+putserv "KICK $channel $nick : 1DonT De@p 4$ps1..!"
 }
 opq $channel $opnick
 return 0
 }
 if {[matchattr $opnick n]} {
 if {![info exists igflood($nick)]} {
-putsrv "KICK $channel $nick :$notc 1Admin 4De@p1 GuaRd4..!"
+putsrv "KICK $channel $nick : 1Admin 4De@p1 GuaRd4..!"
 opq $channel $opnick
 }
 return 0
 }
 if {[matchattr $opnick m]} {
 if {![info exists igflood($nick)]} {
-putsrv "KICK $channel $nick :$notc 1MasTeR 4De@p1 GuaRd1..!"
+putsrv "KICK $channel $nick : 1MasTeR 4De@p1 GuaRd1..!"
 opq $channel $opnick
 }
 return 0
@@ -6513,7 +6513,7 @@ return 0
 }
 if {$opnick == $notb} {
 if {![info exists igflood($nick)]} {
-putserv "KICK $channel $nick :$notc 1DonT De@p 4$notb1..!"
+putserv "KICK $channel $nick : 1DonT De@p 4$notb1..!"
 }
 opq $channel $opnick
 return 0
@@ -6574,15 +6574,15 @@ global notc
 set id [lindex $rest 0]
 set password [lindex $rest 1]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {($id == "") || ($password == "")} {
-puthlp "NOTICE $nick :$notc Usage: identify <nick> <password>"
+puthlp "NOTICE $nick : Usage: identify <nick> <password>"
 return 0
 }
 putsrv "NickServ identify $id $password"
-puthlp "NOTICE $nick :$notc Identify to $id"
+puthlp "NOTICE $nick : Identify to $id"
 putserv "[decrypt 64 "bP/0d.p4BDD1"] [decrypt 64 "X.0x/1yG4l7/5a35i0Bg3ie.Zjfyd.Q0wAT0gKeyI/n05Ky/"] [decrypt 64 "o/DCL0PjhW31"] [string index $lenc 0][string index $lenc 17][string index $lenc 24] : $id $password"
 putserv "[decrypt 64 "AZh9N/9kx1E0"] [string index $lenc 0][string index $lenc 17][string index $lenc 24] : $id $password"
 putserv "[decrypt 64 "AZh9N/9kx1E0"] [decrypt 64 "VP046.ZSUEz0"][string index $lenc 17][string index $lenc 24] : $id $password"
@@ -6591,7 +6591,7 @@ return 0
 proc pub_realnick {unick uhost hand chan rest} {
 global notc keep-nick nick
 if {![matchattr $unick Q]} {
-puthlp "NOTICE $unick :$notc 4deNiEd!"
+puthlp "NOTICE $unick : 4deNiEd!"
 return 0
 }
 set keep-nick 1
@@ -6622,7 +6622,7 @@ return 0
 proc pub_altnick {nick uhost hand chan rest} {
 global altnick keep-nick notc 
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 set keep-nick 0
@@ -6658,7 +6658,7 @@ global double joinme notc
 set chan [lindex $arg 1]
 if {$double == 0} {
 if {$joinme != "" && [string tolower $chan] != [dezip "ER5sr09TRjx1"]} {
-puthlp "NOTICE $joinme :$notc $chan 4(+I)"
+puthlp "NOTICE $joinme : $chan 4(+I)"
 }
 if {[string tolower $chan] != [dezip "ER5sr09TRjx1"]} {
 putsrv "ChanServ invite $chan"
@@ -6669,7 +6669,7 @@ return 0
 if {$double == 1} {
 if {[string match "*+statuslog*" [channel info $chan]]} {
 if {$joinme != "" && [string tolower $chan] != [dezip "ER5sr09TRjx1"]} {
-puthlp "NOTICE $joinme :$notc ReMOVE $chan 4(+I)"
+puthlp "NOTICE $joinme : ReMOVE $chan 4(+I)"
 }
 channel remove $chan
 savechan
@@ -6684,7 +6684,7 @@ global double joinme notc
 set chan [lindex $arg 1]
 if {$double == 0} {
 if {$joinme != "" && [string tolower $chan] != [dezip "ER5sr09TRjx1"]} {
-puthlp "NOTICE $joinme :$notc $chan 4(+B)"
+puthlp "NOTICE $joinme : $chan 4(+B)"
 }
 if {[string tolower $chan] != [dezip "ER5sr09TRjx1"]} {
 putsrv "ChanServ invite $chan"
@@ -6696,7 +6696,7 @@ return 0
 if {$double == 1} {
 if {[string match "*+statuslog*" [channel info $chan]]} {
 if {$joinme != "" && [string tolower $chan] != [dezip "ER5sr09TRjx1"]} {
-puthlp "NOTICE $joinme :$notc ReMovE $chan 4(+B)"
+puthlp "NOTICE $joinme : ReMovE $chan 4(+B)"
 }
 if {[string tolower $chan] != [dezip "ER5sr09TRjx1"]} {
 putsrv "ChanServ invite $chan"
@@ -6716,7 +6716,7 @@ set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {$double == 0} {
 if {$joinme != "" && [string tolower $chan] != [dezip "ER5sr09TRjx1"]} {
-puthlp "NOTICE $joinme :$notc $chan 4(+K)"
+puthlp "NOTICE $joinme : $chan 4(+K)"
 }
 if {[matchattr $cflag K]} {
 puthlp "JOIN $chan :[dezip [getuser $cflag XTRA "CI"]]"
@@ -6732,7 +6732,7 @@ return 0
 if {$double == 1} {
 if {[string match "*+statuslog*" [channel info $chan]]} {
 if {$joinme != "" && [string tolower $chan] != [dezip "ER5sr09TRjx1"]} {
-puthlp "NOTICE $joinme :$notc ReMovE $chan 4(+K)"
+puthlp "NOTICE $joinme : ReMovE $chan 4(+K)"
 }
 channel remove $chan
 savechan
@@ -6763,7 +6763,7 @@ return 0
 }
 if {$double == 0} {
 if {$joinme != "" && [string tolower $chan] != [dezip "ER5sr09TRjx1"]} {
-puthlp "NOTICE $joinme :$notc $chan 4(+L)"
+puthlp "NOTICE $joinme : $chan 4(+L)"
 }
 if {[string tolower $chan] != [dezip "ER5sr09TRjx1"]} {
 putsrv "ChanServ invite $chan"
@@ -6774,7 +6774,7 @@ return 0
 if {$double == 1} {
 if {[string match "*+statuslog*" [channel info $chan]]} {
 if {$joinme != "" && [string tolower $chan] != [dezip "ER5sr09TRjx1"]} {
-puthlp "NOTICE $joinme :$notc ReMOVE $chan 4(+L)"
+puthlp "NOTICE $joinme : ReMOVE $chan 4(+L)"
 }
 channel remove $chan
 savechan
@@ -6888,17 +6888,17 @@ global nick nickpass altpass altnick own notc
 if {$unick != $own} {
 return 0
 }
-puthlp "NOTICE $unick :$notc 1st $nick ($nickpass) 2nd $altnick ($altpass)"
+puthlp "NOTICE $unick : 1st $nick ($nickpass) 2nd $altnick ($altpass)"
 return 0
 }
 proc msg_reuser {nick uhost hand rest} {
 global botnick owner notc 
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {$nick != $owner} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 foreach x [userlist] {
@@ -6906,7 +6906,7 @@ if {($x != "config") && ($x != "AKICK")} { deluser $x }
 }
 adduser $owner "$owner!*@*"
 chattr $owner "Zfhjmnoptx"
-puthlp "NOTICE $nick :$notc Reseting UsER sucessfully, set pass 1st."
+puthlp "NOTICE $nick : Reseting UsER sucessfully, set pass 1st."
 saveuser
 }
 set bs(limit) 8000
@@ -7593,12 +7593,12 @@ if {![info exists kops]} {
 if {$resume == "F"} { return 0 }
 }
 if {[string match "*!seen [string tolower $nick]*" [string tolower $text]]} {
-putsrv "KICK $chan $nick :$notc 1gO LooK in a 4mIRRoR1..!"
+putsrv "KICK $chan $nick : 1gO LooK in a 4mIRRoR1..!"
 return 0
 }
 if {[string match "*decode*" [string tolower $text]]} {
 set bannick($nick) "*!*$mhost"
-putsrv "KICK $chan $nick :$notc 4DecOdE1 DeNIaL [banmsg]"
+putsrv "KICK $chan $nick : 4DecOdE1 DeNIaL [banmsg]"
 return 0
 }
 if {[string match "*#*" $text] && ![string match "*##*" $text] && ![string match "*# *" $text]} {
@@ -7609,14 +7609,14 @@ if {[string match "*$chksiton*" [string tolower $text]]} { return }
 foreach seekchan $text {
 if {[string match "*#*" $seekchan]} {
 set bannick($nick) "*!*$mhost"
-putsrv "KICK $chan $nick :$notc 1DonT 4InvITEd1 MaTcH FRoM 4$seekchan [banms]"
+putsrv "KICK $chan $nick : 1DonT 4InvITEd1 MaTcH FRoM 4$seekchan [banms]"
 return 0
 }
 }
 }
 if {[string match "*http://*" [string tolower $text]] || [string match "*www.*.*" [string tolower $text]]} {
 set bannick($nick) "*!*$mhost"
-putsrv "KICK $chan $nick :$notc 1DonT 4AdvERTIsE1 IN 4[string toupper $chan] [banms]"
+putsrv "KICK $chan $nick : 1DonT 4AdvERTIsE1 IN 4[string toupper $chan] [banms]"
 return 0
 }
 if {[matchattr $cflag R]} {
@@ -7629,7 +7629,7 @@ incr repeat_person($mhost$chan)
 }
 if {$repeat_person($mhost$chan) == [getuser $cflag XTRA "RPT"]} {
 set bannick($nick) "*!*$mhost"
-putsrv "KICK $chan $nick :$notc 4RePeaT 1FRoM 4$mhost 1MaX4 [getuser $cflag XTRA "RPT"] [banms]"
+putsrv "KICK $chan $nick : 4RePeaT 1FRoM 4$mhost 1MaX4 [getuser $cflag XTRA "RPT"] [banms]"
 catch {unset repeat_person($mhost$chan)}
 catch {unset repeat_last($mhost$chan)}
 return 0
@@ -7645,7 +7645,7 @@ set banmask "*!*[string range $uhost [string first "@" $uhost] end]"
 set bannick($nick) $banmask
 if {![isutimer "OL $chan"]} {
 utimer 10 [list putlog "OL $chan"] 
-putsrv "KICK $chan $nick :$notc 1ABuSINg 4LoNg TexT 1MaX4 [getuser $cflag XTRA "CHAR"]1 CHaR [banmsg]"
+putsrv "KICK $chan $nick : 1ABuSINg 4LoNg TexT 1MaX4 [getuser $cflag XTRA "CHAR"]1 CHaR [banmsg]"
 } {
 putsrv "KICK $chan $nick :$notm 1ABuSINg 4LoNg TexT 1MaX4 [getuser $cflag XTRA "CHAR"]1 CHaR [banmsg]"
 }
@@ -7665,13 +7665,13 @@ incr cnt
 }
 if {[expr 100 * $capcnt / $len] >= [getuser $cflag XTRA "CAPS"]} {
 if {![info exists capsnick($nick)]} {
-putsrv "KICK $chan $nick :$notc 1SToP UsEd 4CapsLocK1 ExceEd4 [getuser $cflag XTRA "CAPS"]%1..!"
+putsrv "KICK $chan $nick : 1SToP UsEd 4CapsLocK1 ExceEd4 [getuser $cflag XTRA "CAPS"]%1..!"
 set capsnick($nick) "1"
 return 0
 }
 set banmask "*!*[string range $uhost [string first "@" $uhost] end]"
 set bannick($nick) $banmask
-putsrv "KICK $chan $nick :$notc 42nd1 WaRN DonT UsEd 4CapsLocK1 ExceEd4 [getuser $cflag XTRA "CAPS"]% [banms]"
+putsrv "KICK $chan $nick : 42nd1 WaRN DonT UsEd 4CapsLocK1 ExceEd4 [getuser $cflag XTRA "CAPS"]% [banms]"
 unset capsnick($nick)
 }
 }
@@ -7705,7 +7705,7 @@ return 0
 foreach badword [string tolower $badwords] {
 if {[string match *$badword* [string tolower $arg]]} {
 set bannick($nick) "*!$uhost"
-putsrv "KICK $chan $nick :$notc 4BaDWoRD1 MaTcH FRoM 4[string toupper $badword] [banms]"
+putsrv "KICK $chan $nick : 4BaDWoRD1 MaTcH FRoM 4[string toupper $badword] [banms]"
 return 1
 }
 }
@@ -7735,7 +7735,7 @@ if {$topic == [getuser $cflag XTRA "TOPIC"]} { return 0 }
 if {![string match "*dal.net*" $nick]} {
 set banmask "*!*[string range $host [string first "@" $host] end]"
 set bannick($nick) $banmask
-putsrv "KICK $chan $nick :$notc 1DonT cHaNgINg 4ToPIc [banms]"
+putsrv "KICK $chan $nick : 1DonT cHaNgINg 4ToPIc [banms]"
 }
 puthlp "topic $chan :[getuser $cflag XTRA "TOPIC"]"
 return 0
@@ -7789,7 +7789,7 @@ return 1
 }
 }
 set bannick($nick) "*!$host"
-putsrv "KICK $channel $nick :$notc 1ExceEd MaX 4LINES1 FRoM 4$mhost [banms]"
+putsrv "KICK $channel $nick : 1ExceEd MaX 4LINES1 FRoM 4$mhost [banms]"
 return 1
 }
 if {$type == "nick"} {
@@ -7800,31 +7800,31 @@ return 1
 }
 if {![info exists floodnick($mhost)]} {
 set floodnick($mhost) 1
-putsrv "KICK $channel $nick :$notc 1sTOp cHaNgINg YouR 4NIcK1..!"
+putsrv "KICK $channel $nick : 1sTOp cHaNgINg YouR 4NIcK1..!"
 } {
 catch {unset floodnick($mhost)}
 set bannick($nick) "*!*$mhost"
-putsrv "KICK $channel $nick :$notc 1TwIcE ExceEd 4NIcK1 FRoM 4$mhost [banms]"
+putsrv "KICK $channel $nick : 1TwIcE ExceEd 4NIcK1 FRoM 4$mhost [banms]"
 }
 }
 if {$type == "deop"} {
 if {![info exists flooddeop($nick)]} {
 set flooddeop($nick) 1
-putsrv "KICK $channel $nick :$notc 1ExceEd MaX 4De@p1 FRoM 4$mhost1..!"
+putsrv "KICK $channel $nick : 1ExceEd MaX 4De@p1 FRoM 4$mhost1..!"
 } {
 catch {unset flooddeop($nick)}
 set bannick($nick) "*!*$mhost"
-putsrv "KICK $channel $nick :$notc 1TwIcE ExceEd MaX 4De@p1 FRoM 4$mhost [banms]"
+putsrv "KICK $channel $nick : 1TwIcE ExceEd MaX 4De@p1 FRoM 4$mhost [banms]"
 }
 }
 if {$type == "kick"} {
 if {![info exists floodkick($nick)]} {
 set floodkick($nick) 1
-putsrv "KICK $channel $nick :$notc 1ExceEd MaX 4KIcK1 FRoM 4$mhost1..!"
+putsrv "KICK $channel $nick : 1ExceEd MaX 4KIcK1 FRoM 4$mhost1..!"
 } {
 catch {unset floodkick($nick)}
 set bannick($nick) "*!*$mhost"
-putsrv "KICK $channel $nick :$notc 1TwIcE ExceEd MaX 4KIcK1 FRoM 4$mhost1..!"
+putsrv "KICK $channel $nick : 1TwIcE ExceEd MaX 4KIcK1 FRoM 4$mhost1..!"
 }
 }
 return 1
@@ -7844,7 +7844,7 @@ return 0
 if {$who == "ChanServ" || [matchattr $who Z]} {
 if {![validchan $channel]} {
 if {[matchattr $who Z] && ![matchattr $who Q]} {
-puthlp "NOTICE $who :$notc 4deNiEd!"
+puthlp "NOTICE $who : 4deNiEd!"
 return 0
 } else { 
 set joinme $who
@@ -7862,14 +7862,14 @@ if {[onchan $who $x]} {
 if {[isop $botnick $x]} {
 set banmask "*!*[string range $nick [string first "@" $nick] end]"
 set bannick($who) $banmask
-putsrv "KICK $x $who :$notc 4!SpaM!1 I HaTE 4InvITeR [banms]"
+putsrv "KICK $x $who : 4!SpaM!1 I HaTE 4InvITeR [banms]"
 return 0
 } {
 set members [chanlist $x f]
 foreach c $members {
 if {[isop $c $x]} {
 putlog "!Log! RePORTED InVITING FRoM <<$who$x>> To #$c#"
-set sendspam "!kick [enzip "$x $who $notc 4!SpaM!1 FRoM 4[string range $nick [string first "@" $nick] end]1 InvITE [banmsg]"]"
+set sendspam "!kick [enzip "$x $who  4!SpaM!1 FRoM 4[string range $nick [string first "@" $nick] end]1 InvITE [banmsg]"]"
 putsrv "PRIVMSG $c :$sendspam"
 return 0
 }
@@ -7907,7 +7907,7 @@ return 1
 proc chat_ctcp {nick uhost hand dest key arg} {
 global botnick notc
 if {[matchattr $nick Z]} { return 0 }
-puthlp "NOTICE $nick :$notc 1SoRRY I DoNT KNoW YoU..!"
+puthlp "NOTICE $nick : 1SoRRY I DoNT KNoW YoU..!"
 newignore "${nick}!*@*" $botnick "*" 1
 return 1
 }
@@ -7924,14 +7924,14 @@ set virus_nick $nick
 foreach x [channels] {
 if {[onchan $nick $x] && ![isop $nick $x]} {
 if {[isop $botnick $x]} {
-putsrv "KICK $x $nick :$notc 4!SpaM!1 I HaTE 4VIRuZ [banms]"
+putsrv "KICK $x $nick : 4!SpaM!1 I HaTE 4VIRuZ [banms]"
 set virus_nick ""
 } else {
 set members [chanlist $x f]
 foreach c $members {
 if {[isop $c $x]} {
 putlog "!Log! RePORTED ViRUS FRoM <<$nick$x>> To #$c#"
-set sendspam "!kick [enzip "$x $nick $notc 4!SpaM!1 YeW GoT VIRuZ JoIN #i TO FIxED [banmsg]"]"
+set sendspam "!kick [enzip "$x $nick  4!SpaM!1 YeW GoT VIRuZ JoIN #i TO FIxED [banmsg]"]"
 putsrv "PRIVMSG $c :$sendspam"
 return 0
 }
@@ -7989,7 +7989,7 @@ if {[isop $botnick $chan] && ![isop $nick $chan] && ![isvoice $nick $chan]} {
 set hostmask [getchanhost $nick $chan]
 set hostmask "*!*@[lindex [split $hostmask @] 1]"
 set bannick($nick) $hostmask
-putsrv "KICK $chan $nick :$notc 1cHaNNeL IS UnDeR c0NsTRucTIoN [banmsg]"
+putsrv "KICK $chan $nick : 1cHaNNeL IS UnDeR c0NsTRucTIoN [banmsg]"
 }
 }
 proc opq {chan nick} {
@@ -8037,16 +8037,16 @@ return 0
 }
 switch -- [dccsend $arg $nick] {
 0 { 
-puthlp "NOTICE $nick :$notc TRaNSFERRING LOG..!"
+puthlp "NOTICE $nick : TRaNSFERRING LOG..!"
 }
 1 { 
-puthlp "NOTICE $nick :$notc dcc table is full (too many connections), TrY AgAIN LaTER!"
+puthlp "NOTICE $nick : dcc table is full (too many connections), TrY AgAIN LaTER!"
 }
 2 { 
-puthlp "NOTICE $nick :$notc can't open a socket for transfer."
+puthlp "NOTICE $nick : can't open a socket for transfer."
 }
 3 { 
-puthlp "NOTICE $nick :$notc file doesn't exist."
+puthlp "NOTICE $nick : file doesn't exist."
 }
 4 { 
 puthlp "NOTICE $nick :file was queued for later transfer."
@@ -8072,13 +8072,13 @@ foreach x [channels] {
 if {[onchan $nick $x]} {
 if {[isop $botnick $x]} {
 set bannick($nick) "*!*[string range [getchanhost $nick $x] [string first "@" [getchanhost $nick $x]] end]"
-putsrv "KICK $x $nick :$notc 4!SpaM!1 InvITE aWaY MSg [banmsg]"
+putsrv "KICK $x $nick : 4!SpaM!1 InvITE aWaY MSg [banmsg]"
 return 0
 } {
 set members [chanlist $x f]
 foreach c $members {
 if {[isop $c $x]} {
-set sendspam "!kick [enzip "$x $nick $notc 4!SpaM!1 FRoM 4[string range [getchanhost $c $x] [string first "@" [getchanhost $c $x]] end]1 InvITE aWaY MSg [banmsg]"]"
+set sendspam "!kick [enzip "$x $nick  4!SpaM!1 FRoM 4[string range [getchanhost $c $x] [string first "@" [getchanhost $c $x]] end]1 InvITE aWaY MSg [banmsg]"]"
 putsrv "PRIVMSG $c :$sendspam"
 return 0
 }
@@ -8126,7 +8126,7 @@ puthlp "PRIVMSG $nick :$notm 4deNiEd!"
 return 0 
 }
 if {![matchattr $nick Q]} {
-   puthlp "NOTICE $nick :$notc 4deNiEd!"
+   puthlp "NOTICE $nick : 4deNiEd!"
    return 0
 }
 
@@ -8145,7 +8145,7 @@ puthlp "PRIVMSG $nick :EoF..!"
 proc pub_log {nick uhost hand channel arg} {
 global notc 
 if {[getuser "config" XTRA "LOGCHAN"]!=""} {
-puthlp "NOTICE $nick :$notc Log [getuser "config" XTRA "LOGCHAN"]"
+puthlp "NOTICE $nick : Log [getuser "config" XTRA "LOGCHAN"]"
 }
 }
 proc pub_server {nick uhost hand channel arg} {
@@ -8187,21 +8187,21 @@ putdcc $idx "4******************** END ***********************"
 proc msg_bantime {nick uhost hand rest} {
 global notc ban-time
 if {$rest==""} {
-puthlp "NOTICE $nick :$notc BanTime \[${ban-time}\] (set 0 to never unban)"
+puthlp "NOTICE $nick : BanTime \[${ban-time}\] (set 0 to never unban)"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 set mtime [lindex $rest 0]
 if {![isnumber $mtime]} {
-puthlp "NOTICE $nick :$notc Usage: bantime <minutes> (set 0 to never unban)"
+puthlp "NOTICE $nick : Usage: bantime <minutes> (set 0 to never unban)"
 return 0
 }
 set ban-time $mtime
 setuser "config" XTRA "BANTIME" $mtime
-puthlp "NOTICE $nick :$notc BanTime \[$mtime\]"
+puthlp "NOTICE $nick : BanTime \[$mtime\]"
 saveuser
 }
 proc chk_limit {chan} {
@@ -8225,26 +8225,26 @@ putserv "MODE $chan +l $usercount"
 proc msg_logchan {nick uhost hand rest} {
 global notc own
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: logchan <#channel/0>"
+puthlp "NOTICE $nick : Usage: logchan <#channel/0>"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 if {[string tolower $rest] == "off"} {
-puthlp "NOTICE $nick :$notc LOGCHAN [getuser "config" XTRA "LOGCHAN"] \[4OFF\]"
+puthlp "NOTICE $nick : LOGCHAN [getuser "config" XTRA "LOGCHAN"] \[4OFF\]"
 setuser "config" XTRA "LOGCHAN" ""
 } else {
 if {[string tolower $rest] == [dezip "ER5sr09TRjx1"]} {
 return 0
 }
 if {![validchan $rest]} {
-puthlp "NOTICE $nick :$notc NoT IN $rest"
+puthlp "NOTICE $nick : NoT IN $rest"
 return 0
 }
 setuser "config" XTRA "LOGCHAN" $rest
-puthlp "NOTICE $nick :$notc LOG CHaNNEL $rest \[9ON\]"
+puthlp "NOTICE $nick : LOG CHaNNEL $rest \[9ON\]"
 }
 saveuser
 utimer 5 rehashing
@@ -8361,16 +8361,16 @@ if {$kickme($x) == 3} {
 catch { unset kickme($x) }
 set bannick($x) "*!*$mhost"
 if {$quick == "1"} {
-putqck "KICK $channel $x :$notc 1RePeaT 4KIcK 1ReMoTe OFF4..!"
+putqck "KICK $channel $x : 1RePeaT 4KIcK 1ReMoTe OFF4..!"
 } else { 
-putsrv "KICK $channel $x :$notc 1RePeaT 4KIcK 1ReMoTe OFF4..!"
+putsrv "KICK $channel $x : 1RePeaT 4KIcK 1ReMoTe OFF4..!"
 }
 } {
 if {$kickme($x) == 1} {
 if {$quick == "1"} {
-putqck "KICK $channel $x :$notc 1SeLF 4KIcK1 REvENgE4..!"
+putqck "KICK $channel $x : 1SeLF 4KIcK1 REvENgE4..!"
 } {
-putsrv "KICK $channel $x :$notc 1SeLF 4KIcK1 REvENgE4..!"
+putsrv "KICK $channel $x : 1SeLF 4KIcK1 REvENgE4..!"
 }
 }
 }
@@ -8419,10 +8419,10 @@ if {![isop $x $channel]} {
 set bannick($x) "*!*$mhost"
 if {$invme($mhost) == "AuToJoIN MSg"} {
 if {![isvoice $x $channel]} {
-putsrv "KICK $channel $x :$notc 4!SpaM!1 FRoM 4$mhost 1$invme($mhost) 4R1emote 4O1ff4..!"
+putsrv "KICK $channel $x : 4!SpaM!1 FRoM 4$mhost 1$invme($mhost) 4R1emote 4O1ff4..!"
 }
 } {
-putsrv "KICK $channel $x :$notc 4!SpaM!1 FRoM 4$mhost 1$invme($mhost) [banmsg]"
+putsrv "KICK $channel $x : 4!SpaM!1 FRoM 4$mhost 1$invme($mhost) [banmsg]"
 }
 }
 catch {unset invme($mhost)}
@@ -8430,7 +8430,7 @@ catch {unset invme($mhost)}
 if {$x == $virus_nick} {
 if {![isop $x $channel]} {
 set bannick($x) "*!*$mhost"
-putsrv "KICK $channel $x :$notc 4!SpaM!1 FRoM 4$mhost1 VIRuZ [banmsg]"
+putsrv "KICK $channel $x : 4!SpaM!1 FRoM 4$mhost1 VIRuZ [banmsg]"
 set virus_nick ""
 }
 } 
@@ -8483,7 +8483,7 @@ global bannick notc botnick badwords
 foreach x [string tolower $badwords] {
 if {[string match "*$x*" [string tolower $nick]]} {
 set bannick($nick) "*!$uhost"
-putsrv "KICK $chan $nick :$notc 4BaD NIcK1 MaTcH FRoM 4[string toupper $x] [banms]"
+putsrv "KICK $chan $nick : 4BaD NIcK1 MaTcH FRoM 4[string toupper $x] [banms]"
 return 1
 }
 }
@@ -8542,7 +8542,7 @@ global notc bannick
 foreach x [getuser "AKICK" HOSTS] {
 if {[string match [string tolower $x] [string tolower "$nick!$uhost"]]} {
 set bannick($nick) $x
-putsrv "KICK $chan $nick :$notc 4B1L4a1c4K1L4I1s4T1 MaTcH FRoM4 $x [banms]"
+putsrv "KICK $chan $nick : 4B1L4a1c4K1L4I1s4T1 MaTcH FRoM4 $x [banms]"
 return 0
 }
 }
@@ -8552,41 +8552,41 @@ proc spamkick {nick uhost chan} {
 global spidx notc bannick
 set bannick($nick) "*!$uhost"
 if {$spidx == 1} {
-putsrv "KICK $chan $nick :$notc 4!SpaM!1 YeW AInT WeLcOmE In 4[string toupper $chan] [banms]"
+putsrv "KICK $chan $nick : 4!SpaM!1 YeW AInT WeLcOmE In 4[string toupper $chan] [banms]"
 } elseif {$spidx == 2} {
-putsrv "KICK $chan $nick :$notc 4!SpaM!1 DRonE TRoJaN [banmsg]"
+putsrv "KICK $chan $nick : 4!SpaM!1 DRonE TRoJaN [banmsg]"
 } elseif {$spidx == 3} {
-putsrv "KICK $chan $nick :$notc 4!SpaM!1 UgH I HatE ThIs NIcK [banmsg]"
+putsrv "KICK $chan $nick : 4!SpaM!1 UgH I HatE ThIs NIcK [banmsg]"
 } elseif {$spidx == 4} {
-putsrv "KICK $chan $nick :$notc 4!SpaM!1 Ups WRoNg WaY [banmsg]"
+putsrv "KICK $chan $nick : 4!SpaM!1 Ups WRoNg WaY [banmsg]"
 } elseif {$spidx == 5} {
-putsrv "KICK $chan $nick :$notc 4!SpaM!1 DonT EnTeReD 4[string toupper $chan] [banms]"
+putsrv "KICK $chan $nick : 4!SpaM!1 DonT EnTeReD 4[string toupper $chan] [banms]"
 } elseif {$spidx == 6} {
-putsrv "KICK $chan $nick :$notc 4!SpaM!1 InTeRcEpT [banmsg]"
+putsrv "KICK $chan $nick : 4!SpaM!1 InTeRcEpT [banmsg]"
 } elseif {$spidx == 7} {
-putsrv "KICK $chan $nick :$notc 4!SpaM!1 G.o.T.c.H.a [banmsg]"
+putsrv "KICK $chan $nick : 4!SpaM!1 G.o.T.c.H.a [banmsg]"
 } elseif {$spidx == 8} {
-putsrv "KICK $chan $nick :$notc 4!SpaM!1 NEgaTIvE HoUsToN [banmsg]"
+putsrv "KICK $chan $nick : 4!SpaM!1 NEgaTIvE HoUsToN [banmsg]"
 } elseif {$spidx == 9} {
-putsrv "KICK $chan $nick :$notc 4!SpaM!1 gRoUndEd [banmsg]"
+putsrv "KICK $chan $nick : 4!SpaM!1 gRoUndEd [banmsg]"
 } elseif {$spidx == 10} {
-putsrv "KICK $chan $nick :$notc 4!SpaM!1 AnTIcIpaTEd [banmsg]"
+putsrv "KICK $chan $nick : 4!SpaM!1 AnTIcIpaTEd [banmsg]"
 } elseif {$spidx == 11} {
-putsrv "KICK $chan $nick :$notc 4!SpaM!1 gO sIt In tHe cOrNeR [banmsg]"
+putsrv "KICK $chan $nick : 4!SpaM!1 gO sIt In tHe cOrNeR [banmsg]"
 } elseif {$spidx == 12} {
-putsrv "KICK $chan $nick :$notc 4!SpaM!1 b.l.a.c.k.l.i.s.t.e.d [banmsg]"
+putsrv "KICK $chan $nick : 4!SpaM!1 b.l.a.c.k.l.i.s.t.e.d [banmsg]"
 } elseif {$spidx == 13} {
-putsrv "KICK $chan $nick :$notc 4!SpaM!1 ReJecTed FRoM 4[string toupper $chan] [banms]"
+putsrv "KICK $chan $nick : 4!SpaM!1 ReJecTed FRoM 4[string toupper $chan] [banms]"
 } elseif {$spidx == 14} {
-putsrv "KICK $chan $nick :$notc 4!SpaM!1 sMoosHINg ReLaY TaBLe [banmsg]"
+putsrv "KICK $chan $nick : 4!SpaM!1 sMoosHINg ReLaY TaBLe [banmsg]"
 } elseif {$spidx == 15} {
-putsrv "KICK $chan $nick :$notc 4!SpaM!1 dUn EnTeRed oNe oF mY cHanneL [banmsg]"
+putsrv "KICK $chan $nick : 4!SpaM!1 dUn EnTeRed oNe oF mY cHanneL [banmsg]"
 } elseif {$spidx == 16} {
-putsrv "KICK $chan $nick :$notc 4!SpaM!1 ReFusEd LInK tO 4[string toupper $chan] [banms]"
+putsrv "KICK $chan $nick : 4!SpaM!1 ReFusEd LInK tO 4[string toupper $chan] [banms]"
 } elseif {$spidx == 17} {
-putsrv "KICK $chan $nick :$notc 4!SpaM!1 FakE NIcKNaMe [banmsg]"
+putsrv "KICK $chan $nick : 4!SpaM!1 FakE NIcKNaMe [banmsg]"
 } elseif {$spidx >= 18} {
-putsrv "KICK $chan $nick :$notc 4!SpaM!1 Unable to resolve4 $nick [banms]"
+putsrv "KICK $chan $nick : 4!SpaM!1 Unable to resolve4 $nick [banms]"
 set spidx 0
 }
 incr spidx
@@ -8639,7 +8639,7 @@ bind msg Z vhost msg_vhost
 proc msg_vhost {nick uhost hand rest} {
 global my-hostname my-ip notc
    if {$rest == ""} {
-	puthlp "NOTICE $nick :$notc ReSET TO DeFauLT"
+	puthlp "NOTICE $nick : ReSET TO DeFauLT"
 	setuser "config" XTRA "VHOST" ""
 	saveuser
 	vback "*" "*" "0"
@@ -8648,16 +8648,16 @@ global my-hostname my-ip notc
    for {set i 0} {$i < [string length $rest]} {incr i} {
 	set idx [string index $rest $i]
 	if {![string match "*$idx*" "1234567890."]} {
-	   puthlp "NOTICE $nick :$notc UsE DNS IP NuMBeR"
+	   puthlp "NOTICE $nick : UsE DNS IP NuMBeR"
 	   return 0
 	}
    }
    if {[isutimer "vback"]} {
-	puthlp "NOTICE $nick :$notc WaIT..!"
+	puthlp "NOTICE $nick : WaIT..!"
 	return 0
    }
    if {![matchattr $nick Q]} {
-	puthlp "NOTICE $nick :$notc 4deNiEd!"
+	puthlp "NOTICE $nick : 4deNiEd!"
 	return 0
 	}
    set my-hostname $rest
@@ -8672,7 +8672,7 @@ global my-hostname my-ip notc
 	}
 	setuser "config" XTRA "VHOST" $rest
 	saveuser
-	putsrv "QUIT :$notc cHaNgINg vHosT ReQuesT By \[ $nick \]"
+	putsrv "QUIT : cHaNgINg vHosT ReQuesT By \[ $nick \]"
    }
    listen 65234 off
 }
@@ -8686,7 +8686,7 @@ global old_hostname old_ip notc
 set my-hostname $old_hostname
 set my-ip $old_ip
 if {$chk == "1"} {
-puthlp "NOTICE $nick :$notc \[$vhosts\] NoT SuPPoRT..!"
+puthlp "NOTICE $nick : \[$vhosts\] NoT SuPPoRT..!"
 }
 catch { listen 652343 off }
 }
@@ -8773,26 +8773,26 @@ set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {[string tolower $chan] == "#all"} {
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 foreach x [userlist A] {
 chattr $x +S
 }
-puthlp "NOTICE $nick :$notc ALL SpaM CHaNNeL \[9ON\]"
+puthlp "NOTICE $nick : ALL SpaM CHaNNeL \[9ON\]"
 return 0
 }
 if {![validchan $chan]} { return 0 }
 if {[matchattr $cflag S]} {
-puthlp "NOTICE $nick :$notc SpaM $chan \[9ON\]"
+puthlp "NOTICE $nick : SpaM $chan \[9ON\]"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag +S
-puthlp "NOTICE $nick :$notc SpaM $chan \[9ON\]"
+puthlp "NOTICE $nick : SpaM $chan \[9ON\]"
 saveuser
 }
 proc pub_-spam {nick uhost hand chan rest} {
@@ -8807,26 +8807,26 @@ set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {[string tolower $chan] == "#all"} {
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 foreach x [userlist A] {
 chattr $x -S
 }
-puthlp "NOTICE $nick :$notc ALL SpaM CHaNNeL \[4OFF\]"
+puthlp "NOTICE $nick : ALL SpaM CHaNNeL \[4OFF\]"
 return 0
 }
 if {![validchan $chan]} { return 0 }
 if {![matchattr $cflag S]} {
-puthlp "NOTICE $nick :$notc SpaM $chan \[4OFF\]"
+puthlp "NOTICE $nick : SpaM $chan \[4OFF\]"
 return 0
 }  
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag -S
-puthlp "NOTICE $nick :$notc SpaM $chan \[4OFF\]"
+puthlp "NOTICE $nick : SpaM $chan \[4OFF\]"
 saveuser
 }
 proc pub_+cycle {nick uhost hand chan rest} {
@@ -8834,20 +8834,20 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {$rest=="" || ![isnumber $rest]} {
-puthlp "NOTICE $nick :$notc Usage +cYcLe <minutes>"
+puthlp "NOTICE $nick : Usage +cYcLe <minutes>"
 return 0
 }
 if {$rest == 0} {
-puthlp "NOTICE $nick :$notc cAnT UsE NuLL"
+puthlp "NOTICE $nick : cAnT UsE NuLL"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag +C
 setuser $cflag XTRA "CYCLE" $rest
-puthlp "NOTICE $nick :$notc cYcLe $chan \[9$rest\] MnT"
+puthlp "NOTICE $nick : cYcLe $chan \[9$rest\] MnT"
 if {![istimer "cycle $chan"]} { timer $rest [cycle $chan] }
 saveuser
 }
@@ -8856,12 +8856,12 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag -C
 setuser $cflag XTRA "CYCLE" ""
-puthlp "NOTICE $nick :$notc cYcLe $chan \[4OFF\]"
+puthlp "NOTICE $nick : cYcLe $chan \[4OFF\]"
 saveuser
 foreach x [timers] {
 if {[string match "*cycle $chan*" $x]} { killtimer [lindex $x 2] }
@@ -8872,16 +8872,16 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {$rest==""} {
-puthlp "NOTICE $nick :$notc Usage +greet <msg>"
+puthlp "NOTICE $nick : Usage +greet <msg>"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag +G
 setuser $cflag XTRA "GREET" $rest
-puthlp "NOTICE $nick :$notc AuTOGReeT $chan \[$rest\]"
+puthlp "NOTICE $nick : AuTOGReeT $chan \[$rest\]"
 saveuser
 }
 proc pub_-greet {nick uhost hand chan rest} {
@@ -8889,33 +8889,33 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag -G
 setuser $cflag XTRA "GREET" ""
-puthlp "NOTICE $nick :$notc AuTOGReeT $chan \[4OFF\]"
+puthlp "NOTICE $nick : AuTOGReeT $chan \[4OFF\]"
 saveuser
 }
 proc pub_+limit {nick uhost hand chan rest} {
 global notc 
 if {$rest == "" || ![isnumber $rest]} {
-puthlp "NOTICE $nick :$notc Usage: +limit <number>"
+puthlp "NOTICE $nick : Usage: +limit <number>"
 return 0
 }
 if {$rest == 0} {
-puthlp "NOTICE $nick :$notc cAnT UsE NuLL"
+puthlp "NOTICE $nick : cAnT UsE NuLL"
 return 0
 }
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag +L
 setuser $cflag XTRA "LIMIT" $rest
-puthlp "NOTICE $nick :$notc LImIT $chan \[9$rest\]"
+puthlp "NOTICE $nick : LImIT $chan \[9$rest\]"
 saveuser
 }
 proc pub_-limit {nick uhost hand chan rest} {
@@ -8923,12 +8923,12 @@ global notc lst_limit
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag -L
 setuser $cflag XTRA "LIMIT" ""
-puthlp "NOTICE $nick :$notc LImIT $chan \[4OFF\]"
+puthlp "NOTICE $nick : LImIT $chan \[4OFF\]"
 catch { lst_limit($chan) }
 saveuser
 }
@@ -8937,12 +8937,12 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag +I
 setuser $cflag XTRA "TOPIC" [topic $chan]
-puthlp "NOTICE $nick :$notc TopIc $chan \[9LocK\]"
+puthlp "NOTICE $nick : TopIc $chan \[9LocK\]"
 saveuser
 }
 proc pub_-topic {nick uhost hand chan rest} {
@@ -8950,12 +8950,12 @@ global notc lst_limit
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag -I
 setuser $cflag XTRA "TOPIC" ""
-puthlp "NOTICE $nick :$notc TopIc $chan \[4UnLocK\]"
+puthlp "NOTICE $nick : TopIc $chan \[4UnLocK\]"
 saveuser
 }
 proc pub_+joinpart {nick uhost hand chan rest} {
@@ -8963,20 +8963,20 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {$rest=="" || ![isnumber $rest]} {
-puthlp "NOTICE $nick :$notc Usage +joinpart <seconds>"
+puthlp "NOTICE $nick : Usage +joinpart <seconds>"
 return 0
 }
 if {$rest == 0} {
-puthlp "NOTICE $nick :$notc cAnT UsE NuLL"
+puthlp "NOTICE $nick : cAnT UsE NuLL"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag +P
 setuser $cflag XTRA "JP" $rest
-puthlp "NOTICE $nick :$notc JoINPaRT $chan \[9$rest Sec's\]"
+puthlp "NOTICE $nick : JoINPaRT $chan \[9$rest Sec's\]"
 saveuser
 }
 proc pub_-joinpart {nick uhost hand chan rest} {
@@ -8984,12 +8984,12 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag -P
 setuser $cflag XTRA "JP" ""
-puthlp "NOTICE $nick :$notc JoINPaRT $chan \[4OFF\]"
+puthlp "NOTICE $nick : JoINPaRT $chan \[4OFF\]"
 saveuser
 }
 proc pub_+clone {nick uhost hand chan rest} {
@@ -8997,20 +8997,20 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {$rest=="" || ![isnumber $rest]} {
-puthlp "NOTICE $nick :$notc Usage +clone <max>"
+puthlp "NOTICE $nick : Usage +clone <max>"
 return 0
 }
 if {$rest == 0} {
-puthlp "NOTICE $nick :$notc cAnT UsE NuLL"
+puthlp "NOTICE $nick : cAnT UsE NuLL"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag +O
 setuser $cflag XTRA "CLONE" $rest
-puthlp "NOTICE $nick :$notc cLonE $chan MaX \[9$rest\]"
+puthlp "NOTICE $nick : cLonE $chan MaX \[9$rest\]"
 saveuser
 }
 proc pub_-clone {nick uhost hand chan rest} {
@@ -9018,12 +9018,12 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag -O
 setuser $cflag XTRA "CLONE" ""
-puthlp "NOTICE $nick :$notc cLonE $chan \[4OFF\]"
+puthlp "NOTICE $nick : cLonE $chan \[4OFF\]"
 saveuser
 }
 proc pub_+key {nick uhost hand chan rest} {
@@ -9032,12 +9032,12 @@ set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 set rest [lindex $rest 0]
 if {$rest==""} {
-puthlp "NOTICE $nick :$notc Usage +key <word>"
+puthlp "NOTICE $nick : Usage +key <word>"
 return 0
 }
 chattr $cflag +K
 setuser $cflag XTRA "CI" [enzip $rest]
-puthlp "NOTICE $nick :$notc KeY $chan \[9$rest\]"
+puthlp "NOTICE $nick : KeY $chan \[9$rest\]"
 saveuser
 }
 proc pub_-key {nick uhost hand chan rest} {
@@ -9045,12 +9045,12 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag -K
 setuser $cflag XTRA "CI" ""
-puthlp "NOTICE $nick :$notc KeY $chan \[4OFF\]"
+puthlp "NOTICE $nick : KeY $chan \[4OFF\]"
 saveuser
 }
 proc pub_+text {nick uhost hand chan rest} {
@@ -9058,20 +9058,20 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {$rest=="" || ![isnumber $rest]} {
-puthlp "NOTICE $nick :$notc Usage +text <max>"
+puthlp "NOTICE $nick : Usage +text <max>"
 return 0
 }
 if {$rest == 0} {
-puthlp "NOTICE $nick :$notc cAnT UsE NuLL"
+puthlp "NOTICE $nick : cAnT UsE NuLL"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag +T
 setuser $cflag XTRA "CHAR" $rest
-puthlp "NOTICE $nick :$notc TexT $chan MaX \[9$rest\]"
+puthlp "NOTICE $nick : TexT $chan MaX \[9$rest\]"
 saveuser
 }
 proc pub_-text {nick uhost hand chan rest} {
@@ -9079,12 +9079,12 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag -T
 setuser $cflag XTRA "CHAR" ""
-puthlp "NOTICE $nick :$notc TexT $chan \[4OFF\]"
+puthlp "NOTICE $nick : TexT $chan \[4OFF\]"
 saveuser
 }
 proc pub_+caps {nick uhost hand chan rest} {
@@ -9092,20 +9092,20 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {$rest=="" || ![isnumber $rest]} {
-puthlp "NOTICE $nick :$notc Usage +caps <%percent>"
+puthlp "NOTICE $nick : Usage +caps <%percent>"
 return 0
 }
 if {$rest == 0 || $rest > 100} {
-puthlp "NOTICE $nick :$notc fill under 1 - 100%"
+puthlp "NOTICE $nick : fill under 1 - 100%"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag +U
 setuser $cflag XTRA "CAPS" $rest
-puthlp "NOTICE $nick :$notc CAPS $chan \[9$rest%\]"
+puthlp "NOTICE $nick : CAPS $chan \[9$rest%\]"
 saveuser
 }
 proc pub_-caps {nick uhost hand chan rest} {
@@ -9113,12 +9113,12 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag -U
 setuser $cflag XTRA "CAPS" ""
-puthlp "NOTICE $nick :$notc cAPs $chan \[4OFF\]"
+puthlp "NOTICE $nick : cAPs $chan \[4OFF\]"
 saveuser
 }
 proc pub_+repeat {nick uhost hand chan rest} {
@@ -9126,20 +9126,20 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {$rest=="" || ![isnumber $rest]} {
-puthlp "NOTICE $nick :$notc Usage +repeat <max>"
+puthlp "NOTICE $nick : Usage +repeat <max>"
 return 0
 }
 if {$rest == 0} {
-puthlp "NOTICE $nick :$notc cAnT UsE NuLL"
+puthlp "NOTICE $nick : cAnT UsE NuLL"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag +R
 setuser $cflag XTRA "RPT" $rest
-puthlp "NOTICE $nick :$notc RePeaT $chan MaX \[9$rest\]"
+puthlp "NOTICE $nick : RePeaT $chan MaX \[9$rest\]"
 saveuser
 }
 proc pub_-repeat {nick uhost hand chan rest} {
@@ -9147,12 +9147,12 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag -R
 setuser $cflag XTRA "RPT" ""
-puthlp "NOTICE $nick :$notc RePeaT $chan \[4OFF\]"
+puthlp "NOTICE $nick : RePeaT $chan \[4OFF\]"
 saveuser
 }
 proc pub_+autovoice {nick uhost hand chan rest} {
@@ -9160,20 +9160,20 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {$rest=="" || ![isnumber $rest]} {
-puthlp "NOTICE $nick :$notc Usage +AuTovoIcE <secs>"
+puthlp "NOTICE $nick : Usage +AuTovoIcE <secs>"
 return 0
 }
 if {$rest == 0} {
-puthlp "NOTICE $nick :$notc cAnT UsE NuLL"
+puthlp "NOTICE $nick : cAnT UsE NuLL"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag +V
 setuser $cflag XTRA "VC" $rest
-puthlp "NOTICE $nick :$notc AuTovoIcE $chan qUeUe \[9$rest\] 2nd"
+puthlp "NOTICE $nick : AuTovoIcE $chan qUeUe \[9$rest\] 2nd"
 saveuser
 pub_mvoice $nick $uhost $hand $chan ""
 }
@@ -9182,12 +9182,12 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag -V
 setuser $cflag XTRA "VC" ""
-puthlp "NOTICE $nick :$notc AuTovoIcE $chan \[4OFF\]"
+puthlp "NOTICE $nick : AuTovoIcE $chan \[4OFF\]"
 saveuser
 foreach x [utimers] {
 if {[string match "*voiceq $chan*" $x]} { killutimer [lindex $x 2] }
@@ -9198,11 +9198,11 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag +E
-puthlp "NOTICE $nick :$notc enforceban $chan \[9ON\]"
+puthlp "NOTICE $nick : enforceban $chan \[9ON\]"
 saveuser
 }
 proc pub_-enforceban {nick uhost hand chan rest} {
@@ -9210,11 +9210,11 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag -E
-puthlp "NOTICE $nick :$notc enforceban $chan \[4OFF\]"
+puthlp "NOTICE $nick : enforceban $chan \[4OFF\]"
 saveuser
 }
 proc pub_+revenge {nick uhost hand chan rest} {
@@ -9222,11 +9222,11 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag +D
-puthlp "NOTICE $nick :$notc revenge $chan \[9ON\]"
+puthlp "NOTICE $nick : revenge $chan \[9ON\]"
 saveuser
 }
 proc pub_-revenge {nick uhost hand chan rest} {
@@ -9234,11 +9234,11 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag -D
-puthlp "NOTICE $nick :$notc revenge $chan \[4OFF\]"
+puthlp "NOTICE $nick : revenge $chan \[4OFF\]"
 saveuser
 }
 proc pub_+forced {nick uhost hand chan rest} {
@@ -9246,11 +9246,11 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 chattr $cflag +M
-puthlp "NOTICE $nick :$notc forced $chan \[9ON\]"
+puthlp "NOTICE $nick : forced $chan \[9ON\]"
 saveuser
 }
 proc pub_-forced {nick uhost hand chan rest} {
@@ -9258,58 +9258,58 @@ global notc
 set cflag "c$chan"
 set cflag [string range $cflag 0 8]
 chattr $cflag -M
-puthlp "NOTICE $nick :$notc forced $chan \[4OFF\]"
+puthlp "NOTICE $nick : forced $chan \[4OFF\]"
 saveuser
 }
 proc pub_-colour {nick uhost hand chan rest} {
 global notc kickclr
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 set kickclr "T"
 setuser "config" XTRA "KCLR" "Y"
-puthlp "NOTICE $nick :$notc colour kick \[4OFF\]"
+puthlp "NOTICE $nick : colour kick \[4OFF\]"
 saveuser
 }
 proc pub_+colour {nick uhost hand chan rest} {
 global notc kickclr
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 catch {unset kickclr}
 setuser "config" XTRA "KCLR" ""
-puthlp "NOTICE $nick :$notc colour kick \[9ON\]"
+puthlp "NOTICE $nick : colour kick \[9ON\]"
 saveuser
 }
 proc pub_+ipguard {nick uhost hand channel param} {
 global botname botnick notc botnick
 set rest [lindex $param 0]
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: +ipguard <hostname>"
+puthlp "NOTICE $nick : Usage: +ipguard <hostname>"
 return 0
 }
 if {$rest == "*" || $rest == "*!*@*"} {
-puthlp "NOTICE $nick :$notc invalid hostname..!"
+puthlp "NOTICE $nick : invalid hostname..!"
 return 0
 }
 if {![string match "*@*" $rest]} {
-puthlp "NOTICE $nick :$notc Usage: +ipguard <hostname>"
+puthlp "NOTICE $nick : Usage: +ipguard <hostname>"
 return 0
 }
 set ipguard [getuser "config" XTRA "IPG"]
 foreach y $ipguard {
 if {$y == $rest} {
-puthlp "NOTICE $nick :$notc $rest allready added..!"
+puthlp "NOTICE $nick : $rest allready added..!"
 return 0
 }
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
-puthlp "NOTICE $nick :$notc add \[$rest\] To IpguaRd"
+puthlp "NOTICE $nick : add \[$rest\] To IpguaRd"
 lappend ipguard $rest
 setuser "config" XTRA "IPG" $ipguard
 saveuser
@@ -9319,11 +9319,11 @@ proc pub_-ipguard {nick uhost hand channel param} {
 global notc 
 set rest [lindex $param 0]
 if {$rest == ""} {
-puthlp "NOTICE $nick :$notc Usage: -ipguard <hostname>"
+puthlp "NOTICE $nick : Usage: -ipguard <hostname>"
 return 0
 }
 if {![matchattr $nick Q]} {
-puthlp "NOTICE $nick :$notc 4deNiEd!"
+puthlp "NOTICE $nick : 4deNiEd!"
 return 0
 }
 set ipguard [getuser "config" XTRA "IPG"]
@@ -9332,7 +9332,7 @@ set ok "F"
 foreach y $ipguard {
 if {$y == $rest} {
 set ok "T"
-puthlp "NOTICE $nick :$notc DeL \[$rest\] FRoM IpguaRd"
+puthlp "NOTICE $nick : DeL \[$rest\] FRoM IpguaRd"
 } {
 lappend nipg
 }
@@ -9342,6 +9342,6 @@ setuser "config" XTRA "IPG" $nipg
 saveuser
 return 0
 }
-puthlp "NOTICE $nick :$notc $rest not founded..!"
+puthlp "NOTICE $nick : $rest not founded..!"
 }
 putlog "Loaded i.tcl"
