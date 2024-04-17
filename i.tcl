@@ -5084,10 +5084,10 @@ global botnick uptime timezone notc notd vern longer awaym
    set output [string trimright $output ", "]
    set awban "[lgrnd]"
    if {[getuser "config" XTRA "AWAY"]!=""} {
-      set longer "$awban \[\037Uptime:\037 $output\] ([getuser "config" XTRA "AWAY"])"
+      set longer " \[\037Uptime:\037 $output\] ([getuser "config" XTRA "AWAY"])"
    } {
       set awaymsg [lindex $awaym [rand [llength $awaym]]]
-      set longer "$awban \[\037Uptime:\037 $output\] [dezip "EL0P10zaHDp/"] $awaymsg [dezip "ivRvn.ZAO1G/"]"
+      set longer " \[\037Uptime:\037 $output\] [dezip "EL0P10zaHDp/"] $awaymsg [dezip "ivRvn.ZAO1G/"]"
    }
 }
 
